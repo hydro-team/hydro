@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class TestGesture : MonoBehaviour,GestureObserver {
+public class TestGesture : MonoBehaviour,GestureEndObserver {
 	public Text text;
 	// Use this for initialization
 	void Start () {
@@ -16,5 +16,9 @@ public class TestGesture : MonoBehaviour,GestureObserver {
 
 	public void notify(Gesture gesture){
 		text.text = gesture.Type.ToString();
+	}
+
+	public void notifyProgress(Gesture gesture){
+
 	}
 }

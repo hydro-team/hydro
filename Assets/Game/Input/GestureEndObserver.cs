@@ -2,10 +2,9 @@
 using System.Collections;
 /// <summary>
 /// Gesture observer.
-/// Inherit from this class to be notified about changes in the gesture
+/// Inherit from this class to be notified about the end of a gesture
 /// </summary>
-public interface GestureObserver {
+public interface GestureEndObserver {
 
 	void notify(Gesture gesture);
-
 }

@@ -3,6 +3,19 @@ using System.Collections;
 
 public class Swipe : Gesture
 {
+	public const float DISTANCE_TO_CANCEL = 10f;
+
+	bool _canceled;
+
+	public bool Canceled{
+		get{
+			return _canceled;
+		}
+
+		set{
+			_canceled = value;
+		}
+	}
 
 	float _lenght;
 
@@ -20,7 +33,8 @@ public class Swipe : Gesture
 
 		get{ return _end;}
 		set {
-			_lenght = Vector2.Distance (Start, value);
+			_lenght = Vector2.Distance (_start, value);
+			_canceled = _lenght < DISTANCE_TO_CANCEL ;
 			_end = value;
 		}
 	}

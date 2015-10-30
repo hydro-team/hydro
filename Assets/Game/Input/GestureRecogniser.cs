@@ -13,12 +13,15 @@ public class GestureRecogniser : MonoBehaviour
 			return _recogniser;
 		}
 	}
-	List <GestureObserver> observers = new List<GestureObserver>();
+	List <GestureEndObserver> _endObservers = new List<GestureEndObserver>();
+	List <GestureProgressObserver> _progressObservers = new List<GestureProgressObserver> ();
 
 	GestureState state = GestureState.NEUTRAL;
 	Gesture currentGesture;
 
-	const float tapMaxDragDistance = 10f;
+	const float MAX_DISTANCE_BEFORE_SWIPE = 10f;
+
+
 	// Use this for initialization
 	void Awake ()
 	{
@@ -57,7 +60,9 @@ public class GestureRecogniser : MonoBehaviour
 		TAP_BEGIN,
 		NEUTRAL,
 	}
-
+	/// <summary>
+	/// Begins the recognition of the current gesture.
+	/// </summary>
 	void beginRecognition ()
 	{
 		if (Input.touches.Length == 1) {
@@ -67,13 +72,17 @@ public class GestureRecogniser : MonoBehaviour
 			}
 		}
 	}
+
+	/// <summary>
+	/// Recognising a tap gesture
+	/// </summary>
 	void tap(){
 		if (Input.touches [0].phase == TouchPhase.Ended) {
-			notifyWatchers();
+			notifyEnd();
 			state = GestureState.NEUTRAL;
 			return;
 		}
-		if (Input.touches.Length==1 && Vector2.Distance (Input.touches [0].position, ((Tap)currentGesture).Position) > tapMaxDragDistance) {
+		if (Input.touches.Length==1 && Vector2.Distance (Input.touches [0].position, ((Tap)currentGesture).Position) > MAX_DISTANCE_BEFORE_SWIPE) {
 			currentGesture = new Swipe(((Tap)currentGesture).Position);
 			state = GestureState.SWIPE_BEGIN;
 			//Il caso limite in cui lo swipe viene riconosciuto nello stesso momento in cui finisce è escluso
@@ -81,23 +90,39 @@ public class GestureRecogniser : MonoBehaviour
 		}
 		//TODO pinch&Spread
 	}
-
+	/// <summary>
+	/// recognising the swipe gesture
+	/// </summary>
 	void swipe(){
 		if (Input.touches [0].phase == TouchPhase.Ended) {
 			((Swipe)currentGesture).End = Input.touches[0].position;
 			state = GestureState.NEUTRAL;
-			notifyWatchers();
+			notifyEnd();
 		}
 	}
-	void notifyWatchers(){
-		//TODO
-		foreach (GestureObserver obs in observers) {
+	/// <summary>
+	/// Notifies the end of a gesture to all the observers.
+	/// </summary>
+	void notifyEnd(){
+		foreach (GestureEndObserver obs in _endObservers) {
+			obs.notify(currentGesture);
+		}
+	}
+	/// <summary>
+	/// Notifies the progress ff a gesture to all the observers.
+	/// </summary>
+	void notifyProgress(){
+		foreach (GestureProgressObserver obs in _progressObservers) {
 			obs.notify(currentGesture);
 		}
 	}
 
-	public void subscribe (GestureObserver observer){
-		observers.Add (observer);
+	/// <summary>
+	/// Subscribe the specified observer.
+	/// </summary>
+	/// <param name="observer">Observer.</param>
+	public void subscribe (GestureEndObserver observer){
+		_endObservers.Add (observer);
 	}
 }
 
