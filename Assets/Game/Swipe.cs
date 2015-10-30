@@ -16,7 +16,7 @@ public class Swipe : Gesture
 	} 
 	Vector2 _end;
 
-	Vector2 End {
+	public Vector2 End {
 
 		get{ return _end;}
 		set {
@@ -28,6 +28,7 @@ public class Swipe : Gesture
 	public Swipe (Vector2 start)
 	{
 		this._start = start;
+		_type = GestureType.SWIPE;
 	}
 
 
