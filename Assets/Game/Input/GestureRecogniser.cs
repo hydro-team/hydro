@@ -1,19 +1,30 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GestureRecogniser : MonoBehaviour
 {
-
-	public static GestureRecogniser Recogniser;
+	private static GestureRecogniser _recogniser;
+	public static GestureRecogniser Recogniser{
+		get {
+//			if(_recogniser == null){
+//				_recogniser = this;
+//			}
+			return _recogniser;
+		}
+	}
+	List <GestureObserver> observers = new List<GestureObserver>();
 
 	GestureState state = GestureState.NEUTRAL;
 	Gesture currentGesture;
 
 	const float tapMaxDragDistance = 10f;
 	// Use this for initialization
-	void Start ()
+	void Awake ()
 	{
-		GestureRecogniser.Recogniser = this;
+		if (_recogniser == null) {
+			GestureRecogniser._recogniser = this;
+		}
 	}
 	
 	// Update is called once per frame
@@ -80,6 +91,13 @@ public class GestureRecogniser : MonoBehaviour
 	}
 	void notifyWatchers(){
 		//TODO
+		foreach (GestureObserver obs in observers) {
+			obs.notify(currentGesture);
+		}
+	}
+
+	public void subscribe (GestureObserver observer){
+		observers.Add (observer);
 	}
 }
 

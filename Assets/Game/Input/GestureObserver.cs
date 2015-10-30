@@ -4,8 +4,8 @@ using System.Collections;
 /// Gesture observer.
 /// Inherit from this class to be notified about changes in the gesture
 /// </summary>
-public abstract class GestureObserver {
+public interface GestureObserver {
 
-	public abstract void notify(Gesture gesture);
+	void notify(Gesture gesture);
 
 }
