@@ -3,7 +3,8 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class TestGesture : MonoBehaviour,GestureEndObserver,GestureProgressObserver {
-	public Text text;
+	public Text GestureText;
+	public Text debug;
 	// Use this for initialization
 	void Start () {
 		GestureRecogniser.Recogniser.subscribeEnd (this);
@@ -12,35 +13,39 @@ public class TestGesture : MonoBehaviour,GestureEndObserver,GestureProgressObser
 	
 	// Update is called once per frame
 	void Update () {
-	
+		debug.text = GestureRecogniser.Recogniser.CurrentState.ToString();
 	}
 
 	public void notifyEnd(Gesture gesture){
+		Debug.Log (gesture!=null? "Gesture exists":"Gesture null");
 		if (gesture.Type != Gesture.GestureType.TAP) {
 			switch(gesture.Type){
 			case Gesture.GestureType.SWIPE:
-				text.text = gesture.Type.ToString () + " - canceled :" +((Swipe)gesture).Canceled;
+				GestureText.text = gesture.Type.ToString () + " - canceled :" +((Swipe)gesture).Canceled;
 				break;
 			default:
-				text.text = gesture.Type.ToString () + " - canceled :" +((Sprinch)gesture).Canceled;
+				Debug.Log(gesture.ToString());
+				GestureText.text = gesture.Type.ToString () + " - canceled :" +((Sprinch)gesture).Canceled;
 				break;
 			}
 		} else {
-			text.text = gesture.Type.ToString ();
+			GestureText.text = gesture.Type.ToString ();
 		}
+		Debug.Log ("End for " + gesture.Type + " gesture");
 	}
 
 	public void notifyProgress(Gesture gesture){
 		switch (gesture.Type){
 		case Gesture.GestureType.TAP:
-			text.text = gesture.Type.ToString();
+			GestureText.text = gesture.Type.ToString();
 			break;
 		case Gesture.GestureType.SWIPE:
-			text.text = gesture.Type.ToString()+ " - length: " + ((Swipe)gesture).Lenght;
+			GestureText.text = gesture.Type.ToString()+ " - length: " + ((Swipe)gesture).Lenght;
 			break;
 		default:
-			text.text = gesture.Type.ToString()+ " - percentage: " + ((Sprinch)gesture).Percentage;
+			GestureText.text = gesture.Type.ToString()+ " - percentage: " + ((Sprinch)gesture).Percentage;
 			break;
 		}
+		Debug.Log ("Progress for " + gesture.Type + " gesture");
 	}
 }

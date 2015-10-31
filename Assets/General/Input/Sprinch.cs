@@ -4,7 +4,8 @@ using System.Collections;
 //TODO figlio dello swipe?
 public class Sprinch : Gesture
 {
-	const float PERCENTAGE_TO_CANCEL = 0.15f; 
+	const float PERCENTAGE_TO_CANCEL = 0.15f;
+	const float TOLERANCE = 15f;
 
 //	float _time;
 //
@@ -26,19 +27,7 @@ public class Sprinch : Gesture
 			return _start;
 		}
 	}
-
-	Vector2[] _end = new Vector2[2];
-
-	public Vector2[] End {
-		get {
-			return _end;
-		}
-		set {
-			_end = value;
-			_canceled = Vector2.Distance(value[0],value[1])<=PERCENTAGE_TO_CANCEL;
-
-		}
-	}
+	
 
 	bool _canceled;
 	public bool Canceled{
@@ -47,23 +36,23 @@ public class Sprinch : Gesture
 		}
 	}
 
-	Vector2[] _currentPoints = new Vector2[2];
+	Vector2[] _endPoints = new Vector2[2];
 
-	public Vector2[] CurrentPoints {
+	public Vector2[] EndPoints {
 		get {
-			return _currentPoints;
+			return _endPoints;
 		}
 		set {
-			_currentPoints = value;
+			_endPoints = value;
 			float currDist = Vector2.Distance (value [0], value [1]);
 			switch (_type) {
 			case GestureType.SPRINCH:
-
+				if(Mathf.Abs(currDist-initialDistance)>TOLERANCE){
 				if (currDist < initialDistance) {
 					_type = GestureType.PINCH;
 				} else {
 					_type = GestureType.SPREAD;
-				}
+					}}
 
 				break;
 
@@ -71,14 +60,16 @@ public class Sprinch : Gesture
 
 				maxminDist = currDist<maxminDist? currDist : maxminDist; 
 				_percentage = 1f-currDist/initialDistance;
-				_percentage = _percentage<0f?0f:_percentage; 
+				_percentage = _percentage<0f ? 0f:_percentage; 
 				break;
 
 			case GestureType.SPREAD:
 				maxminDist = currDist>maxminDist? currDist :maxminDist;
-				_percentage = currDist/maxminDist;
+				_percentage = (currDist-initialDistance)/(maxminDist-initialDistance);
+				_percentage = _percentage>0f?_percentage:0f;
 				break;
 			}
+			_canceled = _percentage <=PERCENTAGE_TO_CANCEL;
 		}
 	
 	}

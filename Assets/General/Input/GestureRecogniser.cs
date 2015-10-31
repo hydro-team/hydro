@@ -16,11 +16,16 @@ public class GestureRecogniser : MonoBehaviour
 	List <GestureEndObserver> _endObservers = new List<GestureEndObserver>();
 	List <GestureProgressObserver> _progressObservers = new List<GestureProgressObserver> ();
 
-	GestureState state = GestureState.NEUTRAL;
+	private GestureState _state = GestureState.NEUTRAL;
 	Gesture currentGesture;
 
 	const float MAX_DISTANCE_BEFORE_SWIPE = 20f;
 
+	public GestureState CurrentState{
+		get{
+			return _state;
+		}
+	}
 
 	// Use this for initialization
 	void Awake ()
@@ -34,7 +39,7 @@ public class GestureRecogniser : MonoBehaviour
 	void Update ()
 	{
 
-		switch (state) {
+		switch (_state) {
 		case GestureState.TAP:
 			tap ();
 			break;
@@ -48,10 +53,9 @@ public class GestureRecogniser : MonoBehaviour
 			beginRecognition ();
 			break;
 		}
-	
 	}
 
-	enum GestureState
+	public enum GestureState
 	{
 		SWIPE,
 		SPRINCH,
@@ -71,8 +75,12 @@ public class GestureRecogniser : MonoBehaviour
 		if (Input.touches.Length == 1) {
 			if (Input.touches [0].phase == TouchPhase.Began) {
 				currentGesture = new Tap (Input.touches [0].position, Time.time);
-				state = GestureState.TAP;
+				_state = GestureState.TAP;
 			}
+		}
+		if (Input.touches.Length > 1) {
+			currentGesture = new Sprinch(Input.touches[0].position,Input.touches[1].position);
+			_state = GestureState.SPRINCH;
 		}
 	}
 
@@ -80,13 +88,13 @@ public class GestureRecogniser : MonoBehaviour
 	/// Recognising a tap gesture
 	/// </summary>
 	void tap(){
-		if (Input.touches [0].phase == TouchPhase.Ended) {
+		if (Input.touches.Length ==0 ){//||Input.touches [0].phase == TouchPhase.Ended) {
 			notifyEnd();
 			return;
 		}
 		if (Input.touches.Length==1 && Vector2.Distance (Input.touches [0].position, ((Tap)currentGesture).Position) > MAX_DISTANCE_BEFORE_SWIPE) {
 			currentGesture = new Swipe(((Tap)currentGesture).Position);
-			state = GestureState.SWIPE;
+			_state = GestureState.SWIPE;
 			//Il caso limite in cui lo swipe viene riconosciuto nello stesso momento in cui finisce è escluso
 			return;
 		}
@@ -94,7 +102,7 @@ public class GestureRecogniser : MonoBehaviour
 		//FIXME
 		if (Input.touches.Length > 1) {
 			currentGesture = new Sprinch(((Tap)currentGesture).Position,Input.touches[1].position);
-			state = GestureState.SPRINCH;
+			_state = GestureState.SPRINCH;
 		}
 	}
 	/// <summary>
@@ -103,28 +111,44 @@ public class GestureRecogniser : MonoBehaviour
 	void swipe(){
 		//FIXME
 		if (Input.touches.Length > 1) {
-			currentGesture = new Sprinch(((Tap)currentGesture).Position,Input.touches[1].position);
-			state = GestureState.SPRINCH;
+			currentGesture = new Sprinch(((Swipe)currentGesture).Start,Input.touches[1].position);
+			_state = GestureState.SPRINCH;
+			return;
+		}
+		if (Input.touches.Length < 1) {
+			notifyEnd();
 			return;
 		}
 		if (Input.touches [0].phase == TouchPhase.Ended) {
 			((Swipe)currentGesture).End = Input.touches[0].position;
 			notifyEnd();
+			return;
 		}
 		if (Input.touches [0].phase == TouchPhase.Moved) {
+			((Swipe)currentGesture).End = Input.touches[0].position;
 			notifyProgress();
+			return;
 		}
 	}
 
 	void sprinch(){
-		if (Input.touches [0].phase == TouchPhase.Ended || Input.touches [1].phase == TouchPhase.Ended) {
-			Vector2[] points = new Vector2[2]{Input.touches[0].position,Input.touches[1].position};
-			((Sprinch)currentGesture).End =points;
+
+
+		if (Input.touches.Length < 2) {
 			notifyEnd();
+			return;
+		}
+
+		if ( Input.touches [0].phase == TouchPhase.Ended || Input.touches [1].phase == TouchPhase.Ended) {
+			Vector2[] points = new Vector2[2]{Input.touches[0].position,Input.touches[1].position};
+			((Sprinch)currentGesture).EndPoints =points;
+			notifyEnd();
+			return;
 		}
 		if (Input.touches [0].phase == TouchPhase.Moved || Input.touches [0].phase == TouchPhase.Moved) {
-			((Sprinch)currentGesture).CurrentPoints = new Vector2[2]{Input.touches[0].position,Input.touches[1].position};
+			((Sprinch)currentGesture).EndPoints = new Vector2[2]{Input.touches[0].position,Input.touches[1].position};
 			notifyProgress();
+			return;
 		}
 	}
 	/// <summary>
@@ -134,7 +158,7 @@ public class GestureRecogniser : MonoBehaviour
 		foreach (GestureEndObserver obs in _endObservers) {
 			obs.notifyEnd(currentGesture);
 		}
-		state = GestureState.NEUTRAL;
+		_state = GestureState.NEUTRAL;
 	}
 	/// <summary>
 	/// Notifies the progress ff a gesture to all the observers.

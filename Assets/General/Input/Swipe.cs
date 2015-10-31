@@ -3,7 +3,8 @@ using System.Collections;
 
 public class Swipe : Gesture
 {
-	public const float DISTANCE_TO_CANCEL = 10f;
+	public const float PERCENT_TO_CANCEL = 0.10f;
+	float maxLen;
 
 	bool _canceled;
 	/// <summary>
@@ -42,7 +43,8 @@ public class Swipe : Gesture
 		get{ return _end;}
 		set {
 			_lenght = Vector2.Distance (_start, value);
-			_canceled = _lenght < DISTANCE_TO_CANCEL ;
+			maxLen = _lenght>maxLen?_lenght:maxLen;
+			_canceled = _lenght/maxLen < PERCENT_TO_CANCEL ;
 			_end = value;
 		}
 	}
