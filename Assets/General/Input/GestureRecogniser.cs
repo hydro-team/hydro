@@ -19,7 +19,7 @@ public class GestureRecogniser : MonoBehaviour
 	GestureState state = GestureState.NEUTRAL;
 	Gesture currentGesture;
 
-	const float MAX_DISTANCE_BEFORE_SWIPE = 10f;
+	const float MAX_DISTANCE_BEFORE_SWIPE = 20f;
 
 
 	// Use this for initialization
@@ -33,12 +33,16 @@ public class GestureRecogniser : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
+
 		switch (state) {
-		case GestureState.TAP_BEGIN:
+		case GestureState.TAP:
 			tap ();
 			break;
-		case GestureState.SWIPE_BEGIN:
+		case GestureState.SWIPE:
 			swipe ();
+			break;
+		case GestureState.SPRINCH:
+			sprinch();
 			break;
 		default:
 			beginRecognition ();
@@ -49,15 +53,14 @@ public class GestureRecogniser : MonoBehaviour
 
 	enum GestureState
 	{
-		SWIPE_BEGIN,
-		SWIPE_END,
-		PINSPR_START,
+		SWIPE,
+		SPRINCH,
 		SPREAD,
 		PINCH,
 		SPREAD_END,
 		PINCH_END,
 		PINSPR_NEUTRAL,
-		TAP_BEGIN,
+		TAP,
 		NEUTRAL,
 	}
 	/// <summary>
@@ -68,7 +71,7 @@ public class GestureRecogniser : MonoBehaviour
 		if (Input.touches.Length == 1) {
 			if (Input.touches [0].phase == TouchPhase.Began) {
 				currentGesture = new Tap (Input.touches [0].position, Time.time);
-				state = GestureState.TAP_BEGIN;
+				state = GestureState.TAP;
 			}
 		}
 	}
@@ -79,25 +82,49 @@ public class GestureRecogniser : MonoBehaviour
 	void tap(){
 		if (Input.touches [0].phase == TouchPhase.Ended) {
 			notifyEnd();
-			state = GestureState.NEUTRAL;
 			return;
 		}
 		if (Input.touches.Length==1 && Vector2.Distance (Input.touches [0].position, ((Tap)currentGesture).Position) > MAX_DISTANCE_BEFORE_SWIPE) {
 			currentGesture = new Swipe(((Tap)currentGesture).Position);
-			state = GestureState.SWIPE_BEGIN;
+			state = GestureState.SWIPE;
 			//Il caso limite in cui lo swipe viene riconosciuto nello stesso momento in cui finisce è escluso
 			return;
 		}
 		//TODO pinch&Spread
+		//FIXME
+		if (Input.touches.Length > 1) {
+			currentGesture = new Sprinch(((Tap)currentGesture).Position,Input.touches[1].position);
+			state = GestureState.SPRINCH;
+		}
 	}
 	/// <summary>
 	/// recognising the swipe gesture
 	/// </summary>
 	void swipe(){
+		//FIXME
+		if (Input.touches.Length > 1) {
+			currentGesture = new Sprinch(((Tap)currentGesture).Position,Input.touches[1].position);
+			state = GestureState.SPRINCH;
+			return;
+		}
 		if (Input.touches [0].phase == TouchPhase.Ended) {
 			((Swipe)currentGesture).End = Input.touches[0].position;
-			state = GestureState.NEUTRAL;
 			notifyEnd();
+		}
+		if (Input.touches [0].phase == TouchPhase.Moved) {
+			notifyProgress();
+		}
+	}
+
+	void sprinch(){
+		if (Input.touches [0].phase == TouchPhase.Ended || Input.touches [1].phase == TouchPhase.Ended) {
+			Vector2[] points = new Vector2[2]{Input.touches[0].position,Input.touches[1].position};
+			((Sprinch)currentGesture).End =points;
+			notifyEnd();
+		}
+		if (Input.touches [0].phase == TouchPhase.Moved || Input.touches [0].phase == TouchPhase.Moved) {
+			((Sprinch)currentGesture).CurrentPoints = new Vector2[2]{Input.touches[0].position,Input.touches[1].position};
+			notifyProgress();
 		}
 	}
 	/// <summary>
@@ -105,15 +132,16 @@ public class GestureRecogniser : MonoBehaviour
 	/// </summary>
 	void notifyEnd(){
 		foreach (GestureEndObserver obs in _endObservers) {
-			obs.notify(currentGesture);
+			obs.notifyEnd(currentGesture);
 		}
+		state = GestureState.NEUTRAL;
 	}
 	/// <summary>
 	/// Notifies the progress ff a gesture to all the observers.
 	/// </summary>
 	void notifyProgress(){
 		foreach (GestureProgressObserver obs in _progressObservers) {
-			obs.notify(currentGesture);
+			obs.notifyProgress(currentGesture);
 		}
 	}
 
@@ -121,8 +149,12 @@ public class GestureRecogniser : MonoBehaviour
 	/// Subscribe the specified observer.
 	/// </summary>
 	/// <param name="observer">Observer.</param>
-	public void subscribe (GestureEndObserver observer){
+	public void subscribeEnd (GestureEndObserver observer){
 		_endObservers.Add (observer);
+	}
+
+	public void subscribeProgress(GestureProgressObserver observer){
+		_progressObservers.Add (observer);
 	}
 }
 

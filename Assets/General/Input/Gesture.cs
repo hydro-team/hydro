@@ -15,7 +15,8 @@ public class Gesture
 		TAP,
 		SPREAD,
 		PINCH,
-		SWIPE
+		SWIPE,
+		SPRINCH
 	}
 
 }

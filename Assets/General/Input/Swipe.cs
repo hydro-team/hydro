@@ -6,19 +6,27 @@ public class Swipe : Gesture
 	public const float DISTANCE_TO_CANCEL = 10f;
 
 	bool _canceled;
-
+	/// <summary>
+	/// gets if the swipe counts as canceled
+	/// </summary>
+	/// <value><c>true</c> if this swipe has been canceled; otherwise, <c>false</c>.</value>
 	public bool Canceled{
 		get{
 			return _canceled;
 		}
 
-		set{
-			_canceled = value;
-		}
+//		set{
+//			_canceled = value;
+//		}
 	}
 
 	float _lenght;
 
+
+	/// <summary>
+	/// Gets the lenght in px.
+	/// </summary>
+	/// <value>The lenght.</value>
 	public float Lenght {
 		get{ return _lenght;}
 	}

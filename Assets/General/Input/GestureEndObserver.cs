@@ -6,5 +6,5 @@ using System.Collections;
 /// </summary>
 public interface GestureEndObserver {
 
-	void notify(Gesture gesture);
+	void notifyEnd(Gesture gesture);
 }
