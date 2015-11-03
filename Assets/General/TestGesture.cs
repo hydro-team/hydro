@@ -7,8 +7,8 @@ public class TestGesture : MonoBehaviour,GestureEndObserver,GestureProgressObser
 	public Text debug;
 	// Use this for initialization
 	void Start () {
-		GestureRecogniser.Recogniser.subscribeEnd (this);
-		GestureRecogniser.Recogniser.subscribeProgress (this);
+		GestureRecogniser.Recogniser.subscribeEnd (new GestureRecogniser.ProcessGestureEvent(notifyEnd));
+		GestureRecogniser.Recogniser.subscribeProgress (new GestureRecogniser.ProcessGestureEvent(notifyProgress));
 	}
 	
 	// Update is called once per frame
