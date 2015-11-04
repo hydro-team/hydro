@@ -17,6 +17,7 @@ public class GesturesDispatcher : MonoBehaviour {
             GesturesEmulator.OnZoomOut += () => OnGestureEnd(pinch());
         } else {
             var recogniser = GestureRecogniser.Recogniser;
+            recogniser.subscribeStart(gesture => OnGestureStart(gesture));
             recogniser.subscribeEnd(gesture => OnGestureEnd(gesture));
             recogniser.subscribeProgress(gesture => OnGestureProgress(gesture));
         }
