@@ -9,26 +9,21 @@ public class GesturesLogger : MonoBehaviour {
 	void Start () {
         log = GetComponent<Text>();
         log.text = "";
-        GesturesEmulator.OnClick += LogClick;
-        GesturesEmulator.OnDrag += LogDrag;
-        GesturesEmulator.OnZoomIn += LogZoomIn;
-        GesturesEmulator.OnZoomOut += LogZoomOut;
+        GesturesDispatcher.OnGestureStart += LogGestureStart;
+        GesturesDispatcher.OnGestureEnd += LogGestureEnd;
+        GesturesDispatcher.OnGestureProgress += LogGestureProgress;
     }
 
-    public void LogClick(Vector2 position) {
-        log.text = string.Format("[{0}] CLICK @ {1}\n", ++line, position) + log.text;
+    public void LogGestureStart(Gesture gesture) {
+        log.text = "STARTED: " + gesture.Type;
     }
 
-    public void LogDrag(Vector2 start, Vector2 end, float time) {
-        log.text = string.Format("[{0}] DRAG {1} -> {2} in {3}s\n", ++line, start, end, time) + log.text;
+    public void LogGestureEnd(Gesture gesture) {
+        log.text = "ENDED: " + gesture.Type;
     }
 
-    public void LogZoomIn() {
-        log.text = string.Format("[{0}] ZOOM IN\n", ++line) + log.text;
-    }
-
-    public void LogZoomOut() {
-        log.text = string.Format("[{0}] ZOOM OUT\n", ++line) + log.text;
+    public void LogGestureProgress(Gesture gesture) {
+        log.text = "IN PROGRESS: " + gesture.Type;
     }
 }
 
