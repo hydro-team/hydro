@@ -51,6 +51,7 @@ public class GestureRecogniser : MonoBehaviour
 	void Update ()
 	{
 
+
 		switch (_state) {
 		case GestureState.TAP:
 			tap ();
@@ -87,6 +88,9 @@ public class GestureRecogniser : MonoBehaviour
 		if (Input.touches.Length == 1) {
 			if (Input.touches [0].phase == TouchPhase.Began) {
 				currentGesture = new Tap (Input.touches [0].position, Time.time);
+				if (_state == GestureState.NEUTRAL) {
+					notifyObservers(ProcessType.START);
+				}
 				_state = GestureState.TAP;
 
 			}
@@ -102,12 +106,17 @@ public class GestureRecogniser : MonoBehaviour
 	/// </summary>
 	void tap(){
 		if (Input.touches.Length ==0 ){//||Input.touches [0].phase == TouchPhase.Ended) {
-			notifyEnd();
+			notifyObservers(ProcessType.END);
 			return;
 		}
 		if (Input.touches.Length==1 && Vector2.Distance (Input.touches [0].position, ((Tap)currentGesture).Position) > MAX_DISTANCE_BEFORE_SWIPE) {
 			currentGesture = new Swipe(((Tap)currentGesture).Position);
+			if (_state == GestureState.TAP) {
+				notifyObservers(ProcessType.START);
+			}
+
 			_state = GestureState.SWIPE;
+
 			//Il caso limite in cui lo swipe viene riconosciuto nello stesso momento in cui finisce è escluso
 			return;
 		}
@@ -129,38 +138,43 @@ public class GestureRecogniser : MonoBehaviour
 			return;
 		}
 		if (Input.touches.Length < 1) {
-			notifyEnd();
+			notifyObservers(ProcessType.END);
 			return;
 		}
 		if (Input.touches [0].phase == TouchPhase.Ended) {
 			((Swipe)currentGesture).End = Input.touches[0].position;
-			notifyEnd();
+			notifyObservers(ProcessType.END);
 			return;
 		}
 		if (Input.touches [0].phase == TouchPhase.Moved) {
 			((Swipe)currentGesture).End = Input.touches[0].position;
-			notifyProgress();
+			notifyObservers(ProcessType.PROGRESS);
 			return;
 		}
 	}
 
 	void sprinch(){
 
-
 		if (Input.touches.Length < 2) {
-			notifyEnd();
+			notifyObservers(ProcessType.END);
 			return;
 		}
 
 		if ( Input.touches [0].phase == TouchPhase.Ended || Input.touches [1].phase == TouchPhase.Ended) {
 			Vector2[] points = new Vector2[2]{Input.touches[0].position,Input.touches[1].position};
 			((Sprinch)currentGesture).EndPoints =points;
-			notifyEnd();
+			notifyObservers(ProcessType.END);
 			return;
 		}
 		if (Input.touches [0].phase == TouchPhase.Moved || Input.touches [0].phase == TouchPhase.Moved) {
+			Gesture.GestureType sprtype = ((Sprinch)currentGesture).Type;
+
 			((Sprinch)currentGesture).EndPoints = new Vector2[2]{Input.touches[0].position,Input.touches[1].position};
-			notifyProgress();
+
+			if(sprtype == Gesture.GestureType.SPRINCH && currentGesture.Type!=Gesture.GestureType.SPRINCH){
+				notifyObservers(ProcessType.START);
+			}
+			notifyObservers(ProcessType.PROGRESS);
 			return;
 		}
 	}
@@ -174,19 +188,19 @@ public class GestureRecogniser : MonoBehaviour
 		_state = GestureState.NEUTRAL;
 	}
 
-//	void notifyObservers ( ProcessType phase){
-//		switch (phase) {
-//		case ProcessType.START:
-//			foreach (ProcessGestureEvent pr in _startObservers){
-//				pr(currentGesture);
-//			}
-//			break;
-//		case ProcessType.PROGRESS:
-//			break;
-//		case ProcessType.END:
-//			break;
-//		}
-//	}
+	void notifyObservers ( ProcessType phase){
+		switch (phase) {
+		case ProcessType.START:
+			notifyStart();
+			break;
+		case ProcessType.PROGRESS:
+			notifyProgress();
+			break;
+		case ProcessType.END:
+			notifyEnd();
+			break;
+		}
+	}
 	/// <summary>
 	/// Notifies the progress ff a gesture to all the observers.
 	/// </summary>
@@ -195,17 +209,35 @@ public class GestureRecogniser : MonoBehaviour
 			pr(currentGesture);
 		}
 	}
+	void notifyStart(){
+		foreach (ProcessGestureEvent pr in _startObservers) {
+			pr(currentGesture);
+		}
+	}
 
 	/// <summary>
-	/// Subscribe the specified observer.
+	/// Subscribe the specified observer to the end of a gesture.
 	/// </summary>
 	/// <param name="observer">Observer.</param>
 	public void subscribeEnd (ProcessGestureEvent observer){
 		_endObservers.Add (observer);
 	}
-
+	/// <summary>
+	/// Subscribe the specified observer to the progress of a gesture.
+	/// </summary>
+	/// <param name="observer">Observer.</param>
 	public void subscribeProgress(ProcessGestureEvent observer){
 		_progressObservers.Add (observer);
 	}
+	/// <summary>
+	/// Subscribe the specified observer to the start of a gesture.
+	/// </summary>
+	/// <param name="observer">Observer.</param>
+	public void subscribeStart(ProcessGestureEvent observer){
+		_startObservers.Add (observer);
+	}
+
+
+
 }
 

@@ -9,6 +9,15 @@ public class TestGesture : MonoBehaviour,GestureEndObserver,GestureProgressObser
 	void Start () {
 		GestureRecogniser.Recogniser.subscribeEnd (new GestureRecogniser.ProcessGestureEvent(notifyEnd));
 		GestureRecogniser.Recogniser.subscribeProgress (new GestureRecogniser.ProcessGestureEvent(notifyProgress));
+		GestureRecogniser.Recogniser.subscribeStart (new GestureRecogniser.ProcessGestureEvent (startGesture)); 
+	}
+
+	void collided(bool collided){
+
+	}
+
+	void startGesture(Gesture gesture){
+		Debug.Log ("START Gesture - "+gesture.Type.ToString());
 	}
 	
 	// Update is called once per frame
@@ -17,6 +26,7 @@ public class TestGesture : MonoBehaviour,GestureEndObserver,GestureProgressObser
 	}
 
 	public void notifyEnd(Gesture gesture){
+	
 		Debug.Log (gesture!=null? "Gesture exists":"Gesture null");
 		if (gesture.Type != Gesture.GestureType.TAP) {
 			switch(gesture.Type){
