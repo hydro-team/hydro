@@ -12,9 +12,6 @@ public class TestGesture : MonoBehaviour,GestureEndObserver,GestureProgressObser
 		GestureRecogniser.Recogniser.subscribeStart (new GestureRecogniser.ProcessGestureEvent (startGesture)); 
 	}
 
-	void collided(bool collided){
-
-	}
 
 	void startGesture(Gesture gesture){
 		Debug.Log ("START Gesture - "+gesture.Type.ToString());
