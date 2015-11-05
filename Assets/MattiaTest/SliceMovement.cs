@@ -18,12 +18,12 @@ public class SliceMovement : MonoBehaviour {
 
 
 	//variabili controllo stato
-	int rotated = 2; //stao della rotazione: 0 in rotazione, 1 in traslazione, 2 stallo
+	int rotated = 3; //stao della rotazione: 0 in rotazione, 1 in traslazione, 2 derotazione, 3 stallo
 	bool collided = false; //stato della collisione con la fine dello slice
 	int rotdirection = 0; // direzione della rotazione
 	public int level; // livello a cui si trova hydro
 	bool changedlevel; // stato se sono in fase di cambiamento del livello
-	//bool direction;
+	bool direction;
 	//RaycastHit2D hit;
 
 	// Use this for initialization
@@ -44,22 +44,34 @@ public class SliceMovement : MonoBehaviour {
 			Debug.DrawRay(cameracenter.transform.position, Vector3.forward * 10, Color.magenta);
 		}*/
 
+
 		//Rotazione verso la direzione di movimento del modello di hydro
 		if(rotated == 0){
-			//TODO inveertire rotazione quando si scende
-			Quaternion targetRotation = Quaternion.LookRotation(new Vector3(-100, hydro.transform.position.y, hydro.transform.position.z) - hydro.transform.position);
-			// Smoothly rotate towards the target point.
-			hydro.transform.rotation = Quaternion.Slerp(hydro.transform.rotation, targetRotation, 2 * Time.deltaTime);
-			//Debug.Log(hydro.transform.forward);
-			if(equalvec(hydro.transform.forward, Vector3.left)){
-				Debug.Log ("finita rotazione");
-				rotated = 1;
+			if(direction){
+				Quaternion targetRotation = Quaternion.LookRotation(new Vector3(-100, hydro.transform.position.y, hydro.transform.position.z) - hydro.transform.position);
+				// Smoothly rotate towards the target point.
+				hydro.transform.rotation = Quaternion.Slerp(hydro.transform.rotation, targetRotation, 2 * Time.deltaTime);
+				//Debug.Log(hydro.transform.forward);
+				if(equalvec(hydro.transform.forward, Vector3.left)){
+					Debug.Log ("finita rotazione");
+					rotated = 1;
+				}
+			}else{
+				Quaternion targetRotation = Quaternion.LookRotation(new Vector3(100, hydro.transform.position.y, hydro.transform.position.z) - hydro.transform.position);
+				// Smoothly rotate towards the target point.
+				hydro.transform.rotation = Quaternion.Slerp(hydro.transform.rotation, targetRotation, 2 * Time.deltaTime);
+				//Debug.Log(hydro.transform.forward);
+				if(equalvec(hydro.transform.forward, Vector3.right)){
+					Debug.Log ("finita rotazione");
+					rotated = 1;
+				}
 			}
+
+
 		}
 		//traslazione verso la fine dello slice verso la direzione di movimento
 		if(rotated == 1){
-			if(hydro.transform.position.z < 0){
-				//TODO direzione da cambiare quando si scende
+			if((hydro.transform.position.z < 0 && direction) || (hydro.transform.position.z > -5 && !direction)){
 				hydro.transform.Translate(Vector3.right * 5 * Time.deltaTime);
 			}else{
 				Debug.Log ("collided");
@@ -70,8 +82,13 @@ public class SliceMovement : MonoBehaviour {
 		if(collided){
 			//Debug.Log("collided");
 			//transform.position = new Vector3(transform.position.x, spostamenti[level] + (transform.position.y), -2.5f);
-			//TODO sisemare perche deve resapwn a z = 5 e tornare fino a punto. con movimento continuo
-			transform.position = new Vector3(transform.position.x, spostamenti[level], transform.position.z);
+			//TODO sisemare perche deve resapwn a z = 5 - Hydro.size/2 e tornare fino a punto -1 con movimento continuo (da controllare con i rendertexture effetto)
+			if(direction){
+				transform.position = new Vector3(transform.position.x, spostamenti[level], transform.position.z);
+			}else{
+				transform.position = new Vector3(transform.position.x, spostamenti[level], transform.position.z);
+				hydro.transform.position = new Vector3(transform.position.x, spostamenti[level], -1);
+			}
 			Debug.Log(level);
 			//transform.position = transform.position + spostamenti[level];
 			cameracenter.GetComponent<CameraAdjustmentY>().adjust(level);
@@ -79,7 +96,29 @@ public class SliceMovement : MonoBehaviour {
 			collided = false;
 			rotated = 2;
 		}
-		//TODO rotazione contrarea quando si arriva.
+
+		//rotazione contrarea quando si arriva.
+		if(rotated == 2){
+			if(direction){
+				Quaternion targetRotation = Quaternion.LookRotation(new Vector3(0, hydro.transform.position.y, hydro.transform.position.z + 100) - hydro.transform.position);
+				// Smoothly rotate towards the target point.
+				hydro.transform.rotation = Quaternion.Slerp(hydro.transform.rotation, targetRotation, 2 * Time.deltaTime);
+				//Debug.Log(hydro.transform.forward);
+				if(equalvec(hydro.transform.forward, Vector3.left)){
+					Debug.Log ("finita rotazione");
+					rotated = 3;
+				}
+			}else{
+				Quaternion targetRotation = Quaternion.LookRotation(new Vector3(0, hydro.transform.position.y, hydro.transform.position.z + 100) - hydro.transform.position);
+				// Smoothly rotate towards the target point.
+				hydro.transform.rotation = Quaternion.Slerp(hydro.transform.rotation, targetRotation, 2 * Time.deltaTime);
+				//Debug.Log(hydro.transform.forward);
+				if(equalvec(hydro.transform.forward, Vector3.right)){
+					Debug.Log ("finita rotazione");
+					rotated = 3;
+				}
+			}
+		}
 
 		/*if(changedlevel && (level >= 0 && level <= N_slice)){
 			transform.position = new Vector3(transform.position.x, spostamenti[level], transform.position.z);
@@ -92,7 +131,7 @@ public class SliceMovement : MonoBehaviour {
 
 	//metodo invocato dal controllore per attivarela procedua di spostamento sui layer
 	public void movementOnZ(bool up_down){
-		//direction = up_down;
+		direction = up_down;
 		//if(level > 0&& level < N_slice){
 
 		if(up_down && level > 0 && up.freePassage()){
@@ -106,7 +145,7 @@ public class SliceMovement : MonoBehaviour {
 			rotated = 0;
 		}
 		changedlevel = true;
-		Debug.Log(level);
+		Debug.Log(level + " " + rotated);
 	}
 
 	//metodo per la verifica di equivalenza di due vettori
