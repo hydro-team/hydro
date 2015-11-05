@@ -7,27 +7,15 @@ public class GesturesDispatcher : MonoBehaviour {
     public static event Action<Gesture> OnGestureEnd;
     public static event Action<Gesture> OnGestureProgress;
 
-    public bool DebugMode;
-
     void Awake() {
-
-		//e a quel paese le dimenticanze :D
-		DebugMode = !(Application.platform == RuntimePlatform.Android);
-//		Debug.Log ("Awaking dispatcher");
-        if (DebugMode) {
+		var debug = !(Application.platform == RuntimePlatform.Android);
+        if (debug) {
             GesturesEmulator.OnClick += pos => OnGestureEnd(new Tap(pos, 0f));
             GesturesEmulator.OnDrag += (start, end, time) => OnGestureEnd(swipe(start, end, time));
             GesturesEmulator.OnZoomIn += () => OnGestureEnd(spread());
             GesturesEmulator.OnZoomOut += () => OnGestureEnd(pinch());
         } else {
-
-//			OnGestureStart+= GestureRecogniser.GestureStart;
-//			OnGestureProgress += GestureRecogniser.GestureProgress;
-//			OnGestureEnd += GestureRecogniser.GestureEnd;
-//			GestureRecogniser.SetStartDispatcher(OnGestureStart);
-//			GestureRecogniser.SetProgressDispatcher(OnGestureProgress);
-//
-			GestureRecogniser.GestureStart += gesture => OnGestureStart(gesture);
+            GestureRecogniser.GestureStart += gesture => OnGestureStart(gesture);
 			GestureRecogniser.GestureProgress += gesture => OnGestureProgress(gesture);
 			GestureRecogniser.GestureEnd += gesture => OnGestureEnd(gesture);
         }
@@ -51,8 +39,4 @@ public class GesturesDispatcher : MonoBehaviour {
         spread.EndPoints = new Vector2[] { Vector2.zero, new Vector2(100f, 100f) };
         return spread;
     }
-
-	void Update(){
-//		Debug.Log (OnGestureStart != null ? OnGestureStart.GetInvocationList ().Length.ToString () : "Nobody here");
-	}
 }
