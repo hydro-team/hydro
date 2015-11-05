@@ -30,9 +30,9 @@ public class IOManager : MonoBehaviour {
 	}
 
 	void Start () {
-		GestureRecogniser.Recogniser.subscribeStart (gestureStart);
-		GestureRecogniser.Recogniser.subscribeProgress (gestureProgress);
-		GestureRecogniser.Recogniser.subscribeEnd (gestureEnd);
+		GesturesDispatcher.OnGestureStart += gestureStart;
+		GesturesDispatcher.OnGestureProgress += gestureProgress;
+		GesturesDispatcher.OnGestureEnd += gestureEnd;
 
 	}
 	

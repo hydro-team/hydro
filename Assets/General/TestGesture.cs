@@ -2,14 +2,16 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
-public class TestGesture : MonoBehaviour,GestureEndObserver,GestureProgressObserver {
+public class TestGesture : MonoBehaviour{
 	public Text GestureText;
 	public Text debug;
 	// Use this for initialization
 	void Start () {
-		GestureRecogniser.Recogniser.subscribeEnd (new GestureRecogniser.ProcessGestureEvent(notifyEnd));
-		GestureRecogniser.Recogniser.subscribeProgress (new GestureRecogniser.ProcessGestureEvent(notifyProgress));
-		GestureRecogniser.Recogniser.subscribeStart (new GestureRecogniser.ProcessGestureEvent (startGesture)); 
+
+		Debug.Log ("Test gesture starts");
+		GesturesDispatcher.OnGestureStart += this.startGesture;
+		GesturesDispatcher.OnGestureProgress += this.notifyProgress;
+		GesturesDispatcher.OnGestureEnd += this.notifyEnd;
 	}
 
 

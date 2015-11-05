@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class GestureRecogniser : MonoBehaviour
 {
@@ -24,9 +25,21 @@ public class GestureRecogniser : MonoBehaviour
 	}
 
 
-	List <ProcessGestureEvent> _startObservers = new List<ProcessGestureEvent> ();
-	List <ProcessGestureEvent> _endObservers = new List<ProcessGestureEvent>();
-	List <ProcessGestureEvent> _progressObservers = new List<ProcessGestureEvent> ();
+	public static event Action<Gesture> GestureStart ;
+	public static event Action<Gesture> GestureProgress ;
+	public static event Action<Gesture> GestureEnd ;
+
+//	public static void SetStartDispatcher (Action<Gesture> newDisp){
+//		GestureStart = newDisp;
+//	}
+//
+//	public static void SetProgressDispatcher (Action<Gesture> newDisp){
+//		GestureProgress = newDisp;
+//	}
+
+//	List <ProcessGestureEvent> _startObservers = new List<ProcessGestureEvent> ();
+//	List <ProcessGestureEvent> _endObservers = new List<ProcessGestureEvent>();
+//	List <ProcessGestureEvent> _progressObservers = new List<ProcessGestureEvent> ();
 
 	private GestureState _state = GestureState.NEUTRAL;
 	Gesture currentGesture;
@@ -50,7 +63,7 @@ public class GestureRecogniser : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-
+//		Debug.Log (GestureProgress != null?GestureProgress.GetInvocationList().Length.ToString():"Nobody here");
 
 		switch (_state) {
 		case GestureState.TAP:
@@ -132,6 +145,8 @@ public class GestureRecogniser : MonoBehaviour
 	/// </summary>
 	void swipe(){
 		//FIXME
+
+//		Debug.Log ("Swiping");
 		if (Input.touches.Length > 1) {
 			currentGesture = new Sprinch(((Swipe)currentGesture).Start,Input.touches[1].position);
 			_state = GestureState.SPRINCH;
@@ -154,7 +169,7 @@ public class GestureRecogniser : MonoBehaviour
 	}
 
 	void sprinch(){
-
+//		Debug.Log ("Sprinching");
 		if (Input.touches.Length < 2) {
 			notifyObservers(ProcessType.END);
 			return;
@@ -181,61 +196,65 @@ public class GestureRecogniser : MonoBehaviour
 	/// <summary>
 	/// Notifies the end of a gesture to all the observers.
 	/// </summary>
-	void notifyEnd(){
-		foreach (ProcessGestureEvent pr in _endObservers) {
-			pr(currentGesture);
-		}
-		_state = GestureState.NEUTRAL;
-	}
+
 
 	void notifyObservers ( ProcessType phase){
 		switch (phase) {
 		case ProcessType.START:
-			notifyStart();
+			if(GestureStart!=null) GestureStart(currentGesture);
 			break;
 		case ProcessType.PROGRESS:
-			notifyProgress();
+			if(GestureProgress!=null){GestureProgress(currentGesture);
+//				Debug.Log("GestureProgress is: "+GestureProgress.ToString());
+			}
 			break;
 		case ProcessType.END:
-			notifyEnd();
+			if(GestureEnd!=null)GestureEnd(currentGesture);
+			_state = GestureState.NEUTRAL;
 			break;
 		}
 	}
 	/// <summary>
 	/// Notifies the progress ff a gesture to all the observers.
 	/// </summary>
-	void notifyProgress(){
-		foreach (ProcessGestureEvent pr in _progressObservers) {
-			pr(currentGesture);
-		}
-	}
-	void notifyStart(){
-		foreach (ProcessGestureEvent pr in _startObservers) {
-			pr(currentGesture);
-		}
-	}
+//	void notifyProgress(){
+//		GestureProgress (currentGesture);
+//	}
+//	void notifyStart(){
+//		GestureStart (currentGesture);
+////		foreach (ProcessGestureEvent pr in _startObservers) {
+////			pr(currentGesture);
+////		}
+//	}
+//
+//	void notifyEnd(){
+//		foreach (ProcessGestureEvent pr in _endObservers) {
+//			pr(currentGesture);
+//		}
+//		_state = GestureState.NEUTRAL;
+//	}
 
-	/// <summary>
-	/// Subscribe the specified observer to the end of a gesture.
-	/// </summary>
-	/// <param name="observer">Observer.</param>
-	public void subscribeEnd (ProcessGestureEvent observer){
-		_endObservers.Add (observer);
-	}
-	/// <summary>
-	/// Subscribe the specified observer to the progress of a gesture.
-	/// </summary>
-	/// <param name="observer">Observer.</param>
-	public void subscribeProgress(ProcessGestureEvent observer){
-		_progressObservers.Add (observer);
-	}
-	/// <summary>
-	/// Subscribe the specified observer to the start of a gesture.
-	/// </summary>
-	/// <param name="observer">Observer.</param>
-	public void subscribeStart(ProcessGestureEvent observer){
-		_startObservers.Add (observer);
-	}
+//	/// <summary>
+//	/// Subscribe the specified observer to the end of a gesture.
+//	/// </summary>
+//	/// <param name="observer">Observer.</param>
+//	public void subscribeEnd (ProcessGestureEvent observer){
+//		_endObservers.Add (observer);
+//	}
+//	/// <summary>
+//	/// Subscribe the specified observer to the progress of a gesture.
+//	/// </summary>
+//	/// <param name="observer">Observer.</param>
+//	public void subscribeProgress(ProcessGestureEvent observer){
+//		_progressObservers.Add (observer);
+//	}
+//	/// <summary>
+//	/// Subscribe the specified observer to the start of a gesture.
+//	/// </summary>
+//	/// <param name="observer">Observer.</param>
+//	public void subscribeStart(ProcessGestureEvent observer){
+//		_startObservers.Add (observer);
+//	}
 
 
 
