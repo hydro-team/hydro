@@ -1,50 +1,53 @@
 ﻿using UnityEngine;
 using System;
 
-public class GesturesEmulator : MonoBehaviour {
+namespace Gestures {
 
-    static GesturesEmulator instance;
+    public class GesturesEmulator : MonoBehaviour {
 
-    public float MinDragSpan;
+        static GesturesEmulator instance;
 
-    const int LEFT_BUTTON = 0;
+        public float MinDragSpan;
 
-    bool dragging;
-    Vector2 dragStartPosition;
-    float dragStartTime;
+        const int LEFT_BUTTON = 0;
 
-    void Awake() {
-        if (instance == null) {
-            instance = this;
-        } else {
-            GameObject.Destroy(this);
-        }
-    }
+        bool dragging;
+        Vector2 dragStartPosition;
+        float dragStartTime;
 
-    public static event Action<Vector2> OnClick;
-    public static event Action<Vector2, Vector2, float> OnDrag;
-    public static event Action OnZoomIn;
-    public static event Action OnZoomOut;
-
-    void Update() {
-        if (Input.GetMouseButtonDown(LEFT_BUTTON)) {
-            dragging = true;
-            dragStartPosition = Input.mousePosition;
-            dragStartTime = Time.time;
-        }
-        if (dragging && Input.GetMouseButtonUp(LEFT_BUTTON)) {
-            dragging = false;
-            Vector2 dragEndPosition = Input.mousePosition;
-            var span = (dragEndPosition - dragStartPosition).magnitude;
-            if (span < MinDragSpan) {
-                if (OnClick != null) { OnClick(dragStartPosition); }
+        void Awake() {
+            if (instance == null) {
+                instance = this;
             } else {
-                if (OnDrag != null) { OnDrag(dragStartPosition, dragEndPosition, Time.time - dragStartTime); }
+                GameObject.Destroy(this);
             }
         }
-        if (Input.GetKeyUp(KeyCode.LeftShift)) {
-            if (Input.GetKey(KeyCode.W)) { if (OnZoomIn != null) { OnZoomIn(); } }
-            if (Input.GetKey(KeyCode.S)) { if (OnZoomOut != null) { OnZoomOut(); } }
+
+        public static event Action<Vector2> OnClick;
+        public static event Action<Vector2, Vector2, float> OnDrag;
+        public static event Action OnZoomIn;
+        public static event Action OnZoomOut;
+
+        void Update() {
+            if (Input.GetMouseButtonDown(LEFT_BUTTON)) {
+                dragging = true;
+                dragStartPosition = Input.mousePosition;
+                dragStartTime = Time.time;
+            }
+            if (dragging && Input.GetMouseButtonUp(LEFT_BUTTON)) {
+                dragging = false;
+                Vector2 dragEndPosition = Input.mousePosition;
+                var span = (dragEndPosition - dragStartPosition).magnitude;
+                if (span < MinDragSpan) {
+                    if (OnClick != null) { OnClick(dragStartPosition); }
+                } else {
+                    if (OnDrag != null) { OnDrag(dragStartPosition, dragEndPosition, Time.time - dragStartTime); }
+                }
+            }
+            if (Input.GetKeyUp(KeyCode.LeftShift)) {
+                if (Input.GetKey(KeyCode.W)) { if (OnZoomIn != null) { OnZoomIn(); } }
+                if (Input.GetKey(KeyCode.S)) { if (OnZoomOut != null) { OnZoomOut(); } }
+            }
         }
     }
 }

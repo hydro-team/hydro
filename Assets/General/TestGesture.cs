@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
+using Gestures;
 
 public class TestGesture : MonoBehaviour{
 	public Text GestureText;
