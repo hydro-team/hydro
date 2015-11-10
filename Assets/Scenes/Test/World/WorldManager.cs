@@ -6,6 +6,15 @@ public class WorldManager : MonoBehaviour {
 	public GameObject[] slices;
 	public static float MAX_SLICE_X_DIMENSION;
 	public static float SLICE_DEPTH = 5f;
+	public Vector2 startPosition;
+	public int startSlice;
+
+	static WorldManager _instance;
+	public static WorldManager Instance{
+		get{
+			return _instance;
+		}
+	}
 
 
 	static int _currentSlice;
@@ -30,6 +39,9 @@ public class WorldManager : MonoBehaviour {
 
 	}
 
+	void Awake(){
+		_instance = this;
+	}
 
 	public void AlignSlices(){
 		for (int i=0; i<slices.Length; i++) {
@@ -41,9 +53,12 @@ public class WorldManager : MonoBehaviour {
 	void Start () {
 		//FIXME
 		AlignSlices ();
+		HydroController.Instance.gameObject.transform.position = new Vector3(startPosition.x,startPosition.y,(float)startSlice * -SLICE_DEPTH);
+		HydroController.HasMoved += moved;
 	}
 
 	public bool CanMove(Vector2 position,bool deep){
+		Debug.Log ("Called can move");
 		int layerindex=_currentSlice;
 		if (deep && layerindex - 1 > -1) {
 			layerindex -=1;
