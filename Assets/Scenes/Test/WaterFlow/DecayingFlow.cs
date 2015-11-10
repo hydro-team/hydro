@@ -4,18 +4,23 @@ using System.Collections;
 public class DecayingFlow : Flow {
 
     public float duration;
-    float remaining;
+    float remainingTime;
 
     void Start() {
-        remaining = duration;
+        remainingTime = duration;
+        StartCoroutine(Decay());
     }
 
-	void Update () {
-        if (remaining > 0) { remaining -= Time.deltaTime; }
-	}
+    IEnumerator Decay() {
+        while (remainingTime > 0) {
+            remainingTime -= Time.deltaTime;
+            yield return null;
+        }
+        GameObject.Destroy(this.gameObject);
+    }
 
     public override Vector3 CalculateForceFor(Rigidbody body) {
-        var proportion = remaining / duration;
+        var proportion = remainingTime / duration;
         return base.CalculateForceFor(body) * proportion;
     }
 }
