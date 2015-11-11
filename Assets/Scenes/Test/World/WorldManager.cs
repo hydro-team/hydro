@@ -58,7 +58,7 @@ public class WorldManager : MonoBehaviour {
 	}
 
 	public bool CanMove(Vector2 position,bool deep){
-		Debug.Log ("Called can move");
+		Debug.Log ("Called can move " + CurrentSlice);
 		int layerindex=_currentSlice;
 		if (deep && layerindex - 1 > -1) {
 			layerindex -=1;
@@ -66,7 +66,29 @@ public class WorldManager : MonoBehaviour {
 		if (!deep && layerindex + 1 < slices.Length) {
 			layerindex+=1;
 		}
-		return !Physics2D.Raycast (position, Vector2.zero, 0f, layerindex);
+
+
+		if((_currentSlice == 0 && deep) || (_currentSlice == slices.Length-1 && !deep)){
+			//Debug.Log ("NON MUOVERTI" + (_currentSlice == 0 && deep) + " " + (_currentSlice == slices.Length-1 && !deep));
+			return false;
+		}else{
+			RaycastHit2D hit;
+			if(deep){
+				hit = Physics2D.Raycast(position, Vector2.zero, SLICE_DEPTH + 1, layerindex);
+				//Debug.Log ("Ho colpito in avanti");
+				//Debug.DrawRay(position, Vector3.forward*(SLICE_DEPTH + 1), Color.blue);
+			}else{
+				hit = Physics2D.Raycast(position, -Vector2.zero, SLICE_DEPTH + 1, layerindex);
+				//Debug.Log("Ho colpto indietro");
+				//Debug.DrawRay(position, Vector3.back*(SLICE_DEPTH + 1), Color.red);
+			}
+			if(hit.collider == null){
+				return true;
+			}else{
+				Debug.Log ("Ho colpito " + hit.collider.name);
+				return false;
+			}
+		}
 	}
 
 	// Update is called once per frame
