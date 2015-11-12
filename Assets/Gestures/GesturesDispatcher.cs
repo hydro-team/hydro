@@ -9,39 +9,29 @@ namespace Gestures {
     /// </summary>
     public class GesturesDispatcher : MonoBehaviour {
 
-        public static event Action<Gesture> OnGestureStart;
-        public static event Action<Gesture> OnGestureEnd;
-        public static event Action<Gesture> OnGestureProgress;
+        public GameObject gesturesRecognizer;
+        public GameObject gesturesEmulator;
 
-        public static event Action<Tap> OnTapStart;
-        public static event Action<Tap> OnTapEnd;
-
-        public static event Action<Swipe> OnSwipeStart;
-        public static event Action<Swipe> OnSwipeEnd;
-        public static event Action<Swipe> OnSwipeProgress;
-
-        public static event Action<Sprinch> OnSprinchStart;
-        public static event Action<Sprinch> OnSprinchProgress;
-
-        public static event Action<Sprinch> OnPinchStart;
-        public static event Action<Sprinch> OnPinchProgress;
-        public static event Action<Sprinch> OnPinchEnd;
-
-        public static event Action<Sprinch> OnSpreadStart;
-        public static event Action<Sprinch> OnSpreadProgress;
-        public static event Action<Sprinch> OnSpreadEnd;
+        public event Action<Gesture> OnGestureStart, OnGestureProgress, OnGestureEnd;
+        public event Action<Tap> OnTapStart, OnTapEnd;
+        public event Action<Swipe> OnSwipeStart, OnSwipeProgress, OnSwipeEnd;
+        public event Action<Sprinch> OnSprinchStart, OnSprinchProgress;
+        public event Action<Sprinch> OnPinchStart, OnPinchProgress, OnPinchEnd;
+        public event Action<Sprinch> OnSpreadStart, OnSpreadProgress, OnSpreadEnd;
 
         void Awake() {
             var debug = !(Application.platform == RuntimePlatform.Android);
             if (debug) {
-                GesturesEmulator.OnClick += pos => NotifyGestureEnd(new Tap(pos, 0f));
-                GesturesEmulator.OnDrag += (start, end, time) => NotifyGestureEnd(Swipe(start, end, time));
-                GesturesEmulator.OnZoomIn += () => NotifyGestureEnd(Spread());
-                GesturesEmulator.OnZoomOut += () => NotifyGestureEnd(Pinch());
+                var emulator = gesturesEmulator.GetComponent<GesturesEmulator>();
+                emulator.OnClick += pos => NotifyGestureEnd(new Tap(pos, 0f));
+                emulator.OnDrag += (start, end, time) => NotifyGestureEnd(Swipe(start, end, time));
+                emulator.OnZoomIn += () => NotifyGestureEnd(Spread());
+                emulator.OnZoomOut += () => NotifyGestureEnd(Pinch());
             } else {
-                GesturesRecogniser.GestureStart += NotifyGestureStart;
-                GesturesRecogniser.GestureProgress += NotifyGestureProgress;
-                GesturesRecogniser.GestureEnd += NotifyGestureEnd;
+                var recogniser = gesturesRecognizer.GetComponent<GesturesRecogniser>();
+                recogniser.GestureStart += NotifyGestureStart;
+                recogniser.GestureProgress += NotifyGestureProgress;
+                recogniser.GestureEnd += NotifyGestureEnd;
             }
         }
 

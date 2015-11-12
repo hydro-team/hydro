@@ -5,8 +5,6 @@ namespace Gestures {
 
     public class GesturesEmulator : MonoBehaviour {
 
-        static GesturesEmulator instance;
-
         public float MinDragSpan;
 
         const int LEFT_BUTTON = 0;
@@ -15,18 +13,10 @@ namespace Gestures {
         Vector2 dragStartPosition;
         float dragStartTime;
 
-        void Awake() {
-            if (instance == null) {
-                instance = this;
-            } else {
-                GameObject.Destroy(this);
-            }
-        }
-
-        public static event Action<Vector2> OnClick;
-        public static event Action<Vector2, Vector2, float> OnDrag;
-        public static event Action OnZoomIn;
-        public static event Action OnZoomOut;
+        public event Action<Vector2> OnClick;
+        public event Action<Vector2, Vector2, float> OnDrag;
+        public event Action OnZoomIn;
+        public event Action OnZoomOut;
 
         void Update() {
             if (Input.GetMouseButtonDown(LEFT_BUTTON)) {

@@ -4,18 +4,18 @@ using Flyweight;
 
 public class FlowGenerator : MonoBehaviour {
 
-    public GameObject FlowPool;
-    public GameObject MainCamera;
+    public GameObject flowPool;
+    public new Camera camera;
+    public GameObject gestures;
 
     ObjectPool flows;
 
     void Start() {
-        flows = FlowPool.GetComponent<ObjectPool>();
-        GesturesDispatcher.OnSwipeEnd += swipe => GenerateFlow(swipe.Start, swipe.End);
+        flows = flowPool.GetComponent<ObjectPool>();
+        gestures.GetComponent<GesturesDispatcher>().OnSwipeEnd += swipe => GenerateFlow(swipe.Start, swipe.End);
     }
 
     void GenerateFlow(Vector2 start, Vector2 end) {
-        var camera = Camera.main;
         var rotation = Quaternion.FromToRotation(Vector3.up, end - start);
         var cameraDistance = -camera.transform.position.z;
         Vector2 from = camera.ScreenToWorldPoint(new Vector3(start.x, start.y, cameraDistance));

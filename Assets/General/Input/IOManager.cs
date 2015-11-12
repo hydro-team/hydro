@@ -3,10 +3,10 @@ using Gestures;
 
 public class IOManager : MonoBehaviour {
 
-
 	static IOManager _manager;
 
-	public GameObject flowObject;
+    public GameObject gestures;
+    public GameObject flowObject;
 
 	public static IOManager InOutManager{
 		get{
@@ -30,9 +30,10 @@ public class IOManager : MonoBehaviour {
 	}
 
 	void Start () {
-		GesturesDispatcher.OnGestureStart += gestureStart;
-		GesturesDispatcher.OnGestureProgress += gestureProgress;
-		GesturesDispatcher.OnGestureEnd += gestureEnd;
+        var dispatcher = gestures.GetComponent<GesturesDispatcher>();
+		dispatcher.OnGestureStart += gestureStart;
+		dispatcher.OnGestureProgress += gestureProgress;
+		dispatcher.OnGestureEnd += gestureEnd;
 
 	}
 	

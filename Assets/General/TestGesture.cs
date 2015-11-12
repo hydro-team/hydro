@@ -5,13 +5,15 @@ using Gestures;
 public class TestGesture : MonoBehaviour{
 	public Text GestureText;
 	public Text debug;
+    public GameObject gestures;
 	// Use this for initialization
 	void Start () {
 
 		Debug.Log ("Test gesture starts");
-		GesturesDispatcher.OnGestureStart += this.startGesture;
-		GesturesDispatcher.OnGestureProgress += this.notifyProgress;
-		GesturesDispatcher.OnGestureEnd += this.notifyEnd;
+        var dispatcher = gestures.GetComponent<GesturesDispatcher>();
+        dispatcher.OnGestureStart += this.startGesture;
+        dispatcher.OnGestureProgress += this.notifyProgress;
+        dispatcher.OnGestureEnd += this.notifyEnd;
 	}
 
 
@@ -21,7 +23,7 @@ public class TestGesture : MonoBehaviour{
 	
 	// Update is called once per frame
 	void Update () {
-		debug.text = GesturesRecogniser.Instance.CurrentState.ToString();
+		debug.text = gestures.GetComponent<GesturesRecogniser>().CurrentState.ToString();
 	}
 
 	public void notifyEnd(Gesture gesture){

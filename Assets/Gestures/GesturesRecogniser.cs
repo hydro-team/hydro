@@ -5,15 +5,9 @@ namespace Gestures {
 
     public class GesturesRecogniser : MonoBehaviour {
 
-        private static GesturesRecogniser instance;
-
-        public static GesturesRecogniser Instance {
-            get { return instance; }
-        }
-
-        public static event Action<Gesture> GestureStart;
-        public static event Action<Gesture> GestureProgress;
-        public static event Action<Gesture> GestureEnd;
+        public event Action<Gesture> GestureStart;
+        public event Action<Gesture> GestureProgress;
+        public event Action<Gesture> GestureEnd;
 
         const float MAX_DISTANCE_BEFORE_SWIPE = 20f;
 
@@ -22,10 +16,6 @@ namespace Gestures {
 
         public GestureState CurrentState {
             get { return gestureState; }
-        }
-
-        void Awake() {
-            if (instance == null) { GesturesRecogniser.instance = this; }
         }
 
         void Update() {
