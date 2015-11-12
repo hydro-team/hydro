@@ -3,10 +3,10 @@ using Gestures;
 
 public class IOManager : MonoBehaviour {
 
-
 	static IOManager _manager;
 
-	public GameObject flowObject;
+    public GameObject gestures;
+    public GameObject flowObject;
 
 	public static IOManager InOutManager{
 		get{
@@ -30,9 +30,10 @@ public class IOManager : MonoBehaviour {
 	}
 
 	void Start () {
-		GesturesDispatcher.OnGestureStart += gestureStart;
-		GesturesDispatcher.OnGestureProgress += gestureProgress;
-		GesturesDispatcher.OnGestureEnd += gestureEnd;
+        var dispatcher = gestures.GetComponent<GesturesDispatcher>();
+		dispatcher.OnGestureStart += gestureStart;
+		dispatcher.OnGestureProgress += gestureProgress;
+		dispatcher.OnGestureEnd += gestureEnd;
 
 	}
 	
@@ -48,14 +49,14 @@ public class IOManager : MonoBehaviour {
 	void gestureStart(Gesture gesture){
 
 		switch (gesture.Type) {
-		case Gesture.GestureType.TAP:
+		case GestureType.TAP:
 			break;
-		case Gesture.GestureType.SWIPE:
+		case GestureType.SWIPE:
 			swipeBegin((Swipe)gesture);
 			break;
-		case Gesture.GestureType.PINCH:
+		case GestureType.PINCH:
 			break;
-		case Gesture.GestureType.SPREAD:
+		case GestureType.SPREAD:
 			break;
 		default:
 			break;
@@ -67,13 +68,13 @@ public class IOManager : MonoBehaviour {
 	void gestureProgress(Gesture gesture){
 		
 		switch (gesture.Type) {
-		case Gesture.GestureType.TAP:
+		case GestureType.TAP:
 			break;
-		case Gesture.GestureType.SWIPE:
+		case GestureType.SWIPE:
 			break;
-		case Gesture.GestureType.PINCH:
+		case GestureType.PINCH:
 			break;
-		case Gesture.GestureType.SPREAD:
+		case GestureType.SPREAD:
 			break;
 		default:
 			break;
@@ -84,13 +85,13 @@ public class IOManager : MonoBehaviour {
 	void gestureEnd(Gesture gesture){
 		
 		switch (gesture.Type) {
-		case Gesture.GestureType.TAP:
+		case GestureType.TAP:
 			break;
-		case Gesture.GestureType.SWIPE:
+		case GestureType.SWIPE:
 			break;
-		case Gesture.GestureType.PINCH:
+		case GestureType.PINCH:
 			break;
-		case Gesture.GestureType.SPREAD:
+		case GestureType.SPREAD:
 			break;
 		default:
 			break;

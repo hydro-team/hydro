@@ -5,13 +5,15 @@ using Gestures;
 public class TestGesture : MonoBehaviour{
 	public Text GestureText;
 	public Text debug;
+    public GameObject gestures;
 	// Use this for initialization
 	void Start () {
 
 		Debug.Log ("Test gesture starts");
-		GesturesDispatcher.OnGestureStart += this.startGesture;
-		GesturesDispatcher.OnGestureProgress += this.notifyProgress;
-		GesturesDispatcher.OnGestureEnd += this.notifyEnd;
+        var dispatcher = gestures.GetComponent<GesturesDispatcher>();
+        dispatcher.OnGestureStart += this.startGesture;
+        dispatcher.OnGestureProgress += this.notifyProgress;
+        dispatcher.OnGestureEnd += this.notifyEnd;
 	}
 
 
@@ -21,15 +23,15 @@ public class TestGesture : MonoBehaviour{
 	
 	// Update is called once per frame
 	void Update () {
-		debug.text = GestureRecogniser.Recogniser.CurrentState.ToString();
+		debug.text = gestures.GetComponent<GesturesRecogniser>().CurrentState.ToString();
 	}
 
 	public void notifyEnd(Gesture gesture){
 	
 		Debug.Log (gesture!=null? "Gesture exists":"Gesture null");
-		if (gesture.Type != Gesture.GestureType.TAP) {
+		if (gesture.Type != GestureType.TAP) {
 			switch(gesture.Type){
-			case Gesture.GestureType.SWIPE:
+			case GestureType.SWIPE:
 				GestureText.text = gesture.Type.ToString () + " - canceled :" +((Swipe)gesture).Canceled;
 				break;
 			default:
@@ -45,10 +47,10 @@ public class TestGesture : MonoBehaviour{
 
 	public void notifyProgress(Gesture gesture){
 		switch (gesture.Type){
-		case Gesture.GestureType.TAP:
+		case GestureType.TAP:
 			GestureText.text = gesture.Type.ToString();
 			break;
-		case Gesture.GestureType.SWIPE:
+		case GestureType.SWIPE:
 			GestureText.text = gesture.Type.ToString()+ " - length: " + ((Swipe)gesture).Lenght;
 			break;
 		default:
