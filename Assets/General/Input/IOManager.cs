@@ -48,14 +48,14 @@ public class IOManager : MonoBehaviour {
 	void gestureStart(Gesture gesture){
 
 		switch (gesture.Type) {
-		case Gesture.GestureType.TAP:
+		case GestureType.TAP:
 			break;
-		case Gesture.GestureType.SWIPE:
+		case GestureType.SWIPE:
 			swipeBegin((Swipe)gesture);
 			break;
-		case Gesture.GestureType.PINCH:
+		case GestureType.PINCH:
 			break;
-		case Gesture.GestureType.SPREAD:
+		case GestureType.SPREAD:
 			break;
 		default:
 			break;
@@ -67,13 +67,13 @@ public class IOManager : MonoBehaviour {
 	void gestureProgress(Gesture gesture){
 		
 		switch (gesture.Type) {
-		case Gesture.GestureType.TAP:
+		case GestureType.TAP:
 			break;
-		case Gesture.GestureType.SWIPE:
+		case GestureType.SWIPE:
 			break;
-		case Gesture.GestureType.PINCH:
+		case GestureType.PINCH:
 			break;
-		case Gesture.GestureType.SPREAD:
+		case GestureType.SPREAD:
 			break;
 		default:
 			break;
@@ -84,13 +84,13 @@ public class IOManager : MonoBehaviour {
 	void gestureEnd(Gesture gesture){
 		
 		switch (gesture.Type) {
-		case Gesture.GestureType.TAP:
+		case GestureType.TAP:
 			break;
-		case Gesture.GestureType.SWIPE:
+		case GestureType.SWIPE:
 			break;
-		case Gesture.GestureType.PINCH:
+		case GestureType.PINCH:
 			break;
-		case Gesture.GestureType.SPREAD:
+		case GestureType.SPREAD:
 			break;
 		default:
 			break;

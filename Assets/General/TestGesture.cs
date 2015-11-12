@@ -21,15 +21,15 @@ public class TestGesture : MonoBehaviour{
 	
 	// Update is called once per frame
 	void Update () {
-		debug.text = GestureRecogniser.Recogniser.CurrentState.ToString();
+		debug.text = GesturesRecogniser.Instance.CurrentState.ToString();
 	}
 
 	public void notifyEnd(Gesture gesture){
 	
 		Debug.Log (gesture!=null? "Gesture exists":"Gesture null");
-		if (gesture.Type != Gesture.GestureType.TAP) {
+		if (gesture.Type != GestureType.TAP) {
 			switch(gesture.Type){
-			case Gesture.GestureType.SWIPE:
+			case GestureType.SWIPE:
 				GestureText.text = gesture.Type.ToString () + " - canceled :" +((Swipe)gesture).Canceled;
 				break;
 			default:
@@ -45,10 +45,10 @@ public class TestGesture : MonoBehaviour{
 
 	public void notifyProgress(Gesture gesture){
 		switch (gesture.Type){
-		case Gesture.GestureType.TAP:
+		case GestureType.TAP:
 			GestureText.text = gesture.Type.ToString();
 			break;
-		case Gesture.GestureType.SWIPE:
+		case GestureType.SWIPE:
 			GestureText.text = gesture.Type.ToString()+ " - length: " + ((Swipe)gesture).Lenght;
 			break;
 		default:
