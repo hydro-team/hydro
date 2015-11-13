@@ -1,10 +1,13 @@
 fileFormatVersion: 2
 guid: 0d91f37407996f1479cfdd0167e08f35
-timeCreated: 1447248570
+timeCreated: 1447427552
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - LightMap: {instanceID: 0}
+  - SpriteLightMaterial: {fileID: 2100000, guid: a1b4b7d69bf41854ba9e590fdc67e959,
+      type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

@@ -70,10 +70,11 @@
 		half4 LightingLightSprite (CustomSurfOutput s, half3 lightDir, half atten){
 		
 		
-              half NdotL = dot (s.Normal, lightDir);
+              //half NdotL = dot (s.Normal, lightDir);
               half4 c;
 //              c.rgb = (s.Albedo * _LightColor0.rgb * (NdotL * atten));
-			  c.rgb = (1-s.LightInfluence)*s.Albedo.rgb+s.LightInfluence*_LightColor0.rgb*atten;
+			  c.rgb = (s.Albedo.rgb*s.LightInfluence*_LightColor0.rgb*atten);
+			  //c.rgb = c.rgb*s.LightInfluence;
               c.a = s.Alpha;
               return c;
           
