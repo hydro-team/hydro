@@ -104,7 +104,7 @@ namespace Gestures {
                 NotifyGetsureRecognitionEnd();
                 return;
             }
-            if (Input.touches[0].phase == TouchPhase.Moved || Input.touches[0].phase == TouchPhase.Moved) {
+            if (Input.touches[0].phase == TouchPhase.Moved || Input.touches[1].phase == TouchPhase.Moved) {
                 var previousType = sprinch.Type;
                 sprinch.EndPoints = new Vector2[2] { Input.touches[0].position, Input.touches[1].position };
                 if (previousType == GestureType.SPRINCH && currentGesture.Type != GestureType.SPRINCH) {
