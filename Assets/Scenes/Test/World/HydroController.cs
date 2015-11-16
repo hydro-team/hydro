@@ -28,14 +28,15 @@ public class HydroController : MonoBehaviour {
 	void onSpreadEnd(Sprinch spread){
 		if(WorldManager.Instance.CanMove((Vector2)transform.position,true)){
 			//FIXME
-			transform.position -= new Vector3(0f,0f,WorldManager.SLICE_DEPTH);
+			transform.position += new Vector3(0f,0f,WorldManager.SLICE_DEPTH);
 			HasMoved(this.gameObject,true);
+			//TODO  call function moved in WorldManager
 		}
 	}
 
 	void onPinchEnd(Sprinch pinch){
 		if (WorldManager.Instance.CanMove ((Vector2)transform.position, false)) {
-			transform.position += new Vector3 (0f, 0f, WorldManager.SLICE_DEPTH);
+			transform.position -= new Vector3 (0f, 0f, WorldManager.SLICE_DEPTH);
 			HasMoved (this.gameObject, false);
 		}
 	}
