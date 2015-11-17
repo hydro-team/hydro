@@ -23,14 +23,14 @@ namespace UnderwaterPhysics {
         }
 
         void GenerateFlow(Swipe swipe) {
-            flows.TryRequest(flow => {
-                var f = flow.GetComponent<Flow>();
-                f.duration = flowDuration;
-                f.strength = maxFlowStrength / (1f + swipe.Duration);
-                f.Enable(
+            flows.TryRequestComponent<Flow>(flow => {
+                flow.duration = flowDuration;
+                flow.strength = maxFlowStrength / (1f + swipe.Duration);
+                flow.Enable(
                     from: ScreenToWorld(swipe.Start),
                     to: ScreenToWorld(swipe.End),
-                    onExausted: () => flow.GetComponent<SharedObject>().ReleaseThis());
+                    onExausted: () => flow.GetComponent<SharedObject>().ReleaseThis()
+                );
             });
         }
 

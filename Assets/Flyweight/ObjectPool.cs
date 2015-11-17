@@ -42,10 +42,29 @@ namespace Flyweight {
             return obj;
         }
 
+        /// <summary>Returns a shared object's component, initialized with the given action.</summary>
+        public T RequestComponent<T>(Action<T> initializer) where T : MonoBehaviour {
+            if (pool.Count == 0) { throw new InvalidOperationException("Empty object pool"); }
+            var obj = pool.Pop();
+            var component = obj.GetComponent<T>();
+            if (component == null) {
+                Release(obj);
+                throw new InvalidOperationException("Requested shared object has not a component of type " + typeof(T));
+            }
+            initializer.Invoke(component);
+            return component;
+        }
+
         /// <summary>Returns a shared object, or null if no object is available.</summary>
         public GameObject TryRequest(Action<GameObject> initializer) {
             if (pool.Count == 0) { return null; }
             return Request(initializer);
+        }
+
+        /// <summary>Returns a shared object's component, or null if no object is available.</summary>
+        public T TryRequestComponent<T>(Action<T> initializer) where T : MonoBehaviour {
+            if (pool.Count == 0) { return null; }
+            return RequestComponent<T>(initializer);
         }
 
         /// <summary>Returns the given object to the shared pool.</summary>
