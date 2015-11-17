@@ -15,13 +15,26 @@ public class HydroController : MonoBehaviour {
 
 	public static event Action<GameObject,bool> HasMoved;
 
+	//set the gesture controller
+	public GameObject gestures;
+
 	void Awake(){
 		_instance = this;
+
+
+		//set the gesture controller
+		GesturesDispatcher dispatcher = gestures.GetComponent<GesturesDispatcher>();
+		// specific gesture type
+			//dispatcher.OnTapEnd += tap => DoSomethingWithEnded(tap);
+		dispatcher.OnPinchEnd += sprinch => onPinchEnd(sprinch);
+		dispatcher.OnSpreadEnd += sprinch => onSpreadEnd(sprinch);
+		// any gesture type
+			//dispatcher.OnGestureProgress += gesture => DoSomethingWithAnyOngoing(gesture);
 	}
 
 	public void Start(){
-		GesturesDispatcher.OnSpreadEnd += onSpreadEnd;
-		GesturesDispatcher.OnPinchEnd += onPinchEnd;
+		//GesturesDispatcher.OnSpreadEnd += onSpreadEnd;
+		//GesturesDispatcher.OnPinchEnd += onPinchEnd;
 
 	}
 
