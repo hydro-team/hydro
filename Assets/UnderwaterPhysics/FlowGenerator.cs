@@ -35,7 +35,7 @@ namespace UnderwaterPhysics {
         }
 
         Vector2 ScreenToWorld(Vector2 position) {
-            var cameraDistance = -camera.transform.position.z;
+            var cameraDistance = -camera.transform.localPosition.z;
             return camera.ScreenToWorldPoint(new Vector3(position.x, position.y, cameraDistance));
         }
     }
