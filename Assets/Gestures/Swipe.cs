@@ -12,9 +12,12 @@ namespace Gestures {
         float length;
         Vector2 start;
         Vector2 end;
+        float startTime;
 
-        public Swipe(Vector2 start) : base(GestureType.SWIPE) {
+        public Swipe(Vector2 start, float startTime) : base(GestureType.SWIPE) {
             this.start = start;
+            this.startTime = startTime;
+            EndTime = startTime;
         }
 
         /// <summary>Gets if the swipe counts as canceled.</summary>
@@ -35,5 +38,11 @@ namespace Gestures {
                 end = value;
             }
         }
+
+        public float StartTime { get { return startTime; } }
+
+        public float EndTime { get; set; }
+
+        public float Duration { get { return EndTime - startTime; } }
     }
 }

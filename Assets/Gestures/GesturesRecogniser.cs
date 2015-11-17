@@ -49,11 +49,13 @@ namespace Gestures {
         void Tap() {
             var tap = currentGesture as Tap;
             if (NoTouch()) {
+                tap.EndTime = Time.time;
                 NotifyGetsureRecognitionEnd();
                 return;
             }
             if (SingleTouch() && Vector2.Distance(Input.touches[0].position, tap.Position) > MAX_DISTANCE_BEFORE_SWIPE) {
-                currentGesture = new Swipe(tap.Position);
+                var swipe = new Swipe(tap.Position, tap.StartTime);
+                swipe.EndTime = tap.EndTime;
                 if (gestureState == GestureState.TAP) { NotifyGestureRecognitionStart(); }
                 gestureState = GestureState.SWIPE;
                 //Il caso limite in cui lo swipe viene riconosciuto nello stesso momento in cui finisce è escluso
@@ -77,11 +79,13 @@ namespace Gestures {
                 return;
             }
             if (NoTouch()) {
+                swipe.EndTime = Time.time;
                 NotifyGetsureRecognitionEnd();
                 return;
             }
             if (Input.touches[0].phase == TouchPhase.Ended) {
                 swipe.End = Input.touches[0].position;
+                swipe.EndTime = Time.time;
                 NotifyGetsureRecognitionEnd();
                 return;
             }

@@ -13,7 +13,7 @@ namespace Gestures {
         Vector2 dragStartPosition;
         float dragStartTime;
 
-        public event Action<Vector2> OnClick;
+        public event Action<Vector2, float> OnClick;
         public event Action<Vector2, Vector2, float> OnDrag;
         public event Action OnZoomIn;
         public event Action OnZoomOut;
@@ -29,7 +29,7 @@ namespace Gestures {
                 Vector2 dragEndPosition = Input.mousePosition;
                 var span = (dragEndPosition - dragStartPosition).magnitude;
                 if (span < MinDragSpan) {
-                    if (OnClick != null) { OnClick(dragStartPosition); }
+                    if (OnClick != null) { OnClick(dragStartPosition, Time.time - dragStartTime); }
                 } else {
                     if (OnDrag != null) { OnDrag(dragStartPosition, dragEndPosition, Time.time - dragStartTime); }
                 }

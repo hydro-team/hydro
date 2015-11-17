@@ -10,11 +10,11 @@ public class GesturesLogger : MonoBehaviour {
         var log = GetComponent<Text>();
         log.text = "";
         var dispatcher = gestures.GetComponent<GesturesDispatcher>();
-        dispatcher.OnTapStart += tap => log.text = "TAP START: position=" + tap.Position;
-        dispatcher.OnTapEnd += tap => log.text = "TAP END: position=" + tap.Position;
-        dispatcher.OnSwipeStart += swipe => log.text = "SWIPE START: " + swipe.Start + " -> " + swipe.End;
-        dispatcher.OnSwipeProgress += swipe => log.text = "SWIPE PROGRESS: " + swipe.Start + " -> " + swipe.End;
-        dispatcher.OnSwipeEnd += swipe => log.text = "SWIPE END: " + swipe.Start + " -> " + swipe.End;
+        dispatcher.OnTapStart += tap => log.text = "TAP START: position=" + tap.Position + ", duration=" + tap.Duration;
+        dispatcher.OnTapEnd += tap => log.text = "TAP END: position=" + tap.Position + ", duration=" + tap.Duration;
+        dispatcher.OnSwipeStart += swipe => log.text = "SWIPE START: " + swipe.Start + " -> " + swipe.End + " , duration=" + swipe.Duration;
+        dispatcher.OnSwipeProgress += swipe => log.text = "SWIPE PROGRESS: " + swipe.Start + " -> " + swipe.End + " , duration=" + swipe.Duration;
+        dispatcher.OnSwipeEnd += swipe => log.text = "SWIPE END: " + swipe.Start + " -> " + swipe.End + " , duration=" + swipe.Duration;
         dispatcher.OnSprinchStart += sprinch => log.text = "SPRINCH START: percentage=" + sprinch.Percentage + ", canceled=" + sprinch.Canceled;
         dispatcher.OnSprinchProgress += sprinch => log.text = "SPRINCH PROGRESS: percentage=" + sprinch.Percentage + ", canceled=" + sprinch.Canceled;
         dispatcher.OnPinchStart += pinch => log.text = "PINCH START: percentage=" + pinch.Percentage + ", canceled=" + pinch.Canceled;

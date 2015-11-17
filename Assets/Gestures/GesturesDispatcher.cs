@@ -23,8 +23,8 @@ namespace Gestures {
             var debug = !(Application.platform == RuntimePlatform.Android);
             if (debug) {
                 var emulator = gesturesEmulator.GetComponent<GesturesEmulator>();
-                emulator.OnClick += pos => NotifyGestureEnd(new Tap(pos, 0f));
-                emulator.OnDrag += (start, end, time) => NotifyGestureEnd(Swipe(start, end, time));
+                emulator.OnClick += (position, duration) => NotifyGestureEnd(Tap(position, duration));
+                emulator.OnDrag += (start, end, duration) => NotifyGestureEnd(Swipe(start, end, duration));
                 emulator.OnZoomIn += () => NotifyGestureEnd(Spread());
                 emulator.OnZoomOut += () => NotifyGestureEnd(Pinch());
             } else {
@@ -70,10 +70,16 @@ namespace Gestures {
             if (handler != null) { handler.Invoke(value); }
         }
 
+        Tap Tap(Vector2 position, float duration) {
+            var tap = new Tap(position, Time.time - duration);
+            tap.EndTime = Time.time;
+            return tap;
+        }
+
         Swipe Swipe(Vector2 start, Vector2 end, float time) {
-            var swipe = new Swipe(start);
+            var swipe = new Swipe(start, Time.time - time);
             swipe.End = end;
-            // TODO: swipe.time = time
+            swipe.EndTime = Time.time;
             return swipe;
         }
 
