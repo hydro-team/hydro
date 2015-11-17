@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System;
 
-namespace Physics {
+namespace UnderwaterPhysics {
 
     public class Flow : MonoBehaviour {
 
