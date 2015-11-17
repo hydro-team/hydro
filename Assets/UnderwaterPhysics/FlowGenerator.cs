@@ -3,7 +3,7 @@ using System;
 using Gestures;
 using Flyweight;
 
-namespace Physics {
+namespace UnderwaterPhysics {
 
     public class FlowGenerator : MonoBehaviour {
 
@@ -22,7 +22,7 @@ namespace Physics {
 
         void GenerateFlow(Vector2 start, Vector2 end) {
             var got = flows.TryRequest(flow => {
-                flow.GetComponent<Physics.Flow>().Enable(
+                flow.GetComponent<UnderwaterPhysics.Flow>().Enable(
                     from: ScreenToWorld(start),
                     to: ScreenToWorld(end),
                     onExausted: () => flow.GetComponent<SharedObject>().ReleaseThis());
