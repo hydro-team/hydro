@@ -20,8 +20,8 @@ namespace UnderwaterPhysics {
         public void Enable(Vector2 from, Vector2 to, Action onExausted) {
             gameObject.SetActive(true);
             var direction = to - from;
-            transform.position = (from + to) / 2f;
-            transform.rotation = Quaternion.FromToRotation(Vector2.up, direction);
+            transform.localPosition = (from + to) / 2f;
+            transform.localRotation = Quaternion.FromToRotation(Vector2.up, direction);
             transform.localScale = new Vector2(transform.localScale.x, direction.magnitude);
             remainingTime = duration;
             this.onExausted = onExausted;
