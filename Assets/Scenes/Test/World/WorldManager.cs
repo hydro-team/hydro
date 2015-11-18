@@ -99,10 +99,13 @@ public class WorldManager : MonoBehaviour {
 
 	void moved(GameObject character, bool deep){
 		//TODO
+		Debug.Log(character.layer + " " + slices[_currentSlice].layer + " " + _currentSlice);
+
 		Physics.IgnoreLayerCollision (character.layer,slices[_currentSlice].layer,true);
 		CurrentSlice = (deep? -1 :+1)+CurrentSlice;
 		Physics.IgnoreLayerCollision (character.layer,slices[_currentSlice].layer,false);
 
+		Debug.Log(character.layer + " " + slices[_currentSlice].layer + " " + _currentSlice);
 
 	}
 }

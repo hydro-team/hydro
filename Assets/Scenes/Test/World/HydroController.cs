@@ -44,6 +44,7 @@ public class HydroController : MonoBehaviour {
 			transform.position += new Vector3(0f,0f,WorldManager.SLICE_DEPTH);
 			HasMoved(this.gameObject,true);
 			//TODO  call function moved in WorldManager
+			//WorldManager.Instance.moved(this.gameObject, true);
 		}
 	}
 
@@ -51,6 +52,7 @@ public class HydroController : MonoBehaviour {
 		if (WorldManager.Instance.CanMove ((Vector2)transform.position, false)) {
 			transform.position -= new Vector3 (0f, 0f, WorldManager.SLICE_DEPTH);
 			HasMoved (this.gameObject, false);
+			//WorldManager.Instance.moved(this.gameObject, false);
 		}
 	}
 	
