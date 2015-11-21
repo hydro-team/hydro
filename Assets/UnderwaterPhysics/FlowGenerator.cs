@@ -2,6 +2,7 @@
 using System;
 using Gestures;
 using Flyweight;
+using Extensions;
 
 namespace UnderwaterPhysics {
 
@@ -12,7 +13,7 @@ namespace UnderwaterPhysics {
         public GameObject flowPool;
         public new Camera camera;
         public GesturesDispatcher gestures;
-		public WorldManager world;
+        public WorldManager world;
 
         ObjectPool flows;
 
@@ -27,18 +28,14 @@ namespace UnderwaterPhysics {
                 flow.duration = flowDuration;
                 flow.strength = maxFlowStrength / (1f + swipe.Duration);
                 flow.gameObject.layer = world.CurrentSlice.layer;
+                var z = world.CurrentSlice.transform.position.z;
                 flow.Enable(
-                    from: ScreenToWorld(swipe.Start),
-                    to: ScreenToWorld(swipe.End),
+                    from: camera.ScreenToWorldPoint(swipe.Start, z),
+                    to: camera.ScreenToWorldPoint(swipe.End, z),
                     z: world.CurrentSlice.transform.position.z,
                     onExausted: () => flow.GetComponent<SharedObject>().ReleaseThis()
                 );
             });
-        }
-
-        Vector2 ScreenToWorld(Vector2 position) {
-            var cameraDistance = Math.Abs(world.CurrentSlice.transform.position.z - camera.transform.position.z);
-            return camera.ScreenToWorldPoint(new Vector3(position.x, position.y, cameraDistance));
         }
     }
 }
