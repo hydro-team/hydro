@@ -3,6 +3,7 @@ using System.Collections;
 
 public class WorldManager : MonoBehaviour {
 
+	public HydroController characterController;
 	public GameObject[] slices;
 	public static float MAX_SLICE_X_DIMENSION;
 	public static float SLICE_DEPTH = 5f;
@@ -56,6 +57,11 @@ public class WorldManager : MonoBehaviour {
 		AlignSlices ();
 		HydroController.Instance.gameObject.transform.position = new Vector3(startPosition.x,startPosition.y,(float)startSlice * -SLICE_DEPTH);
 		HydroController.HasMoved += moved;
+		for (int i =0; i<slices.Length; i++) {
+			if (i!=startSlice){
+				Physics.IgnoreLayerCollision (characterController.gameObject.layer,slices[_currentSlice].layer,true);
+			}
+		}
 	}
 
 	public bool CanMove(Vector2 position,bool deep){
