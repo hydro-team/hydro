@@ -17,11 +17,11 @@ namespace UnderwaterPhysics {
             }
         }
 
-        public void Enable(Vector2 from, Vector2 to, Action onExausted) {
+        public void Enable(Vector2 from, Vector2 to, float z = 0, Action onExausted = null) {
             gameObject.SetActive(true);
             var direction = to - from;
-            transform.localPosition = (from + to) / 2f;
-            transform.localRotation = Quaternion.FromToRotation(Vector2.up, direction);
+            transform.position = (Vector3) ((from + to) / 2f) + (Vector3.forward * z);
+            transform.rotation = Quaternion.FromToRotation(Vector2.up, direction);
             transform.localScale = new Vector2(transform.localScale.x, direction.magnitude);
             remainingTime = duration;
             this.onExausted = onExausted;

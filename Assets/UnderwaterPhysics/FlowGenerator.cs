@@ -9,33 +9,31 @@ namespace UnderwaterPhysics {
 
         public float maxFlowStrength;
         public float flowDuration;
-//        public GameObject flowContainer;
         public GameObject flowPool;
         public new Camera camera;
-        public GameObject gestures;
+        public GesturesDispatcher gestures;
 		public WorldManager world;
 
         ObjectPool flows;
 
         void Awake() {
             if (flowPool.GetComponent<ObjectPool>() == null) { throw new OperationCanceledException("Flow generator requires an object pool containing flow objects"); }
-            if (gestures.GetComponent<GesturesDispatcher>() == null) { throw new OperationCanceledException("Flow generator requires a GestureDispatcher"); }
             flows = flowPool.GetComponent<ObjectPool>();
-            gestures.GetComponent<GesturesDispatcher>().OnSwipeEnd += swipe => GenerateFlow(swipe);
+            gestures.OnSwipeEnd += GenerateFlow;
         }
 
         void GenerateFlow(Swipe swipe) {
             var sharedFlow = flows.TryRequestComponent<Flow>(flow => {
-                flow.transform.parent = world.CurrentSlice.transform;
                 flow.duration = flowDuration;
                 flow.strength = maxFlowStrength / (1f + swipe.Duration);
+                flow.gameObject.layer = world.CurrentSlice.layer;
                 flow.Enable(
                     from: ScreenToWorld(swipe.Start),
                     to: ScreenToWorld(swipe.End),
+                    z: world.CurrentSlice.transform.position.z,
                     onExausted: () => flow.GetComponent<SharedObject>().ReleaseThis()
                 );
             });
-			if(sharedFlow!=null)sharedFlow.gameObject.layer= world.CurrentSlice.layer;
         }
 
         Vector2 ScreenToWorld(Vector2 position) {
