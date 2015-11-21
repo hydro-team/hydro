@@ -13,7 +13,7 @@ public class HydroController : MonoBehaviour {
 		}
 	}
 
-	public static event Action<GameObject,bool> HasMoved;
+	public static event Action<bool> HasMoved;
 
 	//set the gesture controller
 	public GameObject gestures;
@@ -42,7 +42,7 @@ public class HydroController : MonoBehaviour {
 		if(WorldManager.Instance.CanMove((Vector2)transform.position,true)){
 			//FIXME
 			transform.position += new Vector3(0f,0f,WorldManager.SLICE_DEPTH);
-			HasMoved(this.gameObject,true);
+			HasMoved(true);
 			//TODO  call function moved in WorldManager
 			//WorldManager.Instance.moved(this.gameObject, true);
 		}
@@ -51,7 +51,7 @@ public class HydroController : MonoBehaviour {
 	void onPinchEnd(Sprinch pinch){
 		if (WorldManager.Instance.CanMove ((Vector2)transform.position, false)) {
 			transform.position -= new Vector3 (0f, 0f, WorldManager.SLICE_DEPTH);
-			HasMoved (this.gameObject, false);
+			HasMoved ( false);
 			//WorldManager.Instance.moved(this.gameObject, false);
 		}
 	}

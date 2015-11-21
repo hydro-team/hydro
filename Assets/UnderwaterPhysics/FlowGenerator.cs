@@ -9,10 +9,11 @@ namespace UnderwaterPhysics {
 
         public float maxFlowStrength;
         public float flowDuration;
-        public GameObject flowContainer;
+//        public GameObject flowContainer;
         public GameObject flowPool;
         public new Camera camera;
         public GameObject gestures;
+		public WorldManager world;
 
         ObjectPool flows;
 
@@ -25,7 +26,7 @@ namespace UnderwaterPhysics {
 
         void GenerateFlow(Swipe swipe) {
             var sharedFlow = flows.TryRequestComponent<Flow>(flow => {
-                flow.transform.parent = flowContainer.transform;
+                flow.transform.parent = world.CurrentSlice.transform;
                 flow.duration = flowDuration;
                 flow.strength = maxFlowStrength / (1f + swipe.Duration);
                 flow.Enable(
@@ -34,10 +35,11 @@ namespace UnderwaterPhysics {
                     onExausted: () => flow.GetComponent<SharedObject>().ReleaseThis()
                 );
             });
+			if(sharedFlow!=null)sharedFlow.gameObject.layer= world.CurrentSlice.layer;
         }
 
         Vector2 ScreenToWorld(Vector2 position) {
-            var cameraDistance = flowContainer.transform.position.z - camera.transform.position.z;
+            var cameraDistance = Math.Abs(world.CurrentSlice.transform.position.z - camera.transform.position.z);
             return camera.ScreenToWorldPoint(new Vector3(position.x, position.y, cameraDistance));
         }
     }

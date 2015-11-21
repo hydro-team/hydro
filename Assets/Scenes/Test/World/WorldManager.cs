@@ -19,26 +19,32 @@ public class WorldManager : MonoBehaviour {
 
 
 
-	static int _currentSlice;
+	static int _currentSliceIndex;
 
-	public int CurrentSlice {
+	public int CurrentSliceIndex {
 		get{
-			return _currentSlice;
+			return _currentSliceIndex;
 		}
 		set{
-			_currentSlice = value;
+			_currentSliceIndex = value;
 
 			if (value <0){
-				_currentSlice = 0;
+				_currentSliceIndex = 0;
 				return;
 			}
 			if(value >= slices.Length){
-				_currentSlice = slices.Length-1;
+				_currentSliceIndex = slices.Length-1;
 				return;
 			}
-			_currentSlice = value;
+			_currentSliceIndex = value;
 		}
 
+	}
+
+	public GameObject CurrentSlice{
+		get{
+			return slices[_currentSliceIndex];
+		}
 	}
 
 	void Awake(){
@@ -59,14 +65,14 @@ public class WorldManager : MonoBehaviour {
 		HydroController.HasMoved += moved;
 		for (int i =0; i<slices.Length; i++) {
 			if (i!=startSlice){
-				Physics.IgnoreLayerCollision (characterController.gameObject.layer,slices[_currentSlice].layer,true);
+				Physics.IgnoreLayerCollision (characterController.gameObject.layer,slices[_currentSliceIndex].layer,true);
 			}
 		}
 	}
 
 	public bool CanMove(Vector2 position,bool deep){
-		Debug.Log ("Called can move " + CurrentSlice + deep);
-		int layerindex=_currentSlice;
+		Debug.Log ("Called can move " + CurrentSliceIndex + deep);
+		int layerindex=_currentSliceIndex;
 		if (deep && layerindex - 1 > -1) {
 			layerindex -=1;
 		}
@@ -75,7 +81,7 @@ public class WorldManager : MonoBehaviour {
 		}
 
 
-		if((_currentSlice == 0 && deep) || (_currentSlice == slices.Length-1 && !deep)){
+		if((_currentSliceIndex == 0 && deep) || (_currentSliceIndex == slices.Length-1 && !deep)){
 			//Debug.Log ("NON MUOVERTI" + (_currentSlice == 0 && deep) + " " + (_currentSlice == slices.Length-1 && !deep));
 			return false;
 		}else{
@@ -103,15 +109,15 @@ public class WorldManager : MonoBehaviour {
 		
 	}
 
-	void moved(GameObject character, bool deep){
+	void moved( bool deep){
 		//TODO
-		Debug.Log(character.layer + " " + slices[_currentSlice].layer + " " + _currentSlice);
+		Debug.Log(characterController.gameObject.layer + " " + slices[_currentSliceIndex].layer + " " + _currentSliceIndex);
 
-		Physics.IgnoreLayerCollision (character.layer,slices[_currentSlice].layer,true);
-		CurrentSlice = (deep? -1 :+1)+CurrentSlice;
-		Physics.IgnoreLayerCollision (character.layer,slices[_currentSlice].layer,false);
+		Physics.IgnoreLayerCollision (characterController.gameObject.layer,slices[_currentSliceIndex].layer,true);
+		CurrentSliceIndex = (deep? -1 :+1)+CurrentSliceIndex;
+		Physics.IgnoreLayerCollision (characterController.gameObject.layer,slices[_currentSliceIndex].layer,false);
 
-		Debug.Log(character.layer + " " + slices[_currentSlice].layer + " " + _currentSlice);
+		Debug.Log(characterController.gameObject.layer + " " + slices[_currentSliceIndex].layer + " " + _currentSliceIndex);
 
 	}
 }
