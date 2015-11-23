@@ -65,7 +65,7 @@ public class WorldManager : MonoBehaviour {
 		HydroController.HasMoved += moved;
 		for (int i =0; i<slices.Length; i++) {
 			if (i!=startSlice){
-				Physics.IgnoreLayerCollision (characterController.gameObject.layer,slices[_currentSliceIndex].layer,true);
+				Physics2D.IgnoreLayerCollision (characterController.gameObject.layer,slices[_currentSliceIndex].layer,true);
 			}
 		}
 	}
@@ -87,11 +87,11 @@ public class WorldManager : MonoBehaviour {
 		}else{
 			RaycastHit2D hit;
 			if(deep){
-				hit = Physics2D.Raycast(position, Vector2.zero, SLICE_DEPTH + 1, layerindex);
+				hit = Physics2D.Raycast(position, Vector2.zero, SLICE_DEPTH + 1, slices[layerindex].layer);
 				Debug.Log ("Ho colpito in avanti");
 				//Debug.DrawRay(position, Vector3.forward*(SLICE_DEPTH + 1), Color.blue);
 			}else{
-				hit = Physics2D.Raycast(position, -Vector2.zero, SLICE_DEPTH + 1, layerindex);
+				hit = Physics2D.Raycast(position, -Vector2.zero, SLICE_DEPTH + 1, slices[layerindex].layer);
 				Debug.Log("Ho colpto indietro");
 				//Debug.DrawRay(position, Vector3.back*(SLICE_DEPTH + 1), Color.red);
 			}
@@ -113,9 +113,9 @@ public class WorldManager : MonoBehaviour {
 		//TODO
 		Debug.Log(characterController.gameObject.layer + " " + slices[_currentSliceIndex].layer + " " + _currentSliceIndex);
 
-		Physics.IgnoreLayerCollision (characterController.gameObject.layer,slices[_currentSliceIndex].layer,true);
+		Physics2D.IgnoreLayerCollision (characterController.gameObject.layer,slices[_currentSliceIndex].layer,true);
 		CurrentSliceIndex = (deep? -1 :+1)+CurrentSliceIndex;
-		Physics.IgnoreLayerCollision (characterController.gameObject.layer,slices[_currentSliceIndex].layer,false);
+        Physics2D.IgnoreLayerCollision (characterController.gameObject.layer,slices[_currentSliceIndex].layer,false);
 
 		Debug.Log(characterController.gameObject.layer + " " + slices[_currentSliceIndex].layer + " " + _currentSliceIndex);
 
