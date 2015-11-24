@@ -32,7 +32,7 @@ namespace UnderwaterPhysics {
                 flow.Enable(
                     from: camera.ScreenToWorldPoint(swipe.Start, z),
                     to: camera.ScreenToWorldPoint(swipe.End, z),
-                    z: world.CurrentSlice.transform.position.z,
+                    z: world.CurrentSliceZ,
                     onExausted: () => flow.GetComponent<SharedObject>().ReleaseThis()
                 );
             });

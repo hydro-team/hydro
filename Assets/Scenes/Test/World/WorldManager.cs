@@ -1,123 +1,89 @@
 ﻿using UnityEngine;
-using System.Collections;
+using Gestures;
 
 public class WorldManager : MonoBehaviour {
 
-	public HydroController characterController;
-	public GameObject[] slices;
-	public static float MAX_SLICE_X_DIMENSION;
-	public static float SLICE_DEPTH = 5f;
-	public Vector2 startPosition;
-	public int startSlice;
+    public const float SLICE_DEPTH = 5f;
 
-	static WorldManager _instance;
-	public static WorldManager Instance{
-		get{
-			return _instance;
-		}
-	}
+    public GameObject character;
+    public GesturesDispatcher gestures;
+    public GameObject[] slices;
+    public Vector2 initialPosition;
+    public int initialSlice;
 
+    static int currentSliceIndex;
 
+    public int CurrentSliceIndex {
+        get { return currentSliceIndex; }
+        set {
+            currentSliceIndex = value;
+            if (value < 0) { currentSliceIndex = 0; }
+            if (value >= slices.Length) { currentSliceIndex = slices.Length - 1; }
+        }
+    }
 
-	static int _currentSliceIndex;
+    public GameObject CurrentSlice {
+        get { return slices[currentSliceIndex]; }
+    }
 
-	public int CurrentSliceIndex {
-		get{
-			return _currentSliceIndex;
-		}
-		set{
-			_currentSliceIndex = value;
+    public float CurrentSliceZ {
+        get { return currentSliceIndex * -SLICE_DEPTH; }
+    }
 
-			if (value <0){
-				_currentSliceIndex = 0;
-				return;
-			}
-			if(value >= slices.Length){
-				_currentSliceIndex = slices.Length-1;
-				return;
-			}
-			_currentSliceIndex = value;
-		}
+    void Awake() {
+        currentSliceIndex = initialSlice;
+        AlignSlices();
+        character.transform.position = new Vector3(initialPosition.x, initialPosition.y, CurrentSliceZ);
+        for (int i = 0; i < slices.Length; i++) {
+            if (i != initialSlice) {
+                Physics2D.IgnoreLayerCollision(character.layer, slices[i].layer, true);
+            }
+        }
+        gestures.OnPinchEnd += MoveNear;
+        gestures.OnSpreadEnd += MoveFar;
+    }
 
-	}
+    void AlignSlices() {
+        for (int i = 0; i < slices.Length; i++) {
+            slices[i].transform.position = Vector3.back * (i * SLICE_DEPTH);
+        }
+    }
 
-	public GameObject CurrentSlice{
-		get{
-			return slices[_currentSliceIndex];
-		}
-	}
+    bool CanMoveFar() {
+        if (currentSliceIndex == 0) { return false; }
+        var slice = slices[currentSliceIndex - 1];
+        var radius = character.GetComponent<CircleCollider2D>().radius * character.transform.localScale.x;
+        var layerMask = 1 << slice.layer;
+        var collider = Physics2D.OverlapCircle((Vector2)character.transform.position, radius, layerMask);
+        return collider == null;
+    }
 
-	void Awake(){
-		_instance = this;
-	}
+    bool CanMoveNear() {
+        if (currentSliceIndex == slices.Length - 1) { return false; }
+        var slice = slices[currentSliceIndex + 1];
+        var radius = character.GetComponent<CircleCollider2D>().radius * character.transform.localScale.x;
+        var layerMask = 1 << slice.layer;
+        var collider = Physics2D.OverlapCircle((Vector2)character.transform.position, radius, layerMask);
+        return collider == null;
+    }
 
-	public void AlignSlices(){
-		for (int i=0; i<slices.Length; i++) {
-			slices[i].transform.position = new Vector3(0f,0f,(float)i * -SLICE_DEPTH);
-		}
-	}
+    void MoveFar(Sprinch spread) {
+        if (CanMoveFar()) {
+            Physics2D.IgnoreLayerCollision(character.layer, CurrentSlice.layer, true);
+            CurrentSliceIndex -= 1;
+            Physics2D.IgnoreLayerCollision(character.layer, CurrentSlice.layer, false);
+            var position = character.transform.position;
+            character.transform.position = new Vector3(position.x, position.y, CurrentSliceZ);
+        }
+    }
 
-	// Use this for initialization
-	void Start () {
-		//FIXME
-		AlignSlices ();
-		HydroController.Instance.gameObject.transform.position = new Vector3(startPosition.x,startPosition.y,(float)startSlice * -SLICE_DEPTH);
-		HydroController.HasMoved += moved;
-		for (int i =0; i<slices.Length; i++) {
-			if (i!=startSlice){
-				Physics2D.IgnoreLayerCollision (characterController.gameObject.layer,slices[_currentSliceIndex].layer,true);
-			}
-		}
-	}
-
-	public bool CanMove(Vector2 position,bool deep){
-		Debug.Log ("Called can move " + CurrentSliceIndex + deep);
-		int layerindex=_currentSliceIndex;
-		if (deep && layerindex - 1 > -1) {
-			layerindex -=1;
-		}
-		if (!deep && layerindex + 1 < slices.Length) {
-			layerindex+=1;
-		}
-
-
-		if((_currentSliceIndex == 0 && deep) || (_currentSliceIndex == slices.Length-1 && !deep)){
-			//Debug.Log ("NON MUOVERTI" + (_currentSlice == 0 && deep) + " " + (_currentSlice == slices.Length-1 && !deep));
-			return false;
-		}else{
-			RaycastHit2D hit;
-			if(deep){
-				hit = Physics2D.Raycast(position, Vector2.zero, SLICE_DEPTH + 1, slices[layerindex].layer);
-				Debug.Log ("Ho colpito in avanti");
-				//Debug.DrawRay(position, Vector3.forward*(SLICE_DEPTH + 1), Color.blue);
-			}else{
-				hit = Physics2D.Raycast(position, -Vector2.zero, SLICE_DEPTH + 1, slices[layerindex].layer);
-				Debug.Log("Ho colpto indietro");
-				//Debug.DrawRay(position, Vector3.back*(SLICE_DEPTH + 1), Color.red);
-			}
-			if(hit.collider == null){
-				return true;
-			}else{
-				Debug.Log ("Ho colpito " + hit.collider.name);
-				return false;
-			}
-		}
-	}
-
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
-	void moved( bool deep){
-		//TODO
-		Debug.Log(characterController.gameObject.layer + " " + slices[_currentSliceIndex].layer + " " + _currentSliceIndex);
-
-		Physics2D.IgnoreLayerCollision (characterController.gameObject.layer,slices[_currentSliceIndex].layer,true);
-		CurrentSliceIndex = (deep? -1 :+1)+CurrentSliceIndex;
-        Physics2D.IgnoreLayerCollision (characterController.gameObject.layer,slices[_currentSliceIndex].layer,false);
-
-		Debug.Log(characterController.gameObject.layer + " " + slices[_currentSliceIndex].layer + " " + _currentSliceIndex);
-
-	}
+    void MoveNear(Sprinch pinch) {
+        if (CanMoveNear()) {
+            Physics2D.IgnoreLayerCollision(character.layer, CurrentSlice.layer, true);
+            CurrentSliceIndex += 1;
+            Physics2D.IgnoreLayerCollision(character.layer, CurrentSlice.layer, false);
+            var position = character.transform.position;
+            character.transform.position = new Vector3(position.x, position.y, CurrentSliceZ);
+        }
+    }
 }
