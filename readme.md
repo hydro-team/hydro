@@ -1,5 +1,11 @@
 # Hydro
 
+## License
+
+Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International
+
+![License CC BY-NC-ND 4.0](http://mirrors.creativecommons.org/presskit/buttons/88x31/png/by-nc-nd.png "License CC BY-NC-ND 4.0")
+
 ## Vision
 
 Hydro is a relaxing exploration-puzzle game where the player will be absorbed in a mystichal world under the water.
