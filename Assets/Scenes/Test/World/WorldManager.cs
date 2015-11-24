@@ -41,6 +41,10 @@ public class WorldManager : MonoBehaviour {
         }
         gestures.OnPinchEnd += MoveNear;
         gestures.OnSpreadEnd += MoveFar;
+        FMOD_StudioSystem.instance.GetEvent("event:/ambientali/background").start();
+        var swipeSound = FMOD_StudioSystem.instance.GetEvent("event:/ambientali/swype");
+        gestures.OnSwipeStart += swipe => swipeSound.start();
+        gestures.OnSwipeEnd += swipe => swipeSound.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
     }
 
     void AlignSlices() {
@@ -74,6 +78,9 @@ public class WorldManager : MonoBehaviour {
             Physics2D.IgnoreLayerCollision(character.layer, CurrentSlice.layer, false);
             var position = character.transform.position;
             character.transform.position = new Vector3(position.x, position.y, CurrentSliceZ);
+            FMOD_StudioSystem.instance.GetEvent("event:/ambientali/sliceMove").start();
+        } else {
+            FMOD_StudioSystem.instance.GetEvent("event:/ambientali/limitHit").start();
         }
     }
 
@@ -84,6 +91,9 @@ public class WorldManager : MonoBehaviour {
             Physics2D.IgnoreLayerCollision(character.layer, CurrentSlice.layer, false);
             var position = character.transform.position;
             character.transform.position = new Vector3(position.x, position.y, CurrentSliceZ);
+            FMOD_StudioSystem.instance.GetEvent("event:/ambientali/sliceMove").start();
+        } else {
+            FMOD_StudioSystem.instance.GetEvent("event:/ambientali/limitHit").start();
         }
     }
 }
