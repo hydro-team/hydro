@@ -9,8 +9,8 @@ namespace Gestures {
     /// </summary>
     public class GesturesDispatcher : MonoBehaviour {
 
-        public GameObject gesturesRecognizer;
-        public GameObject gesturesEmulator;
+        public GesturesRecogniser gesturesRecognizer;
+        public GesturesEmulator gesturesEmulator;
 
         public event Action<Gesture> OnGestureStart, OnGestureProgress, OnGestureEnd;
         public event Action<Tap> OnTapStart, OnTapEnd;
@@ -22,16 +22,14 @@ namespace Gestures {
         void Awake() {
             var debug = !(Application.platform == RuntimePlatform.Android);
             if (debug) {
-                var emulator = gesturesEmulator.GetComponent<GesturesEmulator>();
-                emulator.OnClick += (position, duration) => NotifyGestureEnd(Tap(position, duration));
-                emulator.OnDrag += (start, end, duration) => NotifyGestureEnd(Swipe(start, end, duration));
-                emulator.OnZoomIn += () => NotifyGestureEnd(Spread());
-                emulator.OnZoomOut += () => NotifyGestureEnd(Pinch());
+                gesturesEmulator.OnClick += (position, duration) => NotifyGestureEnd(Tap(position, duration));
+                gesturesEmulator.OnDrag += (start, end, duration) => NotifyGestureEnd(Swipe(start, end, duration));
+                gesturesEmulator.OnZoomIn += () => NotifyGestureEnd(Spread());
+                gesturesEmulator.OnZoomOut += () => NotifyGestureEnd(Pinch());
             } else {
-                var recogniser = gesturesRecognizer.GetComponent<GesturesRecogniser>();
-                recogniser.GestureStart += NotifyGestureStart;
-                recogniser.GestureProgress += NotifyGestureProgress;
-                recogniser.GestureEnd += NotifyGestureEnd;
+                gesturesRecognizer.GestureStart += NotifyGestureStart;
+                gesturesRecognizer.GestureProgress += NotifyGestureProgress;
+                gesturesRecognizer.GestureEnd += NotifyGestureEnd;
             }
         }
 

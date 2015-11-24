@@ -10,16 +10,14 @@ namespace UnderwaterPhysics {
 
         public float maxFlowStrength;
         public float flowDuration;
-        public GameObject flowPool;
+        public ObjectPool flows;
         public new Camera camera;
         public GesturesDispatcher gestures;
         public WorldManager world;
 
-        ObjectPool flows;
-
         void Awake() {
-            if (flowPool.GetComponent<ObjectPool>() == null) { throw new OperationCanceledException("Flow generator requires an object pool containing flow objects"); }
-            flows = flowPool.GetComponent<ObjectPool>();
+            if (maxFlowStrength <= 0) { Debug.LogWarning("FlowGenerator: max flow strength should be a positive value, but it is set to " + maxFlowStrength); }
+            if (flowDuration <= 0) { Debug.LogWarning("FlowGenerator: flow duration should be a positive value, but it is set to " + flowDuration); }
             gestures.OnSwipeEnd += GenerateFlow;
         }
 
