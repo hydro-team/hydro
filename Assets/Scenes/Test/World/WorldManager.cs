@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
+using System;
 using Gestures;
+using Sound;
 
 public class WorldManager : MonoBehaviour {
 
@@ -7,11 +9,14 @@ public class WorldManager : MonoBehaviour {
 
     public GameObject character;
     public GesturesDispatcher gestures;
+    public GameObject soundFacade;
     public GameObject[] slices;
     public Vector2 initialPosition;
     public int initialSlice;
 
     static int currentSliceIndex;
+
+    SoundFacade sounds;
 
     public int CurrentSliceIndex {
         get { return currentSliceIndex; }
@@ -31,6 +36,8 @@ public class WorldManager : MonoBehaviour {
     }
 
     void Awake() {
+        sounds = soundFacade.GetComponent<SoundFacade>();
+        if (sounds == null) { throw new InvalidOperationException("Missing SoundFacade component game object assigned to soundFacade"); }
         currentSliceIndex = initialSlice;
         AlignSlices();
         character.transform.position = new Vector3(initialPosition.x, initialPosition.y, CurrentSliceZ);
@@ -41,10 +48,10 @@ public class WorldManager : MonoBehaviour {
         }
         gestures.OnPinchEnd += MoveNear;
         gestures.OnSpreadEnd += MoveFar;
-        FMOD_StudioSystem.instance.GetEvent("event:/ambientali/background").start();
-        var swipeSound = FMOD_StudioSystem.instance.GetEvent("event:/ambientali/swype");
-        gestures.OnSwipeStart += swipe => swipeSound.start();
-        gestures.OnSwipeEnd += swipe => swipeSound.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        var music = sounds.Play("/ambientali/background");
+        var swipeSound = sounds["/ambientali/swype"];
+        gestures.OnSwipeStart += swipe => swipeSound.Play();
+        gestures.OnSwipeEnd += swipe => swipeSound.Stop();
     }
 
     void AlignSlices() {
@@ -78,9 +85,9 @@ public class WorldManager : MonoBehaviour {
             Physics2D.IgnoreLayerCollision(character.layer, CurrentSlice.layer, false);
             var position = character.transform.position;
             character.transform.position = new Vector3(position.x, position.y, CurrentSliceZ);
-            FMOD_StudioSystem.instance.GetEvent("event:/ambientali/sliceMove").start();
+            sounds.Play("/ambientali/sliceMove");
         } else {
-            FMOD_StudioSystem.instance.GetEvent("event:/ambientali/limitHit").start();
+            sounds.Play("/ambientali/limitHit");
         }
     }
 
@@ -91,9 +98,9 @@ public class WorldManager : MonoBehaviour {
             Physics2D.IgnoreLayerCollision(character.layer, CurrentSlice.layer, false);
             var position = character.transform.position;
             character.transform.position = new Vector3(position.x, position.y, CurrentSliceZ);
-            FMOD_StudioSystem.instance.GetEvent("event:/ambientali/sliceMove").start();
+            sounds.Play("/ambientali/sliceMove");
         } else {
-            FMOD_StudioSystem.instance.GetEvent("event:/ambientali/limitHit").start();
+            sounds.Play("/ambientali/limitHit");
         }
     }
 }
