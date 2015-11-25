@@ -3,7 +3,13 @@ using System.Collections;
 
 public class BreackableRock : MonoBehaviour {
 
+	/// <summary>
+	/// duration of the rock
+	/// </summary>
 	public  float life;
+	/// <summary>
+	/// corrective coefficient depending by the resistance of the mateial (t be trigger manually)
+	/// </summary>
 	public float coefficient;
 	
 	// Use this for initialization
@@ -11,7 +17,9 @@ public class BreackableRock : MonoBehaviour {
 		life = 10f;
 	}
 	
-	// Update is called once per frame
+	/// <summary>
+	/// This method perform the task of cheching that the object is still active.
+	/// </summary>
 	void Update () {
 		
 		if(life <= 0){
@@ -22,7 +30,17 @@ public class BreackableRock : MonoBehaviour {
 			Destroy(this.gameObject);
 		}
 	}
-	
+
+	/// <summary>
+	/// This method perform the task of computing the damage dealt by the impact of a movable object 
+	/// and reduce the life of this object.
+	/// </summary>
+	/// <param name="collided"> 
+	/// the collision2D component of the object that hit this object
+	/// </param>
+	/// <returns>
+	/// 
+	/// </returns>
 	public void OnCollisionEnter2D(Collision2D collided){
 		Debug.Log ("BreackableRock"+collided.collider.name);
 		//compute the impact force
