@@ -95,7 +95,7 @@ public class DestructibleRockManager : MonoBehaviour {
 				}
 				rockPool[i].transform.position = positions[slice, i];
 			}
-			rockPool[i].GetComponent<SmallRock>().setLife(lives[currentslice, i]);
+//			rockPool[i].GetComponent<SmallRock>().setLife(lives[currentslice, i]);
 		}
 		for(int i = elementcount; i < rockPool.Length; i++){
 			if(rockPool[i].GetComponent<HingeJoint2D>() != null){
@@ -103,7 +103,7 @@ public class DestructibleRockManager : MonoBehaviour {
 			}
 			rockPool[i].SetActive(false);
 			rockPool[i].transform.position = pit;
-			rockPool[i].GetComponent<SmallRock>().setLife(lives[currentslice, i]);
+		//	rockPool[i].GetComponent<SmallRock>().setLife(lives[currentslice, i]);
 		}
 	}
 
@@ -139,7 +139,7 @@ public class DestructibleRockManager : MonoBehaviour {
 		Debug.Log ("respawned " + i + " " + slice + "life " + lives[slice,i]);
 		lives[slice, i] = 5f;
 		active[slice, i] = true;
-		rockPool[i].GetComponent<SmallRock>().setLife(5);
+		//rockPool[i].GetComponent<SmallRock>().setLife(5);
 		rockPool[i].SetActive(true);
 
 	}
