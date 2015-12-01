@@ -57,6 +57,7 @@ public class WorldManager : MonoBehaviour {
     void AlignSlices() {
         for (int i = 0; i < slices.Length; i++) {
             slices[i].transform.position = Vector3.back * (i * SLICE_DEPTH);
+
         }
     }
 
