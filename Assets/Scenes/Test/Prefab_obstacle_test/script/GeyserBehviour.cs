@@ -23,6 +23,8 @@ public class GeyserBehviour : MonoBehaviour {
 	/// </summary>
 	private bool active;
 
+	public ParticleSystem GeyserParticle;
+
 
 	void Start () {
 		active = true;
@@ -38,10 +40,12 @@ public class GeyserBehviour : MonoBehaviour {
 		}else{
 			if(active){
 				active = false;
+				GeyserParticle.emissionRate = 0;
 				curtime = restTime;
 				gameObject.GetComponent<PolygonCollider2D>().enabled = false;
 			}else{
 				active = true;
+				GeyserParticle.emissionRate =20;
 				curtime = activitytime;
 				gameObject.GetComponent<PolygonCollider2D>().enabled = true;
 			}

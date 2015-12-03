@@ -75,7 +75,7 @@
 			fixed4 frag(v2f IN) : SV_Target
 			{
 				fixed4 c = SampleSpriteTexture (IN.texcoord) * IN.color;
-				if(c.a<0.7)discard;
+				//if(c.a<0.7)discard;
 				c.rgb *= c.a;
 				return c;
 			}
