@@ -22,8 +22,13 @@ namespace Gestures {
         void Awake() {
             var debug = !(Application.platform == RuntimePlatform.Android);
             if (debug) {
-                gesturesEmulator.OnClick += (position, duration) => NotifyGestureEnd(Tap(position, duration));
-                gesturesEmulator.OnDrag += (start, end, duration) => NotifyGestureEnd(Swipe(start, end, duration));
+                gesturesEmulator.OnClickStart += (position, duration) => NotifyGestureStart(Tap(position, duration));
+                gesturesEmulator.OnClickEnd += (position, duration) => NotifyGestureEnd(Tap(position, duration));
+                gesturesEmulator.OnDragStart += (start, end, duration) => NotifyGestureStart(Swipe(start, end, duration));
+                gesturesEmulator.OnDragProgress += (start, end, duration) => NotifyGestureProgress(Swipe(start, end, duration));
+                gesturesEmulator.OnDragEnd += (start, end, duration) => NotifyGestureEnd(Swipe(start, end, duration));
+                gesturesEmulator.OnZoomStart += () => NotifyGestureStart(Sprinch());
+                gesturesEmulator.OnZoomProgress += () => NotifyGestureProgress(Sprinch());
                 gesturesEmulator.OnZoomIn += () => NotifyGestureEnd(Spread());
                 gesturesEmulator.OnZoomOut += () => NotifyGestureEnd(Pinch());
             } else {
@@ -79,6 +84,12 @@ namespace Gestures {
             swipe.End = end;
             swipe.EndTime = Time.time;
             return swipe;
+        }
+
+        Sprinch Sprinch() {
+            var sprinch = new Sprinch(Vector2.zero, Vector2.zero);
+            sprinch.EndPoints = new Vector2[] { Vector2.zero, Vector2.zero };
+            return sprinch;
         }
 
         Sprinch Pinch() {
