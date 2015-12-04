@@ -13,6 +13,7 @@ public class WorldManager : MonoBehaviour {
     public GameObject[] slices;
     public Vector2 initialPosition;
     public int initialSlice;
+	public HydroAnimationScript anim;
 
     static int currentSliceIndex;
 
@@ -46,6 +47,13 @@ public class WorldManager : MonoBehaviour {
                 Physics2D.IgnoreLayerCollision(character.layer, slices[i].layer, true);
             }
         }
+
+
+		gestures.OnPinchStart += ScoutNear;
+		gestures.OnSpreadStart += ScoutFar;
+//TODO Manca la cancellazione della gesture 
+
+
         gestures.OnPinchEnd += MoveNear;
         gestures.OnSpreadEnd += MoveFar;
         var music = sounds.Play("/ambientali/background");
@@ -87,8 +95,16 @@ public class WorldManager : MonoBehaviour {
             var position = character.transform.position;
             character.transform.position = new Vector3(position.x, position.y, CurrentSliceZ);
             sounds.Play("/ambientali/sliceMove");
+
+			anim.animCameraConfirm();
+			anim.animHydroFarNear(true);
+
         } else {
             sounds.Play("/ambientali/limitHit");
+			
+			anim.animCameraCancel();
+			anim.animBounce(true);
+
         }
     }
 
@@ -100,8 +116,27 @@ public class WorldManager : MonoBehaviour {
             var position = character.transform.position;
             character.transform.position = new Vector3(position.x, position.y, CurrentSliceZ);
             sounds.Play("/ambientali/sliceMove");
+
+			
+			anim.animCameraConfirm();
+			anim.animHydroFarNear(false);
+
         } else {
             sounds.Play("/ambientali/limitHit");
+
+			anim.animCameraCancel();
+			anim.animBounce(false);
         }
     }
+	void ScoutNear(Sprinch pinch) {
+		Debug.Log ("Scout iniziato");
+		anim.animCameraFarNear(false);
+	}
+	void ScoutFar(Sprinch spread) {
+		anim.animCameraFarNear(true);
+	}
+
+	void ScoutCanceled(Sprinch spread) {
+		anim.animCameraCancel();
+	}
 }
