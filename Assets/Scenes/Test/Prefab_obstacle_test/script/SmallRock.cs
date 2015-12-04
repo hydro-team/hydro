@@ -34,7 +34,7 @@ public class SmallRock : MonoBehaviour {
 
 			//TODO Rockmanager must deactivate this object in order to reuse it in other slice
 			//RockManager.Instance.deacivaterock(this.gameObject);
-			Destroy(this.gameObject);
+//			Destroy(this.gameObject);
 		}
 	}
 

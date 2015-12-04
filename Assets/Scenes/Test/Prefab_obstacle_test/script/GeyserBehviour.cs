@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//FIXME
+[RequireComponent (typeof(PolygonCollider2D))]
 public class GeyserBehviour : MonoBehaviour {
 	/// <summary>
 	/// This variable contains the time in second that the geyser will be producing the flow.
@@ -24,33 +26,44 @@ public class GeyserBehviour : MonoBehaviour {
 	private bool active;
 
 	public ParticleSystem GeyserParticle;
+	PolygonCollider2D polycol;
 
 
 	void Start () {
-		active = true;
-		curtime = activitytime;
+//		active = true;
+		polycol = GetComponent<PolygonCollider2D> ();
+		active = false;
+		geyserEnable ();
+//		curtime = activitytime;
 	}
 	
 	/// <summary>
 	/// This method perform the task of activatig and disactiate the geyser once the timer make the state change.
 	/// </summary>
 	void Update () {
-		if(curtime >= 0){
-			curtime -= Time.deltaTime;
-		}else{
-			if(active){
-				active = false;
-				GeyserParticle.emissionRate = 0;
-				curtime = restTime;
-				gameObject.GetComponent<PolygonCollider2D>().enabled = false;
-			}else{
-				active = true;
-				GeyserParticle.emissionRate =20;
-				curtime = activitytime;
-				gameObject.GetComponent<PolygonCollider2D>().enabled = true;
-			}
-		}
+//		if(curtime >= 0){
+//			curtime -= Time.deltaTime;
+//		}else{
+//			if(active){
+//				active = false;
+//				GeyserParticle.emissionRate = 0;
+//				curtime = restTime;
+//				gameObject.GetComponent<PolygonCollider2D>().enabled = false;
+//			}else{
+//				active = true;
+//				GeyserParticle.emissionRate =20;
+//				curtime = activitytime;
+//				gameObject.GetComponent<PolygonCollider2D>().enabled = true;
+//			}
+//		}
 	
+	}
+
+	void geyserEnable(){
+		active = !active;
+		GeyserParticle.emissionRate = active ? 20 : 0;
+		polycol.enabled = active;
+		Invoke ("geyserEnable", active ? activitytime : restTime);
 	}
 
 	/// <summary>
