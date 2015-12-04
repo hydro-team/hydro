@@ -12,11 +12,13 @@ namespace Gestures {
         bool dragging;
         Vector2 dragStartPosition;
         float dragStartTime;
-        bool zooming;
+        ZoomState zooming = ZoomState.NONE;
 
         public event Action<Vector2, float> OnClickStart, OnClickEnd;
         public event Action<Vector2, Vector2, float> OnDragStart, OnDragProgress, OnDragEnd;
-        public event Action OnZoomStart, OnZoomProgress, OnZoomIn, OnZoomOut;
+        public event Action OnZoomStart, OnZoomProgress;
+        public event Action OnZoomInStart, OnZoomInProgress, OnZoomInEnd;
+        public event Action OnZoomOutStart, OnZoomOutProgress, OnZoomOutEnd;
 
         void Update() {
             HandleDrag();
@@ -52,17 +54,54 @@ namespace Gestures {
         }
 
         void HandleZoom() {
-            if (zooming && Input.GetKeyUp(KeyCode.LeftShift)) {
-                if (Input.GetKey(KeyCode.W)) { if (OnZoomIn != null) { OnZoomIn(); } }
-                if (Input.GetKey(KeyCode.S)) { if (OnZoomOut != null) { OnZoomOut(); } }
-                zooming = false;
-            } else if (zooming) {
-                if (OnZoomProgress != null) { OnZoomProgress(); }
+            if (Zooming && Input.GetKeyUp(KeyCode.LeftShift)) {
+                if (GetZoomInKey) { Trigger(OnZoomInEnd); }
+                if (GetZoomOutKey) { Trigger(OnZoomOutEnd); }
+                zooming = ZoomState.NONE;
+                return;
+            }
+            if (ZoomingIn && Input.GetKey(KeyCode.LeftShift) && GetZoomInKey) {
+                Trigger(OnZoomInProgress);
+                return;
+            }
+            if (ZoomingOut && Input.GetKey(KeyCode.LeftShift) && GetZoomOutKey) {
+                Trigger(OnZoomOutProgress);
+                return;
+            }
+            if (UndefinedZooming && Input.GetKey(KeyCode.LeftShift) && !GetZoomInKey && !GetZoomOutKey) {
+                Trigger(OnZoomProgress);
+                return;
             }
             if (Input.GetKeyDown(KeyCode.LeftShift)) {
-                if (OnZoomStart != null) { OnZoomStart(); }
-                zooming = true;
+                Trigger(OnZoomStart);
+                zooming = ZoomState.ZOOMING;
+                return;
             }
+            if (!ZoomingIn && GetZoomInKey) {
+                Trigger(OnZoomInStart);
+                zooming = ZoomState.ZOOMING_IN;
+                return;
+            }
+            if (!ZoomingOut && GetZoomOutKey) {
+                Trigger(OnZoomOutStart);
+                zooming = ZoomState.ZOOMING_OUT;
+                return;
+            }
+        }
+
+        void Trigger(Action action) {
+            if (action != null) { action.Invoke(); }
+        }
+
+        bool UndefinedZooming { get { return zooming == ZoomState.ZOOMING; } }
+        bool ZoomingIn { get { return zooming == ZoomState.ZOOMING_IN; } }
+        bool ZoomingOut { get { return zooming == ZoomState.ZOOMING_OUT; } }
+        bool Zooming { get { return UndefinedZooming || ZoomingIn || ZoomingOut; } }
+        bool GetZoomInKey { get { return Input.GetKey(KeyCode.W); } }
+        bool GetZoomOutKey { get { return Input.GetKey(KeyCode.S); } }
+
+        enum ZoomState {
+            NONE, ZOOMING, ZOOMING_IN, ZOOMING_OUT
         }
     }
 }

@@ -29,8 +29,12 @@ namespace Gestures {
                 gesturesEmulator.OnDragEnd += (start, end, duration) => NotifyGestureEnd(Swipe(start, end, duration));
                 gesturesEmulator.OnZoomStart += () => NotifyGestureStart(Sprinch());
                 gesturesEmulator.OnZoomProgress += () => NotifyGestureProgress(Sprinch());
-                gesturesEmulator.OnZoomIn += () => NotifyGestureEnd(Spread());
-                gesturesEmulator.OnZoomOut += () => NotifyGestureEnd(Pinch());
+                gesturesEmulator.OnZoomInStart += () => NotifyGestureStart(Spread());
+                gesturesEmulator.OnZoomInProgress += () => NotifyGestureProgress(Spread());
+                gesturesEmulator.OnZoomInEnd += () => NotifyGestureEnd(Spread());
+                gesturesEmulator.OnZoomOutStart += () => NotifyGestureStart(Pinch());
+                gesturesEmulator.OnZoomOutProgress += () => NotifyGestureProgress(Pinch());
+                gesturesEmulator.OnZoomOutEnd += () => NotifyGestureEnd(Pinch());
             } else {
                 gesturesRecognizer.GestureStart += NotifyGestureStart;
                 gesturesRecognizer.GestureProgress += NotifyGestureProgress;
