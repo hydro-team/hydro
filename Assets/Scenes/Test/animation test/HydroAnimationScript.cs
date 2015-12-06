@@ -14,6 +14,7 @@ public class HydroAnimationScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
 		animHydroSprite.SetFloat("Speed", gameObject.GetComponent<Rigidbody2D>().velocity.sqrMagnitude);
 	}
 
