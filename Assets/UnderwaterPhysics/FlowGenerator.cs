@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
-using System;
 using Gestures;
 using Flyweight;
 using Extensions;
+using Sound;
 
 namespace UnderwaterPhysics {
 
@@ -14,11 +14,15 @@ namespace UnderwaterPhysics {
         public new Camera camera;
         public GesturesDispatcher gestures;
         public WorldManager world;
+        public GameObject soundFacade;
+
+        SoundFacade sounds;
 
         void Awake() {
             if (maxFlowStrength <= 0) { Debug.LogWarning("FlowGenerator: max flow strength should be a positive value, but it is set to " + maxFlowStrength); }
             if (flowDuration <= 0) { Debug.LogWarning("FlowGenerator: flow duration should be a positive value, but it is set to " + flowDuration); }
             gestures.OnSwipeEnd += GenerateFlow;
+            sounds = soundFacade.GetComponent<SoundFacade>();
         }
 
         void GenerateFlow(Swipe swipe) {
@@ -33,7 +37,7 @@ namespace UnderwaterPhysics {
                     z: world.CurrentSliceZ,
                     onExausted: () => flow.GetComponent<SharedObject>().ReleaseThis()
                 );
-                FMOD_StudioSystem.instance.GetEvent("event:/ambientali/waterFlow").start();
+                sounds.Play("/ambientali/waterflow");
             });
         }
     }
