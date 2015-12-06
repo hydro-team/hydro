@@ -1,12 +1,18 @@
 /* ========================================================================================== */
 /*                                                                                            */
-/* FMOD Studio - C# Wrapper . Copyright (c), Firelight Technologies Pty, Ltd. 2004-2015.      */
+/* FMOD Studio - C# Wrapper . Copyright (c), Firelight Technologies Pty, Ltd. 2004-2015.          */
 /*                                                                                            */
 /* ========================================================================================== */
+
+#if UNITY_EDITOR || ((UNITY_STANDALONE_WIN || UNITY_STANDALONE_OSX) && DEVELOPMENT_BUILD)
+#define FMOD_LOGGING
+#endif
 
 using System;
 using System.Text;
 using System.Runtime.InteropServices;
+
+
 
 namespace FMOD
 {
@@ -25,7 +31,7 @@ namespace FMOD
         public const string dll    = "libfmodstudio";
 #elif (UNITY_WIIU) && !UNITY_EDITOR
         public const string dll    = "libfmodstudio";
-#elif (UNITY_EDITOR || UNITY_STANDALONE_WIN || UNITY_STANDALONE_OSX) && FMOD_DEBUG
+#elif UNITY_EDITOR || ((UNITY_STANDALONE_WIN || UNITY_STANDALONE_OSX) && DEVELOPMENT_BUILD)
         public const string dll    = "fmodl";
 #else
         public const string dll    = "fmod";
@@ -212,10 +218,10 @@ namespace FMOD
     [StructLayout(LayoutKind.Sequential)]
     public struct ATTRIBUTES_3D
     {
-        VECTOR position;
-        VECTOR velocity;
-        VECTOR forward;
-        VECTOR up;
+        public VECTOR position;
+        public VECTOR velocity;
+        public VECTOR forward;
+        public VECTOR up;
     }
 
     /*
@@ -1984,6 +1990,10 @@ namespace FMOD
         {
             return FMOD5_System_GetChannelsPlaying(rawPtr, out channels);
         }
+        public RESULT getChannelsReal        (out int channels)
+        {
+            return FMOD5_System_GetChannelsReal(rawPtr, out channels);
+        }
         public RESULT getCPUUsage            (out float dsp, out float stream, out float geometry, out float update, out float total)
         {
             return FMOD5_System_GetCPUUsage(rawPtr, out dsp, out stream, out geometry, out update, out total);
@@ -2407,6 +2417,8 @@ namespace FMOD
         private static extern RESULT FMOD5_System_GetOutputHandle        (IntPtr system, out IntPtr handle);
         [DllImport(VERSION.dll)]
         private static extern RESULT FMOD5_System_GetChannelsPlaying     (IntPtr system, out int channels);
+        [DllImport(VERSION.dll)]
+        private static extern RESULT FMOD5_System_GetChannelsReal         (IntPtr system, out int channels);
         [DllImport(VERSION.dll)]
         private static extern RESULT FMOD5_System_GetCPUUsage            (IntPtr system, out float dsp, out float stream, out float geometry, out float update, out float total);
         [DllImport(VERSION.dll)]

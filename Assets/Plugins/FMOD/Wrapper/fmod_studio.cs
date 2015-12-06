@@ -18,7 +18,7 @@ namespace Studio
         public const string dll    = "__Internal";
 #elif (UNITY_PS4 || UNITY_WIIU || UNITY_PSP2) && !UNITY_EDITOR
 		public const string dll    = "libfmodstudio";
-#elif (UNITY_EDITOR || UNITY_STANDALONE_WIN || UNITY_STANDALONE_OSX) && FMOD_DEBUG
+#elif UNITY_EDITOR || ((UNITY_STANDALONE_WIN || UNITY_STANDALONE_OSX) && DEVELOPMENT_BUILD)
         public const string dll    = "fmodstudiol";
 #else
 		public const string dll    = "fmodstudio";
@@ -38,15 +38,6 @@ namespace Studio
         LOADING,          /* Loading in progress. */
         LOADED,           /* Loaded and ready to play. */
         ERROR,            /* Failed to load and is now in error state. */
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    public struct ATTRIBUTES_3D
-    {
-        public VECTOR position;
-        public VECTOR velocity;
-        public VECTOR forward;
-        public VECTOR up;
     }
 
     [StructLayout(LayoutKind.Sequential)]

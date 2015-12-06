@@ -33,7 +33,7 @@ namespace UnderwaterPhysics {
                     z: world.CurrentSliceZ,
                     onExausted: () => flow.GetComponent<SharedObject>().ReleaseThis()
                 );
-                FMOD_StudioSystem.instance.GetEvent("event:/ambientali/waterFlow").start();
+                FMODUnity.RuntimeManager.PlayOneShot("event:/ambientali/waterflow");
             });
         }
     }

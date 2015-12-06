@@ -19,7 +19,7 @@ namespace Sound {
         }
 
         Sound Get(string soundName) {
-            var sound = FMOD_StudioSystem.instance.GetEvent("event:" + soundName);
+            var sound = FMODUnity.RuntimeManager.CreateInstance("event:" + soundName);
             return new FmodSound(soundName, sound);
         }
 
