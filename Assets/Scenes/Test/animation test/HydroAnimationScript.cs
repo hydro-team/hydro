@@ -10,6 +10,8 @@ public class HydroAnimationScript : MonoBehaviour {
 	public GameObject cam;
 	public float threshold;
 
+	public SpriteRenderer[] sprites;
+
 	private Rigidbody2D rigidbody;
 	// Use this for initialization
 	void Start () {
@@ -64,5 +66,11 @@ public class HydroAnimationScript : MonoBehaviour {
 		animHydroSprite.SetTrigger("Move");
 	}
 
-
+	public void switchSlice(GameObject slice){
+		foreach (SpriteRenderer spr in sprites) {
+			spr.sortingLayerName = LayerMask.LayerToName(slice.layer);
+			Debug.Log("Switched"
+			          );
+		}
+	}
 }

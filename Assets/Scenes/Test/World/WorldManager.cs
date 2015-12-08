@@ -98,6 +98,7 @@ public class WorldManager : MonoBehaviour {
 
 			anim.animCameraConfirm();
 			anim.animHydroFarNear(true);
+			anim.switchSlice(CurrentSlice);
 
         } else {
             sounds.Play("/ambientali/limitHit");
@@ -120,6 +121,7 @@ public class WorldManager : MonoBehaviour {
 			
 			anim.animCameraConfirm();
 			anim.animHydroFarNear(false);
+			anim.switchSlice(CurrentSlice);
 
         } else {
             sounds.Play("/ambientali/limitHit");
