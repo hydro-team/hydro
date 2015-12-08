@@ -1,20 +1,36 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
 public class HydroAnimationScript : MonoBehaviour {
 
 	public Animator animHydroSprite;
 	public Animator animCamera;
 	public Animator animSliceHydro;
 	public GameObject cam;
+	public float threshold;
+
+	private Rigidbody2D rigidbody;
 	// Use this for initialization
 	void Start () {
 		animHydroSprite.SetFloat("Speed",0f);
+		rigidbody = gameObject.GetComponent<Rigidbody2D> ();
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		animHydroSprite.SetFloat("Speed", gameObject.GetComponent<Rigidbody2D>().velocity.sqrMagnitude);
+		if (rigidbody.velocity.x > 0) {
+			transform.localScale = new Vector3 (-1f, 1f,1f);
+
+		} else {
+			transform.localScale = new Vector3 ( 1f,1f,1f);
+		}
+		if (rigidbody.velocity.sqrMagnitude > threshold) {
+			animHydroSprite.SetBool("Moving",true);
+		} else {
+			animHydroSprite.SetBool("Moving",false);
+		}
 	}
 
 	public void animCameraFarNear(bool far_near){
