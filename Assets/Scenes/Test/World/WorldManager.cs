@@ -5,7 +5,7 @@ using Sound;
 
 public class WorldManager : MonoBehaviour {
 
-    public const float SLICE_DEPTH = 5f;
+    public const float SLICE_DEPTH = 1f;
 
     public GameObject character;
     public GesturesDispatcher gestures;
@@ -98,6 +98,7 @@ public class WorldManager : MonoBehaviour {
 
 			anim.animCameraConfirm();
 			anim.animHydroFarNear(true);
+			anim.switchSlice(CurrentSlice);
 
         } else {
             sounds.Play("/ambientali/limitHit");
@@ -120,6 +121,7 @@ public class WorldManager : MonoBehaviour {
 			
 			anim.animCameraConfirm();
 			anim.animHydroFarNear(false);
+			anim.switchSlice(CurrentSlice);
 
         } else {
             sounds.Play("/ambientali/limitHit");
