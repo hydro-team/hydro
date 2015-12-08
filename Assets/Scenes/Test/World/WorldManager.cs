@@ -5,7 +5,7 @@ using Sound;
 
 public class WorldManager : MonoBehaviour {
 
-    public const float SLICE_DEPTH = 5f;
+    public const float SLICE_DEPTH = 1f;
 
     public GameObject character;
     public GesturesDispatcher gestures;

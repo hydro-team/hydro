@@ -40,8 +40,8 @@ public class GeyserBehviour : MonoBehaviour {
 		float f = Mathf.Sin(aperture/2)*radius;  
 		float g = Mathf.Cos(aperture/2)*radius;
 		Debug.Log("STAndpws " + f + " " + g);
-		polycol.points = new [] { new Vector2(0,-1), new Vector2(g,f), new Vector2(-g,f)};
-		polycol.SetPath(0, new []{new Vector2(0,-1), new Vector2(g, f), new Vector2(-g,f), new Vector2(0,-1) });
+		polycol.points = new [] { new Vector2(0,0), new Vector2(g,f), new Vector2(-g,f)};
+		polycol.SetPath(0, new []{new Vector2(0,0), new Vector2(g, f), new Vector2(-g,f), new Vector2(0,0) });
 	}
 	
 	/// <summary>
