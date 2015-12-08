@@ -27,7 +27,8 @@ public class GeyserBehviour : MonoBehaviour {
 
 	public ParticleSystem GeyserParticle;
 	PolygonCollider2D polycol;
-
+	public float aperture;
+	public float radius;
 
 	void Start () {
 //		active = true;
@@ -35,6 +36,12 @@ public class GeyserBehviour : MonoBehaviour {
 		active = false;
 		geyserEnable ();
 //		curtime = activitytime;
+		aperture = Mathf.Deg2Rad*(180 -aperture);
+		float f = Mathf.Sin(aperture/2)*radius;  
+		float g = Mathf.Cos(aperture/2)*radius;
+		Debug.Log("STAndpws " + f + " " + g);
+		polycol.points = new [] { new Vector2(0,-1), new Vector2(g,f), new Vector2(-g,f)};
+		polycol.SetPath(0, new []{new Vector2(0,-1), new Vector2(g, f), new Vector2(-g,f), new Vector2(0,-1) });
 	}
 	
 	/// <summary>
