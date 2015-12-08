@@ -1,9 +1,9 @@
 /*$ preserve start $*/
 /* ========================================================================================== */
-/* FMOD Studio - DSP header file. Copyright (c), Firelight Technologies Pty, Ltd. 2004-2015.  */
+/* FMOD Studio - DSP header file. Copyright (c), Firelight Technologies Pty, Ltd. 2004-2015.      */
 /*                                                                                            */
 /* Use this header if you are interested in delving deeper into the FMOD software mixing /    */
-/* DSP engine.  In this header you can find parameter structures for FMOD system registered   */
+/* DSP engine.  In this header you can find parameter structures for FMOD system reigstered   */
 /* DSP effects and generators.                                                                */
 /*                                                                                            */
 /* ========================================================================================== */
@@ -35,7 +35,7 @@ namespace FMOD
     {
         public int              numbuffers;              /* [r/w] number of buffers */
         public int[]            buffernumchannels;       /* [r/w] array of number of channels for each buffer */
-        public uint[]           bufferchannelmask;       /* [r/w] array of channel masks for each buffer. IL2CPP workaround - real type is CHANNELMASK[] */
+        public CHANNELMASK[]    bufferchannelmask;       /* [r/w] array of channel masks for each buffer. */
         public IntPtr[]         buffers;                 /* [r/w] array of buffers */
         public SPEAKERMODE      speakermode;             /* [r/w] speaker mode for all buffers in the array */
     }
@@ -123,6 +123,7 @@ namespace FMOD
 
     public delegate RESULT DSP_SYSTEM_GETSAMPLERATE             (ref DSP_STATE dsp_state, ref int rate);
     public delegate RESULT DSP_SYSTEM_GETBLOCKSIZE              (ref DSP_STATE dsp_state, ref uint blocksize);
+    public delegate RESULT DSP_SYSTEM_GETSPEAKERMODE            (ref DSP_STATE dsp_state, ref int speakermode_mixer, ref int speakermode_output);
 
 
     public delegate RESULT DSP_DFT_FFTREAL                      (ref DSP_STATE dsp_state, int size, IntPtr signal, IntPtr dft, IntPtr window, int signalhop);
@@ -750,6 +751,7 @@ namespace FMOD
         DSP_SYSTEM_GETBLOCKSIZE            getblocksize;   /* [r] Callback for getting the system's block size.  DSPs will be requested to process blocks of varying length up to this size.*/
         IntPtr                             dft;            /* [r] Struct containing callbacks for performing FFTs and inverse FFTs. */
         IntPtr                             pancallbacks;   /* [r] Pointer to a structure of callbacks for calculating pan, up-mix and down-mix matrices. */
+        DSP_SYSTEM_GETSPEAKERMODE          getspeakermode; /* [r] Callback for getting the system's speaker modes.  One is the mixer's default speaker mode, the other is the output mode the system is downmixing or upmixing to.*/
     }
 
     /*

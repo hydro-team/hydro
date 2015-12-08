@@ -16,3 +16,4 @@ NativePlugin/RenderingPlugin/VisualStudio2008/build/Release/
 Tools/AnimationScriptGenerator/bin/Debug/
 Tools/AnimationScriptGenerator/obj/Debug/
 /obj/Debug
+/*.log
