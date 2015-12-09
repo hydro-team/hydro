@@ -27,7 +27,7 @@ namespace Gestures {
             }
         }
 
-        bool NoTouch() { return Input.touches.Length == 0; }
+        bool NoTouch() { return Input.touches.Length == 0 || Input.touches[0].phase == TouchPhase.Ended; }
         bool SingleTouch() { return Input.touches.Length == 1; }
         bool MultiTouch() { return Input.touches.Length > 1; }
 
@@ -54,8 +54,8 @@ namespace Gestures {
                 return;
             }
             if (SingleTouch() && Vector2.Distance(Input.touches[0].position, tap.Position) > MAX_DISTANCE_BEFORE_SWIPE) {
-                var swipe = new Swipe(tap.Position, tap.StartTime);
-                swipe.EndTime = tap.EndTime;
+                currentGesture= new Swipe(tap.Position, tap.StartTime);
+                ((Swipe)currentGesture).EndTime = tap.EndTime;
                 if (gestureState == GestureState.TAP) { NotifyGestureRecognitionStart(); }
                 gestureState = GestureState.SWIPE;
                 //Il caso limite in cui lo swipe viene riconosciuto nello stesso momento in cui finisce è escluso
@@ -72,24 +72,26 @@ namespace Gestures {
         /// <summary>Recognising the swipe gesture.</summary>
         void Swipe() {
             //FIXME
-            var swipe = currentGesture as Swipe;
+            Swipe swipe = (Swipe)currentGesture;
             if (MultiTouch()) {
                 currentGesture = new Sprinch(swipe.Start, Input.touches[1].position);
                 gestureState = GestureState.SPRINCH;
                 return;
             }
+			if (Input.touches[0].phase == TouchPhase.Ended ) {
+				swipe.End = Input.touches[0].position;
+				swipe.EndTime = Time.time;
+				NotifyGetsureRecognitionEnd();
+				return;
+			}
             if (NoTouch()) {
+				Debug.Log(swipe == null);
                 swipe.EndTime = Time.time;
                 NotifyGetsureRecognitionEnd();
                 return;
             }
-            if (Input.touches[0].phase == TouchPhase.Ended) {
-                swipe.End = Input.touches[0].position;
-                swipe.EndTime = Time.time;
-                NotifyGetsureRecognitionEnd();
-                return;
-            }
-            if (Input.touches[0].phase == TouchPhase.Moved) {
+
+			if (Input.touches[0].phase == TouchPhase.Moved) {
                 swipe.End = Input.touches[0].position;
                 NotifyGestureRecognitionProgress();
                 return;
