@@ -21,8 +21,6 @@ public class tadPoleBehaviour : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		Debug.Log ("MySprite " + spritefrog.GetComponent<SpriteRenderer>().sprite);
-
 	}
 
 	public void beFeeded(){
@@ -37,26 +35,23 @@ public class tadPoleBehaviour : MonoBehaviour {
 
 	public void endTransformation(){
 		spritefrog.GetComponent<SpriteRenderer>().sprite = frogsp;
-		Debug.Log (spritefrog.GetComponent<SpriteRenderer>().sprite);
-		Debug.Log ("Changed sprite");
 		transform.position += Vector3.up * waterlevel; 
 		activable = true;
 	}
 
 	public void askJump(){
 		if(activable){
-			Debug.Log ("jump asked");
 			anim.SetTrigger("Jump");
 		}
 	}
 
 	public void OnCollisionEnter2D(Collision2D collided){
-		Debug.Log (collided.gameObject.tag);
 		if(collided.gameObject.tag == "Player"){
 			if(!evolution){
-				string feed = collided.gameObject.GetComponent<Inventory>().getInventoy(); 
-				Debug.Log ("Picked " + feed); 
-				if(feed == "seaweed"){
+				Inventory inv = collided.gameObject.GetComponent<Inventory>();
+				Items feed = inv.getInventoy(); 
+				if(feed == Items.SEAWEED){
+					inv.freeInventory();
 					beFeeded();
 				}
 			}else{
