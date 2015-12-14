@@ -14,6 +14,8 @@ public class tadPoleBehaviour : MonoBehaviour {
 	public GameObject dialog;
 	public GameObject spritefrog;
 
+	public GameObject player;
+
 	void Start(){
 		anim = GetComponent<Animator>();
 		rb = GetComponent<Rigidbody2D>();
@@ -31,6 +33,8 @@ public class tadPoleBehaviour : MonoBehaviour {
 
 	public void endJump(){
 		transform.position += Vector3.right*10;
+		player.transform.position = new Vector3(88, 12, 0);
+
 	}
 
 	public void endTransformation(){
