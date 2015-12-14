@@ -50,13 +50,14 @@ public class BreackableRock : MonoBehaviour {
 			Debug.Log ("BreackableRock"+"velocity " + vel);
 			float height = (vel*vel) / (2f*collided.collider.attachedRigidbody.gravityScale);
 			Debug.Log ("BreackableRock"+"height " + height);
-			float differencecinematicenergy = Mathf.Abs((float)(collided.collider.attachedRigidbody.gravityScale*collided.collider.attachedRigidbody.mass*height)-(float)(0.5* collided.collider.attachedRigidbody.mass * vel*vel)) * Mathf.Pow(10, 8);
+			float differencecinematicenergy = Mathf.Abs((float)(collided.collider.attachedRigidbody.gravityScale*collided.collider.attachedRigidbody.mass*height)-(float)(0.5* collided.collider.attachedRigidbody.mass * vel*vel)) * (float)Mathf.Pow(10, 8);
 			Debug.Log ("BreackableRock"+"DKE " + differencecinematicenergy);
 			float impact_force = differencecinematicenergy / height;
 			Debug.Log ("BreackableRock"+"ImpactForce " + impact_force);
 			
 			//Damage calculation
-			float damage = impact_force * coefficient;
+//			float damage = impact_force * coefficient;
+			float damage = 1f;
 			Debug.Log ("BreackableRock"+"Damage " + damage);
 			life = life - damage;
 			if(life <=0){

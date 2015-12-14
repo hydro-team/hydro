@@ -1,9 +1,11 @@
 fileFormatVersion: 2
-guid: 418046ffcd94383448d884129e8c7f9a
-timeCreated: 1449839221
+guid: 8f4c64ae200f10a4d9d1e15cdb81000b
+timeCreated: 1450090625
 licenseType: Free
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: sasso muro4_0
+    21300002: sasso muro4_1
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -27,7 +29,7 @@ TextureImporter:
   cubemapConvolutionExponent: 1.5
   seamlessCubemap: 0
   textureFormat: -1
-  maxTextureSize: 256
+  maxTextureSize: 2048
   textureSettings:
     filterMode: -1
     aniso: 16
@@ -38,7 +40,7 @@ TextureImporter:
   rGBM: 0
   compressionQuality: 50
   allowsAlphaSplitting: 0
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -49,7 +51,27 @@ TextureImporter:
   textureType: 8
   buildTargetSettings: []
   spriteSheet:
-    sprites: []
+    sprites:
+    - name: sasso muro4_0
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 304
+        width: 315
+        height: 238
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: sasso muro4_1
+      rect:
+        serializedVersion: 2
+        x: 523
+        y: 258
+        width: 16
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 
   assetBundleName: 

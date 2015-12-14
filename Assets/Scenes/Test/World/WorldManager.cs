@@ -40,8 +40,9 @@ public class WorldManager : MonoBehaviour {
         sounds = soundFacade.GetComponent<SoundFacade>();
         if (sounds == null) { throw new InvalidOperationException("Missing SoundFacade component game object assigned to soundFacade"); }
         currentSliceIndex = initialSlice;
+		character.transform.SetParent (slices [initialSlice].transform);
         AlignSlices();
-        character.transform.position = new Vector3(initialPosition.x, initialPosition.y, CurrentSliceZ);
+//        character.transform.position = new Vector3(initialPosition.x, initialPosition.y, CurrentSliceZ);
         for (int i = 0; i < slices.Length; i++) {
             if (i != initialSlice) {
                 Physics2D.IgnoreLayerCollision(character.layer, slices[i].layer, true);
