@@ -14,7 +14,7 @@ public class BreackableRock : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		life = 10f;
+		//life = 10f;
 	}
 	
 	/// <summary>
