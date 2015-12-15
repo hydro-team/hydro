@@ -30,11 +30,11 @@ namespace UnderwaterPhysics {
                 flow.duration = flowDuration;
                 flow.strength = maxFlowStrength / (1f + swipe.Duration);
                 flow.gameObject.layer = world.CurrentSlice.layer;
-                var z = world.CurrentSlice.transform.position.z;
+                var z = world.character.transform.position.z;
                 flow.Enable(
                     from: camera.ScreenToWorldPoint(swipe.Start, z),
                     to: camera.ScreenToWorldPoint(swipe.End, z),
-                    z: world.CurrentSliceZ,
+                    z: z,
                     onExausted: () => flow.GetComponent<SharedObject>().ReleaseThis()
                 );
                 sounds.Play("/ambientali/waterflow");
