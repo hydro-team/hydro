@@ -4,7 +4,10 @@ using System.Collections;
 
 public class HydroAnimationScript : MonoBehaviour {
 
-	public Animator animHydroSprite;
+    private static readonly Vector3 DEFAULT_SCALE = new Vector3(1f, 1f, 1f);
+    private static readonly Vector3 FLIPPED_SCALE = new Vector3(-1f, 1f, 1f);
+
+    public Animator animHydroSprite;
 	public Animator animCamera;
 	public Animator animSliceHydro;
 	public GameObject cam;
@@ -13,27 +16,32 @@ public class HydroAnimationScript : MonoBehaviour {
 	public SpriteRenderer[] sprites;
 
 	private Rigidbody2D rigidbody;
-	// Use this for initialization
+
 	void Start () {
 		animHydroSprite.SetFloat("Speed",0f);
 		rigidbody = gameObject.GetComponent<Rigidbody2D> ();
 
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		if (rigidbody.velocity.x > 0) {
-			transform.localScale = new Vector3 (-1f, 1f,1f);
 
-		} else {
-			transform.localScale = new Vector3 ( 1f,1f,1f);
-		}
-		if (rigidbody.velocity.sqrMagnitude > threshold) {
-			animHydroSprite.SetBool("Moving",true);
-		} else {
-			animHydroSprite.SetBool("Moving",false);
-		}
+	void Update () {
+        LookTowardMovementDirection();
+        SetMotionState();
 	}
+
+    void LookTowardMovementDirection() {
+        if (rigidbody.velocity.x > threshold) {
+            transform.localScale = FLIPPED_SCALE;
+            animCamera.transform.parent.localScale = FLIPPED_SCALE;
+        } else if (rigidbody.velocity.x < -threshold) {
+            transform.localScale = DEFAULT_SCALE;
+            animCamera.transform.parent.localScale = DEFAULT_SCALE;
+        }
+    }
+
+    void SetMotionState() {
+        var moving = rigidbody.velocity.sqrMagnitude > threshold;
+        animHydroSprite.SetBool("Moving", moving);
+    }
 
 	public void animCameraFarNear(bool far_near){
 		animCamera.SetBool("Far_near", far_near);

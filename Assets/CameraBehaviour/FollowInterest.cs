@@ -33,7 +33,12 @@ namespace CameraBehaviour {
         }
 
         void SearchClosestPointOfInterest() {
-            currentRelativePoint = pointsOfInterest[world.CurrentSlice.layer]
+            var layer = world.CurrentSlice.layer;
+            if (!pointsOfInterest.ContainsKey(layer)) {
+                currentRelativePoint = Vector2.zero;
+                return;
+            }
+            currentRelativePoint = pointsOfInterest[layer]
                 .Select(RelativePosition())
                 .Where(CloseEnough())
                 .OrderBy(relativePosition => relativePosition.sqrMagnitude)
@@ -41,7 +46,7 @@ namespace CameraBehaviour {
         }
 
         void MoveTowardPointOfInterest() {
-            if ((Vector2) transform.localPosition == currentRelativePoint) { return; }
+            if ((Vector2)transform.localPosition == currentRelativePoint) { return; }
             var distance = currentRelativePoint - (Vector2)transform.localPosition;
             if (distance.sqrMagnitude < 0.0001f) {
                 transform.localPosition = new Vector3(currentRelativePoint.x, currentRelativePoint.y, transform.localPosition.z);
