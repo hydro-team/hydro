@@ -11,13 +11,19 @@ namespace CameraBehaviour {
         public float captureDistance;
         public float speedRate;
 
+        new Camera camera;
         IDictionary<int, IList<PointOfInterest>> pointsOfInterest;
         Vector2 currentRelativePoint;
+        float originalFov;
+        float targetFov;
 
         void Awake() {
             if (speedRate <= 0f || speedRate > 1f) {
                 throw new InvalidOperationException("speedRate out of range ]0,1]: " + speedRate);
             }
+            camera = GetComponent<Camera>();
+            originalFov = camera.fieldOfView;
+            targetFov = originalFov;
             LookupPointsOfInterestByLayer();
         }
 
@@ -30,19 +36,25 @@ namespace CameraBehaviour {
         void Update() {
             SearchClosestPointOfInterest();
             MoveTowardPointOfInterest();
+            Zoom();
         }
 
         void SearchClosestPointOfInterest() {
             var layer = world.CurrentSlice.layer;
             if (!pointsOfInterest.ContainsKey(layer)) {
-                currentRelativePoint = Vector2.zero;
+                SetDefaultRelativePointAndZoom();
                 return;
             }
-            currentRelativePoint = pointsOfInterest[layer]
-                .Select(RelativePosition())
+            var pointOfInterest = pointsOfInterest[layer]
                 .Where(CloseEnough())
-                .OrderBy(relativePosition => relativePosition.sqrMagnitude)
+                .OrderBy(point => RelativePosition(point).sqrMagnitude)
                 .FirstOrDefault();
+            if (pointOfInterest == null) {
+                SetDefaultRelativePointAndZoom();
+            } else {
+                currentRelativePoint = RelativePosition(pointOfInterest);
+                targetFov = originalFov + pointOfInterest.fovDifference;
+            }
         }
 
         void MoveTowardPointOfInterest() {
@@ -56,14 +68,28 @@ namespace CameraBehaviour {
             transform.localPosition += movement;
         }
 
-        Func<PointOfInterest, Vector2> RelativePosition() {
-            var position = (Vector2)transform.parent.position;
-            return point => (Vector2)point.transform.position - position;
+        void Zoom() {
+            var fovDifference = targetFov - camera.fieldOfView;
+            if (fovDifference < 0.001) {
+                camera.fieldOfView = targetFov;
+                return;
+            }
+            camera.fieldOfView += fovDifference * speedRate;
         }
 
-        Func<Vector2, bool> CloseEnough() {
+        Vector2 RelativePosition(PointOfInterest point) {
+            var position = (Vector2)transform.parent.position;
+            return (Vector2)point.transform.position - position;
+        }
+
+        Func<PointOfInterest, bool> CloseEnough() {
             var sqrCaptureDistance = captureDistance * captureDistance;
-            return relativePosition => relativePosition.sqrMagnitude < sqrCaptureDistance;
+            return point => RelativePosition(point).sqrMagnitude < sqrCaptureDistance;
+        }
+
+        void SetDefaultRelativePointAndZoom() {
+            currentRelativePoint = Vector2.zero;
+            targetFov = originalFov;
         }
     }
 }
