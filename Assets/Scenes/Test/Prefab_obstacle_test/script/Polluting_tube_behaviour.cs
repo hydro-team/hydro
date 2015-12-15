@@ -16,7 +16,7 @@ public class Polluting_tube_behaviour : MonoBehaviour {
 
 	public void OnCollisionEnter2D(Collision2D collided){
 		string s = collided.gameObject.tag;
-		if(s == "indestructablerock"){
+		if(s == "destructablerock"){
 			active = false;
 			particle.gameObject.SetActive(false);
 		}
