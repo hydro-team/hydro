@@ -17,7 +17,14 @@ public class Crab : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D col){
 		if (col.tag == "Player" ) {
-			col.transform.position = Arrival.position;
+			col.transform.position = otherCrab.Arrival.position ;
+			otherCrab.gameObject.SetActive(false);
+			Invoke("wakeUp", 4f);
+
 		}
+	}
+
+	void wakeUp(){
+		otherCrab.gameObject.SetActive(true);
 	}
 }
