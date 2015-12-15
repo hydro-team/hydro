@@ -15,7 +15,7 @@ public class Crab : MonoBehaviour {
 	
 	}
 
-	void OnTriggerEnter2D(Collider col){
+	void OnTriggerEnter2D(Collider2D col){
 		if (col.tag == "Player" ) {
 			col.transform.position = Arrival.position;
 		}
