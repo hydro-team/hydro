@@ -7,7 +7,7 @@ public class BreakableRockEffects : MonoBehaviour {
 	
 	public float mass;
 	public float drag;
-	public SpriteRenderer rend;
+	SpriteRenderer rend;
 	public float FadeTime;
 	float curTime;
 
@@ -23,6 +23,7 @@ public class BreakableRockEffects : MonoBehaviour {
 		r2d.AddForce (impact, ForceMode2D.Impulse);
 		curTime = Time.time;
 		enabled = true;
+		rend = GetComponent <SpriteRenderer> ();
 		Invoke ("KillPiece", FadeTime);
 	}
 
