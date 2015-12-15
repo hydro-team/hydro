@@ -32,7 +32,7 @@ public class tadPoleBehaviour : MonoBehaviour {
 	}
 
 	public void endJump(){
-		transform.position += Vector3.right*10;
+		transform.position += Vector3.right*45;
 		player.transform.position = new Vector3(88, 12, 0);
 
 	}
