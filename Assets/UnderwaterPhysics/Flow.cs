@@ -15,7 +15,7 @@ namespace UnderwaterPhysics {
 
         void Awake() {
             if (GetComponent<Collider2D>() == null) {
-                throw new OperationCanceledException("Flow requires a Collider2D component");
+                throw new InvalidOperationException("Flow requires a Collider2D component");
             }
             if (strength <= 0) { Debug.LogWarning("Flow: strength should be a positive value, but it is set to " + strength); }
             if (duration <= 0) { Debug.LogWarning("Flow: duration should be a positive value, but it is set to " + duration); }
