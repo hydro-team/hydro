@@ -1,10 +1,11 @@
 fileFormatVersion: 2
-guid: b9eac14f1fcf0b044b43b76db0511f8b
-timeCreated: 1450170819
+guid: 8e23a384ec396e640aa03cb4af73f423
+timeCreated: 1450172473
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: crab_0
+    21300000: crab 1_0
+    21300002: crab 1_2
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -51,13 +52,23 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     sprites:
-    - name: crab_0
+    - name: crab 1_0
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 73
+        width: 139
+        height: 116
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: crab 1_2
       rect:
         serializedVersion: 2
         x: 36
         y: 8
         width: 159
-        height: 146
+        height: 50
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

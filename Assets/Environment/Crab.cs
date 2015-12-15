@@ -4,6 +4,9 @@ using System.Collections;
 public class Crab : MonoBehaviour {
 	public Crab otherCrab;
 	public Transform Arrival;
+	public SpriteRenderer Pinchers;
+	bool canTransport = true;
+
 
 	// Use this for initialization
 	void Start () {
@@ -16,15 +19,26 @@ public class Crab : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D col){
-		if (col.tag == "Player" ) {
+		if (canTransport && col.tag == "Player" ) {
 			col.transform.position = otherCrab.Arrival.position ;
-			otherCrab.gameObject.SetActive(false);
-			Invoke("wakeUp", 4f);
+			otherCrab.use();
 
 		}
 	}
 
-	void wakeUp(){
-		otherCrab.gameObject.SetActive(true);
+	public void use(){
+		enabled = false;
+		Pinchers.enabled = false;
+		canTransport = false;
+		Invoke("wakeUp", 4f);
 	}
+
+
+	void wakeUp(){
+		enabled = true;
+		canTransport = true;
+		Pinchers.enabled = true;
+
+	}
+
 }
