@@ -29,20 +29,27 @@ namespace CameraBehaviour {
             if (approachRate <= 0f || approachRate > 1f) {
                 throw new InvalidOperationException("approachRate out of range ]0,1]: " + approachRate);
             }
+            if (GetComponent<Collider2D>() == null || !GetComponent<Collider2D>().isTrigger) {
+                throw new InvalidOperationException("A trigger collider is required in order to make FollowInterest work");
+            }
             camera = GetComponentInChildren<Camera>();
             originalFov = camera.fieldOfView;
         }
 
         void Update() {
-            ForgetPointOfInterestIfOnDifferentLayer();
+            ForgetPointOfInterestIfInactiveOrOnDifferentLayer();
             ForceCameraPositionIfFollowingPointOfInterest();
             MoveCameraTowardPointOfInterest();
             AdjustCameraZoom();
             SaveCameraLastAbsolutePosition();
         }
 
-        void ForgetPointOfInterestIfOnDifferentLayer() {
+        void ForgetPointOfInterestIfInactiveOrOnDifferentLayer() {
             if (currentPointOfInterest == null) { return; }
+            if (!currentPointOfInterest.gameObject.activeInHierarchy) {
+                currentPointOfInterest = null;
+                return;
+            }
             var layer = currentPointOfInterest.gameObject.layer;
             if (world.CurrentSlice.layer != layer) { currentPointOfInterest = null; }
         }
