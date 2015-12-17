@@ -21,6 +21,7 @@ namespace Gestures {
 
         void Awake() {
             var debug = !(Application.platform == RuntimePlatform.Android);
+//			var debug = false;
             if (debug) {
                 gesturesEmulator.OnClickStart += (position, duration) => NotifyGestureStart(Tap(position, duration));
                 gesturesEmulator.OnClickEnd += (position, duration) => NotifyGestureEnd(Tap(position, duration));

@@ -17,10 +17,10 @@ public class BreakableRockEffects : MonoBehaviour {
 
 	public void BreakRock(Vector2 impact){
 		Rigidbody2D r2d = gameObject.AddComponent<Rigidbody2D> ();
-		gameObject.GetComponent<BoxCollider2D> ().enabled = true;
+		gameObject.GetComponent<Collider2D> ().enabled = true;
 		r2d.mass = mass;
 		r2d.drag = drag;
-		r2d.AddForce (impact, ForceMode2D.Impulse);
+//		r2d.AddForce (impact, ForceMode2D.Impulse);
 		curTime = Time.time;
 		enabled = true;
 		rend = GetComponent <SpriteRenderer> ();
