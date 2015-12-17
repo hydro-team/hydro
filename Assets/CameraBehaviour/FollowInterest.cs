@@ -22,6 +22,7 @@ namespace CameraBehaviour {
         new Camera camera;
         float originalFov;
         PointOfInterest currentPointOfInterest;
+        Vector3 cameraLastAbsolutePosition;
 
         void Awake() {
             if (approachRate <= 0f || approachRate > 1f) {
@@ -33,14 +34,20 @@ namespace CameraBehaviour {
 
         void Update() {
             ForgetPointOfInterestIfOnDifferentLayer();
+            ForceCameraPositionIfFollowingPointOfInterest();
             MoveCameraTowardPointOfInterest();
             AdjustCameraZoom();
+            SaveCameraLastAbsolutePosition();
         }
 
         void ForgetPointOfInterestIfOnDifferentLayer() {
             if (currentPointOfInterest == null) { return; }
             var layer = currentPointOfInterest.gameObject.layer;
             if (world.CurrentSlice.layer != layer) { currentPointOfInterest = null; }
+        }
+
+        void ForceCameraPositionIfFollowingPointOfInterest() {
+            if (currentPointOfInterest != null) { camera.transform.position = cameraLastAbsolutePosition; }
         }
 
         void MoveCameraTowardPointOfInterest() {
@@ -50,10 +57,10 @@ namespace CameraBehaviour {
             var distance = displacement - (Vector2)cameraPosition;
             if (distance.sqrMagnitude < 0.0001f) {
                 camera.transform.localPosition = new Vector3(displacement.x, displacement.y, cameraPosition.z);
-                return;
+            } else {
+                Vector3 movement = (displacement - (Vector2)cameraPosition) * approachRate;
+                camera.transform.localPosition += movement;
             }
-            Vector3 movement = (displacement - (Vector2)cameraPosition) * approachRate;
-            camera.transform.localPosition += movement;
         }
 
         Vector2 DisplacementOfCurrentPointOfInterest() {
@@ -75,11 +82,16 @@ namespace CameraBehaviour {
             return currentPointOfInterest == null ? originalFov : originalFov + currentPointOfInterest.fovDelta;
         }
 
+        void SaveCameraLastAbsolutePosition() {
+            cameraLastAbsolutePosition = camera.transform.position;
+        }
+
         void OnTriggerEnter2D(Collider2D other) {
             var point = other.gameObject.GetComponent<PointOfInterest>();
             if (point == null) { return; }
             if (point.gameObject.layer != world.CurrentSlice.layer) { return; }
             currentPointOfInterest = point;
+            SaveCameraLastAbsolutePosition();
         }
 
         void OnTriggerExit2D(Collider2D other) {
