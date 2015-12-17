@@ -72,20 +72,24 @@ public class WorldManager : MonoBehaviour {
 
     bool CanMoveFar() {
         if (currentSliceIndex == 0) { return false; }
-        var slice = slices[currentSliceIndex - 1];
-        var radius = character.GetComponent<CircleCollider2D>().radius * character.transform.localScale.x;
-        var layerMask = 1 << slice.layer;
-        var collider = Physics2D.OverlapCircle((Vector2)character.transform.position, radius, layerMask);
-        return collider == null;
+        var sliceFar = slices[currentSliceIndex - 1];
+        var layerMask = 1 << sliceFar.layer;
+        var collider = Physics2D.OverlapCircle((Vector2)character.transform.position, OverlapRadius(), layerMask);
+        return collider == null || collider.isTrigger;
     }
 
     bool CanMoveNear() {
         if (currentSliceIndex == slices.Length - 1) { return false; }
-        var slice = slices[currentSliceIndex + 1];
-        var radius = character.GetComponent<CircleCollider2D>().radius * character.transform.localScale.x;
-        var layerMask = 1 << slice.layer;
-        var collider = Physics2D.OverlapCircle((Vector2)character.transform.position, radius, layerMask);
-        return collider == null;
+        var sliceNear = slices[currentSliceIndex + 1];
+        var layerMask = 1 << sliceNear.layer;
+        var collider = Physics2D.OverlapCircle((Vector2)character.transform.position, OverlapRadius(), layerMask);
+        return collider == null || collider.isTrigger;
+    }
+
+    float OverlapRadius() {
+        var scale = character.transform.localScale;
+        var radiusScale = Mathf.Max(Mathf.Abs(scale.x), Mathf.Abs(scale.y));
+        return character.GetComponent<CircleCollider2D>().radius * radiusScale;
     }
 
     void MoveFar(Sprinch spread) {
