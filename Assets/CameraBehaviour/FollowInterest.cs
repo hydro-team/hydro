@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System;
+using Extensions;
 
 namespace CameraBehaviour {
 
@@ -47,19 +48,18 @@ namespace CameraBehaviour {
         }
 
         void ForceCameraPositionIfFollowingPointOfInterest() {
-            if (currentPointOfInterest != null) { camera.transform.position = cameraLastAbsolutePosition; }
+            if (currentPointOfInterest != null) { camera.MoveTo(cameraLastAbsolutePosition); }
         }
 
         void MoveCameraTowardPointOfInterest() {
-            var displacement = DisplacementOfCurrentPointOfInterest();
-            var cameraPosition = camera.transform.localPosition;
-            if ((Vector2)cameraPosition == displacement) { return; }
-            var distance = displacement - (Vector2)cameraPosition;
+            Vector2 pointOfInterest = DisplacementOfCurrentPointOfInterest();
+            Vector2 cameraPosition = camera.transform.localPosition;
+            if (cameraPosition == pointOfInterest) { return; }
+            var distance = pointOfInterest - cameraPosition;
             if (distance.sqrMagnitude < 0.0001f) {
-                camera.transform.localPosition = new Vector3(displacement.x, displacement.y, cameraPosition.z);
+                camera.MoveLocallyTo(pointOfInterest);
             } else {
-                Vector3 movement = (displacement - (Vector2)cameraPosition) * approachRate;
-                camera.transform.localPosition += movement;
+                camera.MoveToward((pointOfInterest - cameraPosition) * approachRate);
             }
         }
 
