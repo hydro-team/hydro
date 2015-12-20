@@ -99,6 +99,7 @@ public class WorldManager : MonoBehaviour {
             Physics2D.IgnoreLayerCollision(character.layer, CurrentSlice.layer, false);
             var position = character.transform.position;
             character.transform.position = new Vector3(position.x, position.y, CurrentSliceZ);
+            RefreshCharacterCollisionStatusHack();
             sounds.Play("/ambientali/sliceMove");
 
 			anim.animCameraConfirm();
@@ -121,6 +122,7 @@ public class WorldManager : MonoBehaviour {
             Physics2D.IgnoreLayerCollision(character.layer, CurrentSlice.layer, false);
             var position = character.transform.position;
             character.transform.position = new Vector3(position.x, position.y, CurrentSliceZ);
+            RefreshCharacterCollisionStatusHack();
             sounds.Play("/ambientali/sliceMove");
 
 			
@@ -135,6 +137,13 @@ public class WorldManager : MonoBehaviour {
 			anim.animBounce(false);
         }
     }
+
+    void RefreshCharacterCollisionStatusHack() {
+        var collider = character.GetComponent<Collider2D>();
+        collider.enabled = false;
+        collider.enabled = true;
+    }
+
 	void ScoutNear(Sprinch pinch) {
 		Debug.Log ("Scout iniziato");
 		anim.animCameraFarNear(false);
