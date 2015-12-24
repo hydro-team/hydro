@@ -1,10 +1,15 @@
 fileFormatVersion: 2
 guid: 4c0f9289de2978947ab1bdc74ed363f4
-timeCreated: 1447516514
+timeCreated: 1450978137
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - flows: {instanceID: 0}
+  - camera: {instanceID: 0}
+  - gestures: {instanceID: 0}
+  - world: {instanceID: 0}
+  - soundFacade: {fileID: 116146, guid: 44ac390e4b7af4c418f9c1bf7ecf1f0d, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
