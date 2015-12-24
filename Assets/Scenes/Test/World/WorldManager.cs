@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System;
 using Gestures;
-using Sound;
+using Sounds;
 
 public class WorldManager : MonoBehaviour {
 

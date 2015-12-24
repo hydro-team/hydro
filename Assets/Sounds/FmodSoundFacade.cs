@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using FMOD.Studio;
 
-namespace Sound {
+namespace Sounds {
 
     /// <summary>
     /// Uses the FMOD Studio sound engine.

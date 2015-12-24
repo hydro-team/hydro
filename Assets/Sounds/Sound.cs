@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace Sound {
+namespace Sounds {
 
     /// <summary>A sound instance created through a SoundFacade</summary>
     public interface Sound {

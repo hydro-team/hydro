@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using System;
-using Sound;
+using Sounds;
 
 public class MainMenu : MonoBehaviour {
 
     SoundFacade sounds;
-    Sound.Sound music;
+    Sound music;
 
     void Awake() {
         sounds = GetComponent<SoundFacade>();

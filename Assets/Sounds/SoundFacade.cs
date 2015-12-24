@@ -1,4 +1,4 @@
-﻿namespace Sound {
+﻿namespace Sounds {
 
     /// <summary>
     /// Abstracts the sound subsystem with a simple interface.
