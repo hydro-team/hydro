@@ -55,11 +55,16 @@ namespace UnderwaterPhysics {
 
         void OnTriggerStay2D(Collider2D other) {
             if (!active) { return; }
+            if (IsHydro(other)) { return; }
             var body = other.gameObject.GetComponent<Rigidbody2D>();
             if (body != null) {
                 var force = CalculateForceFor(body);
                 body.AddForce(force);
             }
+        }
+
+        bool IsHydro(Collider2D collider) {
+            return collider.gameObject.layer == LayerMask.NameToLayer("Hydro");
         }
 
         Vector2 CalculateForceFor(Rigidbody2D body) {
