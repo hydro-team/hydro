@@ -2,6 +2,7 @@
 using System;
 using Gestures;
 using Sounds;
+using Extensions;
 
 public class WorldManager : MonoBehaviour {
 
@@ -9,15 +10,17 @@ public class WorldManager : MonoBehaviour {
 
     public GameObject character;
     public GesturesDispatcher gestures;
+    public new Camera camera;
     public GameObject soundFacade;
     public GameObject[] slices;
     public Vector2 initialPosition;
     public int initialSlice;
-	public HydroAnimationScript anim;
+    public HydroAnimationScript anim;
 
     static int currentSliceIndex;
 
     SoundFacade sounds;
+    MotionController hydroController;
 
     public int CurrentSliceIndex {
         get { return currentSliceIndex; }
@@ -38,21 +41,23 @@ public class WorldManager : MonoBehaviour {
 
     void Awake() {
         sounds = soundFacade.GetComponent<SoundFacade>();
-        if (sounds == null) { throw new InvalidOperationException("Missing SoundFacade component game object assigned to soundFacade"); }
+        if (sounds == null) { throw new InvalidOperationException("Missing SoundFacade component from the soundFacade game object"); }
+        hydroController = character.GetComponent<MotionController>();
+        if (hydroController == null) { throw new InvalidOperationException("Missing MotionController component from the character game object"); }
         currentSliceIndex = initialSlice;
-		character.transform.SetParent (slices [initialSlice].transform);
+        character.transform.SetParent(slices[initialSlice].transform);
         AlignSlices();
-//        character.transform.position = new Vector3(initialPosition.x, initialPosition.y, CurrentSliceZ);
+        //        character.transform.position = new Vector3(initialPosition.x, initialPosition.y, CurrentSliceZ);
         for (int i = 0; i < slices.Length; i++) {
             if (i != initialSlice) {
                 Physics2D.IgnoreLayerCollision(character.layer, slices[i].layer, true);
             }
         }
 
-
-		gestures.OnPinchStart += ScoutNear;
-		gestures.OnSpreadStart += ScoutFar;
-//TODO Manca la cancellazione della gesture 
+        gestures.OnTapEnd += MoveCharacter;
+        gestures.OnPinchStart += ScoutNear;
+        gestures.OnSpreadStart += ScoutFar;
+        //TODO Manca la cancellazione della gesture 
 
 
         gestures.OnPinchEnd += MoveNear;
@@ -66,8 +71,13 @@ public class WorldManager : MonoBehaviour {
     void AlignSlices() {
         for (int i = 0; i < slices.Length; i++) {
             slices[i].transform.position = Vector3.back * (i * SLICE_DEPTH);
-			slices[i].SetActive(true);
+            slices[i].SetActive(true);
         }
+    }
+
+    void MoveCharacter(Tap tap) {
+        var position = camera.ScreenToWorldPoint(tap.Position, character.transform.position.z);
+        hydroController.MoveTo(position);
     }
 
     bool CanMoveFar() {
@@ -102,15 +112,15 @@ public class WorldManager : MonoBehaviour {
             RefreshCharacterCollisionStatusHack();
             sounds.Play("/ambientali/sliceMove");
 
-			anim.animCameraConfirm();
-			anim.animHydroFarNear(true);
-			anim.switchSlice(CurrentSlice);
+            anim.animCameraConfirm();
+            anim.animHydroFarNear(true);
+            anim.switchSlice(CurrentSlice);
 
         } else {
             sounds.Play("/ambientali/limitHit");
-			
-			anim.animCameraCancel();
-			anim.animBounce(true);
+
+            anim.animCameraCancel();
+            anim.animBounce(true);
 
         }
     }
@@ -125,16 +135,16 @@ public class WorldManager : MonoBehaviour {
             RefreshCharacterCollisionStatusHack();
             sounds.Play("/ambientali/sliceMove");
 
-			
-			anim.animCameraConfirm();
-			anim.animHydroFarNear(false);
-			anim.switchSlice(CurrentSlice);
+
+            anim.animCameraConfirm();
+            anim.animHydroFarNear(false);
+            anim.switchSlice(CurrentSlice);
 
         } else {
             sounds.Play("/ambientali/limitHit");
 
-			anim.animCameraCancel();
-			anim.animBounce(false);
+            anim.animCameraCancel();
+            anim.animBounce(false);
         }
     }
 
@@ -144,15 +154,15 @@ public class WorldManager : MonoBehaviour {
         collider.enabled = true;
     }
 
-	void ScoutNear(Sprinch pinch) {
-		Debug.Log ("Scout iniziato");
-		anim.animCameraFarNear(false);
-	}
-	void ScoutFar(Sprinch spread) {
-		anim.animCameraFarNear(true);
-	}
+    void ScoutNear(Sprinch pinch) {
+        Debug.Log("Scout iniziato");
+        anim.animCameraFarNear(false);
+    }
+    void ScoutFar(Sprinch spread) {
+        anim.animCameraFarNear(true);
+    }
 
-	void ScoutCanceled(Sprinch spread) {
-		anim.animCameraCancel();
-	}
+    void ScoutCanceled(Sprinch spread) {
+        anim.animCameraCancel();
+    }
 }
