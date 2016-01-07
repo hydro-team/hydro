@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System;
+using System.Collections;
 using Gestures;
 using Sounds;
 using Extensions;
@@ -78,6 +79,7 @@ public class WorldManager : MonoBehaviour {
     void MoveCharacter(Tap tap) {
         var position = camera.ScreenToWorldPoint(tap.Position, character.transform.position.z);
         hydroController.MoveTo(position);
+        StartCoroutine(TapEffect(position));
     }
 
     bool CanMoveFar() {
@@ -164,5 +166,14 @@ public class WorldManager : MonoBehaviour {
 
     void ScoutCanceled(Sprinch spread) {
         anim.animCameraCancel();
+    }
+
+    IEnumerator TapEffect(Vector2 position) {
+        var circle = transform.FindChild("CircleIcon");
+        circle.transform.MoveTo(position);
+        circle.gameObject.SetActive(true);
+        yield return new WaitForSeconds(0.25f);
+        circle.gameObject.SetActive(false);
+        yield return null;
     }
 }
