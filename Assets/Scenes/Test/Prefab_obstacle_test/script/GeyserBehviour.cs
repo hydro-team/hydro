@@ -80,13 +80,17 @@ public class GeyserBehviour : MonoBehaviour {
 	/// the collider2D of the objet that entered in the trigger area
 	/// </param>
 	void OnTriggerStay2D(Collider2D other) {
-		//Debug.Log (other.name);
-		Rigidbody2D rb = other.attachedRigidbody;
-		if(rb != null){
+        if (IsHydro(other)) { return; }
+        Rigidbody2D body = other.GetComponent<Rigidbody2D>();
+		if(body != null){
 			Vector2 dir = other.gameObject.transform.position - gameObject.transform.position;
 			float dist = Vector2.Distance(other.gameObject.transform.position,gameObject.transform.position);
 			Debug.DrawRay(this.transform.position, dir);
-			rb.AddForce(dir*(intensity/dist));
+			body.AddForce(dir*(intensity/dist));
 		}
-	}
+    }
+
+    bool IsHydro(Collider2D collider) {
+        return collider.gameObject.layer == LayerMask.NameToLayer("Hydro");
+    }
 }
