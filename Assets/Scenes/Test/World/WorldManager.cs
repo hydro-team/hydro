@@ -77,9 +77,10 @@ public class WorldManager : MonoBehaviour {
     }
 
     void MoveCharacter(Tap tap) {
-        var position = camera.ScreenToWorldPoint(tap.Position, character.transform.position.z);
+        var z = character.transform.position.z;
+        var position = camera.ScreenToWorldPoint(tap.Position, z);
         hydroController.MoveTo(position);
-        StartCoroutine(TapEffect(position));
+        StartCoroutine(TapEffect(new Vector3(position.x, position.y, z)));
     }
 
     bool CanMoveFar() {
@@ -168,9 +169,9 @@ public class WorldManager : MonoBehaviour {
         anim.animCameraCancel();
     }
 
-    IEnumerator TapEffect(Vector2 position) {
+    IEnumerator TapEffect(Vector3 position) {
         var circle = transform.FindChild("CircleIcon");
-        circle.transform.MoveTo(position);
+        circle.transform.position = position;
         circle.gameObject.SetActive(true);
         yield return new WaitForSeconds(0.25f);
         circle.gameObject.SetActive(false);
