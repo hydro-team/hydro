@@ -19,6 +19,7 @@ public class Polluting_tube_behaviour : MonoBehaviour {
 		if(s == "destructablerock"){
 			active = false;
 			particle.gameObject.SetActive(false);
+			WaterColorManager.instance.brokenTube();
 		}
 	}
 	private void setVisible(bool visible){

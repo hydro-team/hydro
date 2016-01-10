@@ -8,12 +8,14 @@ public class PollutionSpotBehaviour : MonoBehaviour {
 	public float radius;
 
 	private Vector3 origin;*/
+	Animator anim;
 
 	// Use this for initialization
 	void Start () {
 		/*maxTime = Random.Range (3,20);
 		curtime = maxTime;
 		origin = transform.position;*/
+		anim = GetComponent<Animator>();
 	}
 	
 	// Update is called once per frame
@@ -36,7 +38,12 @@ public class PollutionSpotBehaviour : MonoBehaviour {
 
 	public void OnCollisionEnter2D(Collision2D collided){
 		if(collided.gameObject.tag == "Player"){
-			gameObject.SetActive(false);
+			WaterColorManager.instance.eatenSpot();
+			anim.SetTrigger("hit");
 		}
+	}
+
+	public void eaten(){
+		gameObject.SetActive(false);
 	}
 }
