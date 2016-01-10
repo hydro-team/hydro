@@ -4,10 +4,6 @@ using System;
 
 public class GuiManager : MonoBehaviour {
 
-	public GameObject MapPop;
-	public GameObject QuestPop;
-	public GameObject OptionPop;
-
 	public GameObject[] Buttons;
 	// Use this for initialization
 	void Start () {
