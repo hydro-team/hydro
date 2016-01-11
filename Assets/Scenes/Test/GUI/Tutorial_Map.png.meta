@@ -1,12 +1,13 @@
 fileFormatVersion: 2
-guid: d8adb9fcbbf710449be792447560c391
-timeCreated: 1452366561
+guid: 4aa5d70e6280d71439f41846ce0cd6c9
+timeCreated: 1452508150
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: pesciolino intrappolato_0
-    21300002: pesciolino intrappolato_2
-    21300004: pesciolino intrappolato_3
+    21300000: Tutorial_Map_0
+    21300002: Tutorial_Map_1
+    21300004: Tutorial_Map_2
+    21300006: Tutorial_Map_3
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -53,35 +54,45 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     sprites:
-    - name: pesciolino intrappolato_0
+    - name: Tutorial_Map_0
       rect:
         serializedVersion: 2
-        x: 259
-        y: 335
-        width: 254
-        height: 130
+        x: 0
+        y: 773
+        width: 539
+        height: 251
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: pesciolino intrappolato_2
+    - name: Tutorial_Map_1
       rect:
         serializedVersion: 2
-        x: 546
-        y: 394
-        width: 48
-        height: 65
+        x: 0
+        y: 478
+        width: 1024
+        height: 293
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: pesciolino intrappolato_3
+    - name: Tutorial_Map_2
       rect:
         serializedVersion: 2
-        x: 399
-        y: 273
-        width: 29
-        height: 32
+        x: 0
+        y: 0
+        width: 1024
+        height: 482
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Tutorial_Map_3
+      rect:
+        serializedVersion: 2
+        x: 539
+        y: 771
+        width: 485
+        height: 253
+      alignment: 0
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 

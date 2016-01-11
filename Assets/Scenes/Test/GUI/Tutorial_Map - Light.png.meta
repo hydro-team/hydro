@@ -1,12 +1,17 @@
 fileFormatVersion: 2
-guid: c3e99e639cb8c084fb6b6feffc150e70
-timeCreated: 1452362415
+guid: fa4e3bee65fd13b4ab423bfdf6eb433f
+timeCreated: 1452508561
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: pesce grande preoccupato_0
-    21300002: pesce grande preoccupato_1
-    21300004: pesce grande preoccupato_2
+    21300000: Tutorial_Map - Light_0
+    21300002: Tutorial_Map - Light_1
+    21300004: Tutorial_Map - Light_2
+    21300006: Tutorial_Map - Light_3
+    21300008: Tutorial_MapL_0
+    21300010: Tutorial_MapL_1
+    21300012: Tutorial_MapL_2
+    21300014: Tutorial_MapL_3
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -53,35 +58,45 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     sprites:
-    - name: pesce grande preoccupato_0
+    - name: Tutorial_MapL_0
       rect:
         serializedVersion: 2
-        x: 158
-        y: 286
-        width: 428
-        height: 229
+        x: 0
+        y: 773
+        width: 539
+        height: 251
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: pesce grande preoccupato_1
+    - name: Tutorial_MapL_1
       rect:
         serializedVersion: 2
-        x: 637
-        y: 353
-        width: 75
-        height: 79
+        x: 0
+        y: 478
+        width: 1024
+        height: 293
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: pesce grande preoccupato_2
+    - name: Tutorial_MapL_2
       rect:
         serializedVersion: 2
-        x: 326
-        y: 176
-        width: 76
-        height: 53
+        x: 0
+        y: 0
+        width: 1024
+        height: 482
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Tutorial_MapL_3
+      rect:
+        serializedVersion: 2
+        x: 539
+        y: 771
+        width: 485
+        height: 253
+      alignment: 0
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 
