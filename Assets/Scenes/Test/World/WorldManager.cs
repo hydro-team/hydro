@@ -14,7 +14,6 @@ public class WorldManager : MonoBehaviour {
     public GesturesDispatcher gestures;
     public new Camera camera;
     public GameObject soundFacade;
-    public QuestsEnvironment environment;
     public GameObject[] slices;
     public Vector2 initialPosition;
     public int initialSlice;
@@ -69,13 +68,6 @@ public class WorldManager : MonoBehaviour {
         var swipeSound = sounds["/ambientali/swype"];
         gestures.OnSwipeStart += swipe => swipeSound.Play();
         gestures.OnSwipeEnd += swipe => swipeSound.Stop();
-
-        environment.OnQuestStarted += started => Debug.Log("New quest: " + started.quest.Name());
-        environment.OnQuestSucceeded += succeeded => Debug.Log("Quest succeeded: " + succeeded.quest.Name());
-        environment.OnQuestFailed += failed => Debug.Log("Quest failed: " + failed.quest.Name());
-        environment.OnNewObjective += (quest, objective) => Debug.Log("New objective: " + objective.Description());
-        environment.OnObjectiveSucceeded += (quest, objective) => Debug.Log("Objective succeeded: " + objective.Description());
-        environment.OnObjectiveFailed += (quest, objective) => Debug.Log("Objective failed: " + objective.Description());
     }
 
     void AlignSlices() {
