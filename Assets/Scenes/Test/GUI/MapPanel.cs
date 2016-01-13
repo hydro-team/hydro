@@ -25,7 +25,7 @@ public class MapPanel : MonoBehaviour
 	public void activePanel (){
 		if (enabled) {
 			//MapTitle.text = (worldManager.CurrentSliceIndex + 1).ToString ();
-			MapTitle.text = "Level + " + (worldManager.CurrentSliceIndex + 1).ToString ();
+			MapTitle.text = "Act " + (worldManager.CurrentSliceIndex + 1).ToString();
 			Sprite s = MiniMapPositioning.instance.getLevelImage();
 			Map.GetComponent<Image>().sprite = s;
 		}
