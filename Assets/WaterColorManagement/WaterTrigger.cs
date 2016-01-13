@@ -16,6 +16,11 @@ public class WaterTrigger : MonoBehaviour {
 
 		if(bound.Contains(hydro.transform.position)){
 			WaterColorManager.instance.changedLevel(level);
+			MiniMapPositioning.instance.changedLevel(level);
 		}
+	}
+
+	public Vector3 centerLevel(){
+		return bound.center;
 	}
 }
