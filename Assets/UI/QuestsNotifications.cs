@@ -12,6 +12,16 @@ public class QuestsNotifications : MonoBehaviour {
 
     Queue<string> messages = new Queue<string>();
     bool showingNotification = false;
+    bool hidden;
+
+    public void Show() {
+        notification.gameObject.SetActive(true);
+        hidden = false;
+    }
+    public void Hide() {
+        notification.gameObject.SetActive(false);
+        hidden = true;
+    }
 
     void Awake() {
         environment.OnQuestStarted += NotifyQuestStarted;
@@ -30,7 +40,7 @@ public class QuestsNotifications : MonoBehaviour {
 
     IEnumerator ShowNotification(string message) {
         showingNotification = true;
-        notification.gameObject.SetActive(true);
+        if (!hidden) { notification.gameObject.SetActive(true); }
         notification.text = message;
         var fadeTime = 2f;
         var color = notification.color;
