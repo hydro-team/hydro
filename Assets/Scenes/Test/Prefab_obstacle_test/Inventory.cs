@@ -28,4 +28,4 @@ public class Inventory : MonoBehaviour {
 	}
 }
 
-public enum Items {SEAWEED, EMPTY};
+public enum Items {SEAWEED, EMPTY, MUDSHIELD};
