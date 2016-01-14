@@ -20,9 +20,10 @@ public class MiniMapPositioning : MonoBehaviour {
 		}
 		currLevel = 0;
 		index = 0;
+		Debug.Log(fogDisclosure.instance);
 		zones = new bool[fogDisclosure.instance.getZonesSize()];
 		for(int i = 0; i < zones.Length; i++){
-			zones[i] = zones[i] = fogDisclosure.instance.getStatusOne(i, slice);;
+			zones[i] = fogDisclosure.instance.getStatusOne(i, slice);;
 		}
 	}
 

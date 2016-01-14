@@ -11,7 +11,7 @@ public class MiniMapFog : MonoBehaviour {
 	}
 
 	public void onActive(){
-
+		Debug.Log("CAlled ");
 		int level = MiniMapPositioning.instance.getLevel();
 		int slice = MiniMapPositioning.instance.getSlice();
 		fogStatus = MiniMapPositioning.instance.getFogStatus();

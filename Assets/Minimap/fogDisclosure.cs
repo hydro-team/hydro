@@ -9,10 +9,13 @@ public class fogDisclosure : MonoBehaviour {
 	
 	GameObject hydro;
 	// Use this for initialization
-	void Start () {
+	void Awake () {
+		Debug.Log("Awake fogDis");
 		if(instance == null){
+			Debug.Log("instance = null");
 			instance = this;
 		}else{
+			Debug.Log(instance);
 			Destroy(this.gameObject);
 		}
 		hydro = GameObject.FindGameObjectWithTag("Player");
