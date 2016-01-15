@@ -11,8 +11,7 @@ public class FrogQuestTrigger : MonoBehaviour {
     void OnTriggerEnter2D(Collider2D other) {
         if (context != null) { return; }
         if (other.gameObject.layer != LayerMask.NameToLayer("Hydro")) { return; }
-        environment.gameObject.AddComponent<ActiveQuest>().Begin(new FrogQuest());
-        context = environment.GetComponent<FrogQuest.Context>();
+        context = environment.BeginQuest<FrogQuest.Context>(new FrogQuest());
     }
 
     void Update() {

@@ -12,6 +12,15 @@ namespace Quests {
         public event Action<ActiveQuest, QuestObjective> OnNewObjective, OnObjectiveSucceeded, OnObjectiveFailed;
         public event Action<ActiveQuest> OnQuestStarted, OnQuestSucceeded, OnQuestFailed;
 
+        public void BeginQuest(Quest quest) {
+            gameObject.AddComponent<ActiveQuest>().Begin(quest);
+        }
+
+        public T BeginQuest<T>(Quest quest) {
+            gameObject.AddComponent<ActiveQuest>().Begin(quest);
+            return GetComponent<T>();
+        }
+
         public void NewObjective(ActiveQuest quest, QuestObjective objective) {
             OnNewObjective(quest, objective);
         }
