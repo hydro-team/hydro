@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 705700aeb0de0354aad2925bc38fabd1
+timeCreated: 1452617702
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - Emission: {instanceID: 0}
+  - SpriteLightMaterial: {fileID: 2100000, guid: 077f4817e5934804bbd2f7495b36753d,
+      type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

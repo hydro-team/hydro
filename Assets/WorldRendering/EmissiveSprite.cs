@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class LightReactiveSprite : MonoBehaviour {
+public class EmissiveSprite : MonoBehaviour {
 
-	public Sprite Light;
+	public Sprite Emission;
 	public  Material SpriteLightMaterial;
 
 	// Use this for initialization
@@ -12,13 +12,13 @@ public class LightReactiveSprite : MonoBehaviour {
 		Renderer rend = gameObject.GetComponent<Renderer> ();
 		rend.material = SpriteLightMaterial;
 		rend.GetPropertyBlock (bloc);
-		bloc.AddTexture ("_LightTex",Light.texture);
+		bloc.AddTexture ("_EmissionTex",Emission.texture);
 		rend.SetPropertyBlock (bloc);
 
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
-	
+
 	}
 }
