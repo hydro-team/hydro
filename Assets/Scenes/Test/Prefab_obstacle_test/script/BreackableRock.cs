@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using Saves;
 
 public class BreackableRock : MonoBehaviour {
 
@@ -11,11 +11,17 @@ public class BreackableRock : MonoBehaviour {
 	/// corrective coefficient depending by the resistance of the mateial (t be trigger manually)
 	/// </summary>
 	public float coefficient;
+    public SaveContext saves;
+    public string rockName;
+
+    BreakableObject state;
 	
 	// Use this for initialization
-	void Start () {
-		//life = 10f;
-	}
+	void Awake () {
+        state = saves.GetOrCreate<BreakableObject>(rockName);
+        if (state.broken) { gameObject.SetActive(false); }
+        //life = 10f;
+    }
 	
 	/// <summary>
 	/// This method perform the task of cheching that the object is still active.
@@ -64,6 +70,7 @@ public class BreackableRock : MonoBehaviour {
 			Debug.Log ("BreackableRock"+"Damage " + damage);
 			life = life - damage;
 			if(life <=0){
+                state.broken = true;
 				GetComponent<Collider2D>().enabled = false;
 				foreach(BreakableRockEffects brEff in transform.GetComponentsInChildren<BreakableRockEffects>()){
 					brEff.BreakRock( collided.relativeVelocity*collided.rigidbody.mass);
