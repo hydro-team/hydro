@@ -1,47 +1,54 @@
 ﻿using UnityEngine;
-using System.Collections;
+using Gestures;
 using System;
 
 public class GuiManager : MonoBehaviour {
 
-	public GameObject[] Buttons;
-	// Use this for initialization
-	void Start () {
+    public GesturesDispatcher gestures;
+    public QuestsNotifications quests;
+    public GameObject mapPane;
+    public GameObject questPane;
+    public GameObject optionsPane;
 
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    GameObject active;
 
-	}
-	bool MapOpen = false;
-	public void Map(){
-		openPop (UIEnum.MAP);
-	}
-	bool QuestOpen= false;
-	public void Quest(){
-		openPop (UIEnum.QUEST);
-	}
-	bool OptionsOpen = false;
-	public void Options(){
-		openPop (UIEnum.OPTIONS);
-	}
+    public void Map() {
+        OpenPop(mapPane);
+    }
 
-	void openPop( UIEnum pushed){
-		GameObject go;
-		foreach (UIEnum en in Enum.GetValues(typeof(UIEnum))){
-			go = Buttons [(int)en];
-			if(!go.activeSelf && pushed == en){
-				go.SetActive(true);
-				}else{
-					go.SetActive(false);
-				}
-			}
-		}
+    public void Quest() {
+        OpenPop(questPane);
+    }
 
-		private enum UIEnum{
-			MAP,
-			QUEST,
-			OPTIONS
-		}
-	}
+    public void Options() {
+        OpenPop(optionsPane);
+    }
+
+    void OpenPop(GameObject pushed) {
+        if (pushed == active) {
+            active.SetActive(false);
+            EnableInteractions();
+            active = null;
+            return;
+        }
+        if (active != null) {
+            active.SetActive(false);
+            pushed.SetActive(true);
+            active = pushed;
+            return;
+        }
+        pushed.SetActive(true);
+        DisableInteractions();
+        active = pushed;
+    }
+
+    void EnableInteractions() {
+        gestures.gameObject.SetActive(true);
+        quests.Show();
+    }
+
+    void DisableInteractions() {
+        gestures.gameObject.SetActive(false);
+        quests.Hide();
+    }
+}

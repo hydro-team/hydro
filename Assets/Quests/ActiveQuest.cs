@@ -53,6 +53,8 @@ namespace Quests {
             return failedObjectives;
         }
 
+        public ProgressStatus Status { get { return status; } }
+
         bool OnlyOptionalObjectivesFailed() {
             return failedObjectives.All(objective => objective.IsOptional());
         }

@@ -11,6 +11,8 @@ public class RodBehaviour : MonoBehaviour {
 	/// </summary>
 	public float weightlimit;
 
+	public Transform destinationRespawn;
+
 
 	void Start () {
 		wedged = null;
@@ -46,7 +48,7 @@ public class RodBehaviour : MonoBehaviour {
 		if(wedged.tag == "Player" || wedged.GetComponent<Rigidbody2D>().mass >= weightlimit){
 			gameObject.GetComponentInParent<TimedFishingWire>().emergencyExit();
 			GameObject.Destroy(wedged.GetComponent<HingeJoint2D>());
-			//TODO Respawn the wedged
+			wedged.transform.position = destinationRespawn.position;
 			wedged = null;
 		}
 	}
