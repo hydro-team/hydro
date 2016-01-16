@@ -1,0 +1,184 @@
+fileFormatVersion: 2
+guid: 7cc3647403a99904187cde03a98fbdef
+timeCreated: 1452957267
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: trombette2_0
+    21300002: trombette2_1
+    21300004: trombette2_2
+    21300006: trombette2_3
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: trombette2_0
+      rect:
+        serializedVersion: 2
+        x: 66
+        y: 600
+        width: 598
+        height: 176
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 298, y: 24}
+        - {x: 277, y: 61}
+        - {x: 262, y: 73}
+        - {x: 107, y: 58}
+        - {x: -15, y: 46}
+        - {x: -149, y: 35}
+        - {x: -171, y: 55}
+        - {x: -217, y: 82}
+        - {x: -236, y: 88}
+        - {x: -288, y: 88}
+        - {x: -299, y: 74}
+        - {x: -299, y: 52}
+        - {x: -289, y: 45}
+        - {x: -157, y: -33}
+        - {x: -15, y: -64}
+        - {x: 92, y: -71}
+        - {x: 200, y: -64}
+        - {x: 244, y: -88}
+        - {x: 283, y: -88}
+        - {x: 297, y: -73}
+        - {x: 299, y: -68}
+        - {x: 299, y: 8}
+    - name: trombette2_1
+      rect:
+        serializedVersion: 2
+        x: 21
+        y: 74
+        width: 141
+        height: 474
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 70.5, y: 192}
+        - {x: 70.5, y: 231}
+        - {x: 65.5, y: 237}
+        - {x: 14.5, y: 237}
+        - {x: -60.5, y: 220}
+        - {x: -70.5, y: 203}
+        - {x: -70.5, y: 117}
+        - {x: -43.5, y: -123}
+        - {x: -53.5, y: -188}
+        - {x: -37.5, y: -222}
+        - {x: -19.5, y: -237}
+        - {x: -0.5, y: -237}
+        - {x: 22.5, y: -138}
+        - {x: 29.5, y: 17}
+        - {x: 58.5, y: 171}
+    - name: trombette2_2
+      rect:
+        serializedVersion: 2
+        x: 261
+        y: 89
+        width: 152
+        height: 429
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 58, y: 94.5}
+        - {x: 76, y: 151.5}
+        - {x: 76, y: 191.5}
+        - {x: 47, y: 214.5}
+        - {x: -33, y: 214.5}
+        - {x: -65, y: 205.5}
+        - {x: -76, y: 185.5}
+        - {x: -76, y: 182.5}
+        - {x: -38, y: 21.5}
+        - {x: -13, y: -86.5}
+        - {x: -74, y: -167.5}
+        - {x: -76, y: -191.5}
+        - {x: -76, y: -214.5}
+        - {x: -63, y: -214.5}
+        - {x: 33, y: -139.5}
+        - {x: 64, y: -91.5}
+        - {x: 71, y: -77.5}
+    - name: trombette2_3
+      rect:
+        serializedVersion: 2
+        x: 514
+        y: 42
+        width: 175
+        height: 494
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 78.5, y: 39}
+        - {x: 75.5, y: 205}
+        - {x: 67.5, y: 218}
+        - {x: 60.5, y: 244}
+        - {x: 44.5, y: 247}
+        - {x: -78.5, y: 247}
+        - {x: -87.5, y: 232}
+        - {x: -87.5, y: 187}
+        - {x: -14.5, y: 48}
+        - {x: -13.5, y: 16}
+        - {x: 8.5, y: -126}
+        - {x: 44.5, y: -247}
+        - {x: 65.5, y: -247}
+        - {x: 84.5, y: -237}
+        - {x: 87.5, y: -218}
+        - {x: 87.5, y: -119}
+        - {x: 69.5, y: -24}
+      - - {x: 5.5, y: -119}
+        - {x: 3.5, y: -121}
+        - {x: 3.5, y: -123}
+        - {x: 5.5, y: -125}
+        - {x: 7.5, y: -125}
+        - {x: 9.5, y: -123}
+        - {x: 9.5, y: -121}
+        - {x: 7.5, y: -119}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

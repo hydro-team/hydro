@@ -1,0 +1,342 @@
+fileFormatVersion: 2
+guid: 81c5911b8bdd2dd4cb3b7752000f53b8
+timeCreated: 1452785743
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: polpo a pezzi_0
+    21300002: polpo a pezzi_1
+    21300004: polpo a pezzi_2
+    21300006: polpo a pezzi_3
+    21300008: polpo a pezzi_4
+    21300010: polpo a pezzi_5
+    21300012: polpo a pezzi_6
+    21300014: polpo a pezzi_7
+    21300016: polpo a pezzi_8
+    21300018: polpo a pezzi_9
+    21300020: polpo a pezzi_10
+    21300022: polpo a pezzi_11
+    21300024: polpo a pezzi_12
+    21300026: polpo a pezzi_13
+    21300028: polpo a pezzi_14
+    21300030: polpo a pezzi_15
+    21300032: polpo a pezzi_16
+    21300034: polpo a pezzi_17
+    21300036: polpo a pezzi_18
+    21300038: polpo a pezzi_19
+    21300040: polpo a pezzi_20
+    21300042: polpo a pezzi_21
+    21300044: polpo a pezzi_22
+    21300046: polpo a pezzi_23
+    21300048: polpo a pezzi_24
+    21300050: polpo a pezzi_25
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: polpo a pezzi_0
+      rect:
+        serializedVersion: 2
+        x: 146
+        y: 641
+        width: 12
+        height: 17
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: polpo a pezzi_1
+      rect:
+        serializedVersion: 2
+        x: 191
+        y: 631
+        width: 17
+        height: 21
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: polpo a pezzi_2
+      rect:
+        serializedVersion: 2
+        x: 254
+        y: 614
+        width: 232
+        height: 157
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: polpo a pezzi_4
+      rect:
+        serializedVersion: 2
+        x: 605
+        y: 531
+        width: 61
+        height: 48
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: polpo a pezzi_5
+      rect:
+        serializedVersion: 2
+        x: 338
+        y: 431
+        width: 88
+        height: 90
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: polpo a pezzi_6
+      rect:
+        serializedVersion: 2
+        x: 695
+        y: 495
+        width: 68
+        height: 32
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: polpo a pezzi_7
+      rect:
+        serializedVersion: 2
+        x: 97
+        y: 377
+        width: 53
+        height: 70
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: polpo a pezzi_8
+      rect:
+        serializedVersion: 2
+        x: 179
+        y: 423
+        width: 145
+        height: 44
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: polpo a pezzi_9
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 311
+        width: 53
+        height: 114
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: polpo a pezzi_10
+      rect:
+        serializedVersion: 2
+        x: 453
+        y: 401
+        width: 114
+        height: 69
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: polpo a pezzi_11
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 364
+        width: 51
+        height: 27
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: polpo a pezzi_12
+      rect:
+        serializedVersion: 2
+        x: 219
+        y: 337
+        width: 101
+        height: 63
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: polpo a pezzi_13
+      rect:
+        serializedVersion: 2
+        x: 333
+        y: 270
+        width: 52
+        height: 105
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: polpo a pezzi_14
+      rect:
+        serializedVersion: 2
+        x: 583
+        y: 329
+        width: 52
+        height: 88
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: polpo a pezzi_15
+      rect:
+        serializedVersion: 2
+        x: 138
+        y: 262
+        width: 55
+        height: 82
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: polpo a pezzi_16
+      rect:
+        serializedVersion: 2
+        x: 459
+        y: 257
+        width: 97
+        height: 58
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: polpo a pezzi_17
+      rect:
+        serializedVersion: 2
+        x: 657
+        y: 301
+        width: 59
+        height: 29
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: polpo a pezzi_18
+      rect:
+        serializedVersion: 2
+        x: 52
+        y: 214
+        width: 74
+        height: 33
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: polpo a pezzi_19
+      rect:
+        serializedVersion: 2
+        x: 279
+        y: 192
+        width: 78
+        height: 67
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: polpo a pezzi_20
+      rect:
+        serializedVersion: 2
+        x: 536
+        y: 146
+        width: 46
+        height: 85
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: polpo a pezzi_21
+      rect:
+        serializedVersion: 2
+        x: 708
+        y: 229
+        width: 22
+        height: 42
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: polpo a pezzi_22
+      rect:
+        serializedVersion: 2
+        x: 21
+        y: 157
+        width: 32
+        height: 33
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: polpo a pezzi_23
+      rect:
+        serializedVersion: 2
+        x: 267
+        y: 86
+        width: 42
+        height: 84
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: polpo a pezzi_24
+      rect:
+        serializedVersion: 2
+        x: 566
+        y: 78
+        width: 40
+        height: 55
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: polpo a pezzi_25
+      rect:
+        serializedVersion: 2
+        x: 214
+        y: 19
+        width: 50
+        height: 35
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: polpo a pezzi_3
+      rect:
+        serializedVersion: 2
+        x: 447
+        y: 489
+        width: 156
+        height: 47
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
