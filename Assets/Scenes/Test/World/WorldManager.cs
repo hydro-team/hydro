@@ -19,6 +19,9 @@ public class WorldManager : MonoBehaviour {
     public int initialSlice;
     public HydroAnimationScript anim;
 
+	bool possiblepinch;
+	bool possiblespread;
+
     static int currentSliceIndex;
 
     SoundFacade sounds;
@@ -68,6 +71,9 @@ public class WorldManager : MonoBehaviour {
         var swipeSound = sounds["/ambientali/swype"];
         gestures.OnSwipeStart += swipe => swipeSound.Play();
         gestures.OnSwipeEnd += swipe => swipeSound.Stop();
+
+		possiblepinch = false;
+		possiblespread = false;
     }
 
     void AlignSlices() {
@@ -85,19 +91,23 @@ public class WorldManager : MonoBehaviour {
     }
 
     bool CanMoveFar() {
-        if (currentSliceIndex == 0) { return false; }
+     /*   if (currentSliceIndex == 0) { return false; }
         var sliceFar = slices[currentSliceIndex - 1];
         var layerMask = 1 << sliceFar.layer;
         var collider = Physics2D.OverlapCircle((Vector2)character.transform.position, OverlapRadius(), layerMask);
-        return collider == null || collider.isTrigger;
+        return collider == null || collider.isTrigger;*/
+
+		return possiblespread;
     }
 
     bool CanMoveNear() {
-        if (currentSliceIndex == slices.Length - 1) { return false; }
+      /*  if (currentSliceIndex == slices.Length - 1) { return false; }
         var sliceNear = slices[currentSliceIndex + 1];
         var layerMask = 1 << sliceNear.layer;
         var collider = Physics2D.OverlapCircle((Vector2)character.transform.position, OverlapRadius(), layerMask);
-        return collider == null || collider.isTrigger;
+        return collider == null || collider.isTrigger;*/
+
+		return possiblepinch;
     }
 
     float OverlapRadius() {
@@ -178,4 +188,18 @@ public class WorldManager : MonoBehaviour {
         circle.gameObject.SetActive(false);
         yield return null;
     }
+
+	public void possiblePinch(){
+		possiblepinch = true;
+		possiblespread = false;
+	}
+
+	public void possibleSpread(){
+		possiblepinch = false;
+		possiblespread = true;
+	}
+	public void exitVortex(){
+		possiblepinch = false;
+		possiblespread = false;
+	}
 }
