@@ -80,6 +80,9 @@ public class WorldManager : MonoBehaviour {
         for (int i = 0; i < slices.Length; i++) {
             slices[i].transform.position = Vector3.back * (i * SLICE_DEPTH);
             slices[i].SetActive(true);
+			GameObject woda = slices [i].transform.Find ("Water").gameObject;
+			alpha = woda.GetComponent<SpriteRenderer> ().color.a;
+			woda.transform.position = new Vector3 (woda.transform.position.x, woda.transform.position.y, slices [i].transform.position.z + SLICE_DEPTH / 2f);
         }
     }
 
@@ -122,7 +125,7 @@ public class WorldManager : MonoBehaviour {
             CurrentSliceIndex -= 1;
             Physics2D.IgnoreLayerCollision(character.layer, CurrentSlice.layer, false);
             var position = character.transform.position;
-			sliceOUT ();
+			StartCoroutine(slice(false));
             RefreshCharacterCollisionStatusHack();
             sounds.Play("/ambientali/sliceMove");
 
@@ -144,9 +147,9 @@ public class WorldManager : MonoBehaviour {
             Physics2D.IgnoreLayerCollision(character.layer, CurrentSlice.layer, true);
             CurrentSliceIndex += 1;
             Physics2D.IgnoreLayerCollision(character.layer, CurrentSlice.layer, false);
-            var position = character.transform.position;
-            character.transform.position = new Vector3(position.x, position.y, CurrentSliceZ);
-			sliceIN();
+//            var position = character.transform.position;
+//            character.transform.position = new Vector3(position.x, position.y, CurrentSliceZ);
+			StartCoroutine(slice(true));
             RefreshCharacterCollisionStatusHack();
             sounds.Play("/ambientali/sliceMove");
 
@@ -192,15 +195,35 @@ public class WorldManager : MonoBehaviour {
     }
 
 	public float slicingTime;
-	IEnumerator sliceIN(){
-		SpriteRenderer woda = CurrentSlice.transform.Find ("Water").GetComponent<SpriteRenderer>();
-		woda.color = new Color (woda.color.r, woda.color.g, woda.color.b, 0f);
+	float alpha;
+	IEnumerator slice(bool inout){
+		SpriteRenderer woda;
+		if (inout) {
+			woda = CurrentSlice.transform.Find ("Water").GetComponent<SpriteRenderer> ();
+		} else {
+			woda = slices[currentSliceIndex+1].transform.Find ("Water").GetComponent<SpriteRenderer> ();
+		}
+//		if(inout)woda.color = new Color (woda.color.r, woda.color.g, woda.color.b, 0f);
 		float time = Time.time;
-
+		float iter = 0f;
+		float initialz = character.transform.position.z;
+		gestures.gameObject.SetActive (false);
+		while (iter < slicingTime) {
+			iter += Time.deltaTime;
+			woda.color = new Color (woda.color.r, woda.color.g, woda.color.b, inout?iter/slicingTime*alpha: (1f-iter/slicingTime)*alpha);
+			character.transform.position = new Vector3 (character.transform.position.x, character.transform.position.y, Mathf.Lerp (initialz, CurrentSlice.transform.position.z,iter/slicingTime));
+			yield return null;
+		}
+		if (inout) {
+			woda.color = new Color (woda.color.r, woda.color.g, woda.color.b, alpha);
+		} else {
+			woda.color = new Color (woda.color.r, woda.color.g, woda.color.b, 0f);
+		}
+		gestures.gameObject.SetActive (true);
 	}
 
-	IEnumerator sliceOUT(){
-	}
+//	IEnumerator sliceOUT(){
+//	}
 
 	public void possiblePinch(){
 		possiblepinch = true;
