@@ -122,7 +122,7 @@ public class WorldManager : MonoBehaviour {
             CurrentSliceIndex -= 1;
             Physics2D.IgnoreLayerCollision(character.layer, CurrentSlice.layer, false);
             var position = character.transform.position;
-            character.transform.position = new Vector3(position.x, position.y, CurrentSliceZ);
+			sliceOUT ();
             RefreshCharacterCollisionStatusHack();
             sounds.Play("/ambientali/sliceMove");
 
@@ -146,6 +146,7 @@ public class WorldManager : MonoBehaviour {
             Physics2D.IgnoreLayerCollision(character.layer, CurrentSlice.layer, false);
             var position = character.transform.position;
             character.transform.position = new Vector3(position.x, position.y, CurrentSliceZ);
+			sliceIN();
             RefreshCharacterCollisionStatusHack();
             sounds.Play("/ambientali/sliceMove");
 
@@ -183,11 +184,23 @@ public class WorldManager : MonoBehaviour {
     IEnumerator TapEffect(Vector3 position) {
         var circle = transform.FindChild("CircleIcon");
         circle.transform.position = position;
-        circle.gameObject.SetActive(true);
+		circle.gameObject.GetComponent<SpriteRenderer> ().sortingLayerName = LayerMask.LayerToName( slices [currentSliceIndex].layer);
+		circle.gameObject.SetActive(true);
         yield return new WaitForSeconds(0.25f);
         circle.gameObject.SetActive(false);
         yield return null;
     }
+
+	public float slicingTime;
+	IEnumerator sliceIN(){
+		SpriteRenderer woda = CurrentSlice.transform.Find ("Water").GetComponent<SpriteRenderer>();
+		woda.color = new Color (woda.color.r, woda.color.g, woda.color.b, 0f);
+		float time = Time.time;
+
+	}
+
+	IEnumerator sliceOUT(){
+	}
 
 	public void possiblePinch(){
 		possiblepinch = true;
