@@ -4,8 +4,12 @@ using System.Collections;
 public class Dialog : MonoBehaviour {
 
 	//FIXME
-	public GameObject Emotions;
-	bool _feels;
+	public Sprite[] Emotions;
+	public int index;
+	public bool _feels;
+	public bool change;
+	public float duration;
+	public SpriteRenderer sprite;
 	
 	bool showFeelings{
 		get{return _feels;}
@@ -25,21 +29,42 @@ public class Dialog : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	
+		index = 0;
+		sprite = GetComponent<SpriteRenderer>();
+		sprite.sprite = Emotions[index];
+		showFeelings = false;
+		change = true;
+		sprite.enabled = false;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
+		if(showFeelings && change){
+				StartCoroutine(changeSprite());
+		}
 	}
 
-	void OnTrigger2DEnter(Collider2D entered){
+	void OnTriggerEnter2D(Collider2D entered){
 		if (entered.gameObject.tag == "Player") {
+			sprite.enabled = true;
 			showFeelings = true;
 		}
 	}
 
-	void OnTrigger2DExit(){
-		showFeelings = false;
+	void OnTriggerExit2D(Collider2D exited){
+		if (exited.gameObject.tag == "Player") {
+			showFeelings = false;
+			
+			sprite.enabled = false;
+		}	
+	}
+
+	IEnumerator changeSprite() {
+		Debug.Log("change called");
+		change = false;
+		yield return new WaitForSeconds(duration);
+		index = (index + 1) % Emotions.Length;
+		sprite.sprite = Emotions[index];
+		change = true;
 	}
 }
