@@ -22,27 +22,35 @@ namespace Quests {
         }
 
         public void NewObjective(ActiveQuest quest, QuestObjective objective) {
-            OnNewObjective(quest, objective);
+            Trigger(OnNewObjective, quest, objective);
         }
 
         public void ObjectiveSucceeded(ActiveQuest quest, QuestObjective objective) {
-            OnObjectiveSucceeded(quest, objective);
+            Trigger(OnObjectiveSucceeded, quest, objective);
         }
 
         public void ObjectiveFailed(ActiveQuest quest, QuestObjective objective) {
-            OnObjectiveFailed(quest, objective);
+            Trigger(OnObjectiveFailed, quest, objective);
         }
 
         public void QuestStarted(ActiveQuest quest) {
-            OnQuestStarted(quest);
+            Trigger(OnQuestStarted, quest);
         }
 
         public void QuestSucceeded(ActiveQuest quest) {
-            OnQuestSucceeded(quest);
+            Trigger(OnQuestSucceeded, quest);
         }
 
         public void QuestFailed(ActiveQuest quest) {
-            OnQuestFailed(quest);
+            Trigger(OnQuestFailed, quest);
+        }
+
+        void Trigger(Action<ActiveQuest, QuestObjective> action, ActiveQuest quest, QuestObjective objective) {
+            if (action != null) { action.Invoke(quest, objective); }
+        }
+
+        void Trigger(Action<ActiveQuest> action, ActiveQuest quest) {
+            if (action != null) { action.Invoke(quest); }
         }
     }
 }
