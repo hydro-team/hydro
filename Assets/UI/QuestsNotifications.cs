@@ -42,7 +42,7 @@ public class QuestsNotifications : MonoBehaviour {
         showingNotification = true;
         if (!hidden) { notification.gameObject.SetActive(true); }
         notification.text = message;
-        var fadeTime = 2f;
+        var fadeTime = 0.5f;
         var color = notification.color;
         for (float t = 0f; t < 1f; t += Time.deltaTime / fadeTime) {
             color.a = t;
@@ -51,7 +51,7 @@ public class QuestsNotifications : MonoBehaviour {
         }
         color.a = 1f;
         notification.color = color;
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(2f);
         for (float t = 1f; t > 0f; t -= Time.deltaTime / fadeTime) {
             color.a = t;
             notification.color = color;
