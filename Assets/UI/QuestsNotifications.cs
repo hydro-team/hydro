@@ -35,7 +35,7 @@ public class QuestsNotifications : MonoBehaviour {
     void Update() {
         if (showingNotification) { return; }
         if (messages.Count == 0) { return; }
-        //StartCoroutine(ShowNotification(messages.Dequeue()));
+        StartCoroutine(ShowNotification(messages.Dequeue()));
     }
 
     IEnumerator ShowNotification(string message) {
