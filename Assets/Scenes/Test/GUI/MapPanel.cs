@@ -8,8 +8,9 @@ public class MapPanel : MonoBehaviour
 	public WorldManager worldManager;
 	public Text MapTitle;
 	public Image Map;
+	public string title;
 
-	public WaterTrigger[] levels;
+	//public WaterTrigger[] levels;
 
 
 	// Use this for initialization
@@ -25,7 +26,7 @@ public class MapPanel : MonoBehaviour
 	public void activePanel (){
 		if (enabled) {
 			//MapTitle.text = (worldManager.CurrentSliceIndex + 1).ToString ();
-			MapTitle.text = "Act " + (worldManager.CurrentSliceIndex + 1).ToString();
+			MapTitle.text = title;
 			Sprite s = MiniMapPositioning.instance.getLevelImage();
 			Map.GetComponent<Image>().sprite = s;
 		}
