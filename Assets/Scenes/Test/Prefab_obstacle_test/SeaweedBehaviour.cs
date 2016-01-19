@@ -9,7 +9,7 @@ public class SeaweedBehaviour : MonoBehaviour {
 		s = GetComponent<SpriteRenderer>().sprite;
 	}
 
-	public void OnCollisionEnter2D(Collision2D collided){
+	public void OnTriggerEnter2D(Collider2D collided){
 		if(collided.gameObject.tag == "Player"){
 			bool picked = collided.gameObject.GetComponent<Inventory>().pickUp(Items.SEAWEED, s);
 			if(picked){
