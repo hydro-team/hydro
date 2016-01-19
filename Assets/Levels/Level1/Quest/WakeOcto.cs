@@ -8,8 +8,19 @@ public class WakeOcto : MonoBehaviour {
 	public Animator OctoAnimator;
 	public GameObject particle;
 
-	void OnTriggerEnter2D (Collider2D other){
+	void OnCollisionEnter2D (Collider2D other){
+
 		if (other.gameObject.tag == "Flow") {
+			Debug.Log ("flowCol");
+			environment.GetComponent<WorriedFishQuest.Context>().octoAwake = true;
+			OctoAnimator.SetBool("Awake", true);
+			particle.SetActive(false);
+		}
+	}
+	void OnTriggerEnter2D (Collider2D other){
+
+		if (other.gameObject.tag == "Flow") {
+			Debug.Log ("flowT");
 			environment.GetComponent<WorriedFishQuest.Context>().octoAwake = true;
 			OctoAnimator.SetBool("Awake", true);
 			particle.SetActive(false);
