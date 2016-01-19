@@ -8,7 +8,7 @@ public class WakeOcto : MonoBehaviour {
 	public Animator OctoAnimator;
 	public GameObject particle;
 
-	void OnCollisionEnter2D (Collider2D other){
+	void OnCollisionEnter2D (Collision2D other){
 
 		if (other.gameObject.tag == "Flow") {
 			Debug.Log ("flowCol");
