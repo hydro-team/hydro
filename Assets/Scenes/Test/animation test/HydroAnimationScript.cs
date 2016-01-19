@@ -38,6 +38,10 @@ public class HydroAnimationScript : MonoBehaviour {
         }
     }
 
+	public void CreateCurrent(){
+		animHydroSprite.SetTrigger ("Current");
+	}
+
     void SetMotionState() {
         var moving = rigidbody.velocity.sqrMagnitude > threshold;
         animHydroSprite.SetBool("Moving", moving);
@@ -57,11 +61,11 @@ public class HydroAnimationScript : MonoBehaviour {
 
 	public void animHydroFarNear(bool far_near){
 
-		animHydroSprite.SetBool("Far_near", far_near);
-		animSliceHydro.SetBool("Far_near", far_near);
-		animHydroSprite.SetTrigger("SliceMove");
-		animSliceHydro.SetTrigger ("Move");
-		animCameraConfirm();
+		if(far_near){
+			animHydroSprite.SetTrigger("SliceIN");
+		}else{
+			animHydroSprite.SetTrigger("SliceOUT");
+		}
 	}
 
 	public void animBounce(bool far_near){

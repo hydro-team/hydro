@@ -15,6 +15,7 @@ namespace UnderwaterPhysics {
         public GesturesDispatcher gestures;
         public WorldManager world;
         public GameObject soundFacade;
+		public HydroAnimationScript HydroAnimator;
 
         SoundFacade sounds;
 
@@ -26,6 +27,7 @@ namespace UnderwaterPhysics {
         }
 
         void GenerateFlow(Swipe swipe) {
+			HydroAnimator.CreateCurrent ();
             var sharedFlow = flows.TryRequestComponent<Flow>(flow => {
                 flow.duration = flowDuration;
                 flow.strength = maxFlowStrength / (1f + swipe.Duration);
