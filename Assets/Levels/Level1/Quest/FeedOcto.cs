@@ -23,6 +23,7 @@ public class FeedOcto : MonoBehaviour {
 	}
 
 	public void endedAniamtion(){
+		targetnextSlice.SetActive(true);
 		transform.position = Vector3.zero;
 		transform.parent = targetnextSlice.transform;
 		transform.position = Vector3.zero;
