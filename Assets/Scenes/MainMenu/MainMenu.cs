@@ -1,8 +1,11 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System;
 using Sounds;
 
 public class MainMenu : MonoBehaviour {
+
+    public String firstScene;
 
     SoundFacade sounds;
     Sound music;
@@ -16,8 +19,8 @@ public class MainMenu : MonoBehaviour {
         music = sounds.Play("/ambientali/background");
     }
 
-    public void LoadTutorial() {
+    public void LoadFirstScene() {
         music.Stop();
-        Application.LoadLevel("Demomerge");
+        SceneManager.LoadScene(firstScene);
     }
 }
