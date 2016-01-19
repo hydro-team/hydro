@@ -4,6 +4,8 @@ using Sounds;
 
 public class MainMenu : MonoBehaviour {
 
+    public String firstScene;
+
     SoundFacade sounds;
     Sound music;
 
@@ -16,8 +18,8 @@ public class MainMenu : MonoBehaviour {
         music = sounds.Play("/ambientali/background");
     }
 
-    public void LoadTutorial() {
+    public void LoadFirstScene() {
         music.Stop();
-        Application.LoadLevel("Demomerge");
+        Application.LoadLevel(firstScene);
     }
 }

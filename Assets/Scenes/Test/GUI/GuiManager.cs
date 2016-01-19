@@ -6,11 +6,16 @@ public class GuiManager : MonoBehaviour {
 
     public GesturesDispatcher gestures;
     public QuestsNotifications quests;
+    public GameObject infoPane;
     public GameObject mapPane;
     public GameObject questPane;
     public GameObject optionsPane;
 
     GameObject active;
+
+    public void Info() {
+        OpenPop(infoPane);
+    }
 
     public void Map() {
         OpenPop(mapPane);
