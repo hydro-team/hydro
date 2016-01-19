@@ -64,9 +64,9 @@ public class BreackableRock : MonoBehaviour {
 			//Damage calculation
 //			float damage = impact_force * coefficient;
 			float damage= 0;
-			if(mo.getSpeed() > coefficient){
+			//if(mo.getSpeed() > coefficient){
 				damage = 1f;
-			}
+			//}
 			Debug.Log ("BreackableRock"+"Damage " + damage);
 			life = life - damage;
 			if(life <=0){

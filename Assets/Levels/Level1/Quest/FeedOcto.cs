@@ -27,6 +27,7 @@ public class FeedOcto : MonoBehaviour {
 		transform.position = Vector3.zero;
 		transform.parent = targetnextSlice.transform;
 		transform.position = Vector3.zero;
+		transform.localScale = Vector3.down;
 		moveToSlice1(transform.GetChild(0).gameObject);
 	}
 
