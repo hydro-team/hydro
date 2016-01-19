@@ -4,7 +4,7 @@ using Quests;
 
 public class WakeOcto : MonoBehaviour {
 
-	QuestsEnvironment environment;
+	public QuestsEnvironment environment;
 	public Animator OctoAnimator;
 
 	void OnTriggerEnter2D (Collider2D other){
