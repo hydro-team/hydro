@@ -8,7 +8,7 @@ public class TutorialQuest : Quest {
 	// Use this for initialization
 	public override string Name()
 	{
-		return "First step";
+		return "Awakening";
 	}
 	
 	public override string Description()
@@ -30,7 +30,7 @@ public class TutorialQuest : Quest {
 		public bool outMaze;
 		public bool spreaded;
 		public int lights;
-		public const int TOT_LIGHTS=4;
+		public const int TOT_LIGHTS=3;
 	}
 	
 	class GoAhead : QuestObjective{
@@ -102,7 +102,7 @@ public class TutorialQuest : Quest {
 
 
 		public override string Description(){
-			return "Find an energy source to light up the four crystals";
+			return "Find an energy source to light up the three crystals";
 		}
 		
 		public override bool IsOptional(){
