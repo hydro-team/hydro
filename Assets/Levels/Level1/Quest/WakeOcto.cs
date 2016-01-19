@@ -1,0 +1,16 @@
+﻿using UnityEngine;
+using System.Collections;
+using Quests;
+
+public class WakeOcto : MonoBehaviour {
+
+	QuestsEnvironment environment;
+	public Animator OctoAnimator;
+
+	void OnTriggerEnter2D (Collider2D other){
+		if (other.name.Contains("Flow")) {
+			environment.GetComponent<WorriedFishQuest.Context>().octoAwake = true;
+			OctoAnimator.SetBool("Awake", true);
+		}
+	}
+}
