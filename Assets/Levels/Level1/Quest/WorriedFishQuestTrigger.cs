@@ -21,6 +21,8 @@ public class WorriedFishQuestTrigger : MonoBehaviour {
 		if (other.tag == "Player") {
 			pinterest.gameObject.SetActive (false);
 			animToSet.SetBool ("roam", true);
+			this.enabled = false;
+			Destroy(this);
 		}
 	}
 

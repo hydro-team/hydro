@@ -9,6 +9,7 @@ public class FindSeaweed : MonoBehaviour {
 	void OnTriggerEnter2D (Collider2D other){
 		if (other.gameObject.tag == "Player") {
 			environment.GetComponent<WorriedFishQuest.Context>().collectedSeaweed = true;
+			this.enabled = false;
 		}
 	}
 }
