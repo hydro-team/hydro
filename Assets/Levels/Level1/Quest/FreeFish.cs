@@ -12,6 +12,7 @@ public class FreeFish : MonoBehaviour {
 		if (other.gameObject.tag == "Player") {
 			environment.GetComponent<WorriedFishQuest.Context>().seeFish = true;
 			anim.SetTrigger("BreakRock");
+			anim.SetBool("RemoveRocks", true);
 		}
 	}
 
