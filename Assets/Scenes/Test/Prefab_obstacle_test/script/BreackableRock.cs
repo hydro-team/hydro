@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using Saves;
 
 public class BreackableRock : MonoBehaviour {
@@ -73,6 +73,7 @@ public class BreackableRock : MonoBehaviour {
                 state.broken = true;
 				GetComponent<Collider2D>().enabled = false;
 				foreach(BreakableRockEffects brEff in transform.GetComponentsInChildren<BreakableRockEffects>()){
+					Debug.Log (brEff.gameObject.name + " " + (collided.relativeVelocity*collided.rigidbody.mass).ToString());
 					brEff.BreakRock( collided.relativeVelocity*collided.rigidbody.mass);
 				}
 			}

@@ -60,7 +60,6 @@ public class Dialog : MonoBehaviour {
 	}
 
 	IEnumerator changeSprite() {
-		Debug.Log("change called");
 		change = false;
 		yield return new WaitForSeconds(duration);
 		index = (index + 1) % Emotions.Length;

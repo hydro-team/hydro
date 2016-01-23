@@ -9,6 +9,7 @@ public class FeedOcto : MonoBehaviour {
 	public Animator anim;
 	public GameObject dialog;
 	public GameObject frana;
+	public GameObject d2;
 
 	public void OnTriggerEnter2D(Collider2D collided){
 		Debug.Log(collided.tag);
@@ -45,11 +46,16 @@ public class FeedOcto : MonoBehaviour {
 			part.layer = 12;
 			part.GetComponent<SpriteRenderer>().sortingLayerName = "Slice1";
 		}
+		//Invoke("activeparts", 2);
 	}
 
 	public void end(){
-		frana.SetActive(false);
+		//frana.SetActive(false);
 		//Application.LoadLevel("end");
+	}
+	void activeparts(){
+		d2.GetComponent<MovableObject>().enabled = true;
+		d2.GetComponent<BoxCollider2D>().enabled = true;
 	}
 }
 
