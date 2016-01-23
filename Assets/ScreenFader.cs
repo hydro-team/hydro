@@ -7,6 +7,7 @@ public class ScreenFader : MonoBehaviour {
 	Image fade;
 	bool state;
 	bool direction;
+	bool blockhalf;
 	public static ScreenFader instance;
 	// Use this for initialization
 	void Start () {
@@ -14,6 +15,7 @@ public class ScreenFader : MonoBehaviour {
 		fade.color = Color.clear;
 		state = false;
 		direction = true;
+		blockhalf = false;
 		if(instance == null){
 			instance = this;
 		}else{
@@ -29,7 +31,7 @@ public class ScreenFader : MonoBehaviour {
 			}else{
 				fade.color = Color.Lerp(fade.color, Color.clear, Time.deltaTime*3.5f);
 			}
-			if(fade.color == Color.black){
+			if(fade.color == Color.black && !blockhalf){
 				direction = false;
 			}
 			if(fade.color == Color.clear){
@@ -42,5 +44,9 @@ public class ScreenFader : MonoBehaviour {
 	}
 	public Color fadeColor(){
 		return fade.color;
+	}
+	public void halfShadetoBlack(){
+		state = true;
+		blockhalf = true;
 	}
 }

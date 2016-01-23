@@ -12,12 +12,12 @@ public class FreeFish : MonoBehaviour {
 		if (other.gameObject.tag == "Player") {
 			environment.GetComponent<WorriedFishQuest.Context>().seeFish = true;
 			anim.SetTrigger("BreakRock");
-			anim.SetBool("RemoveRocks", true);
+			//anim.SetBool("RemoveRocks", true);
 		}
 	}
 
 	public void end(){
 		frana.SetActive(false);
-		Application.LoadLevel("end");
+		//Application.LoadLevel("end");
 	}
 }

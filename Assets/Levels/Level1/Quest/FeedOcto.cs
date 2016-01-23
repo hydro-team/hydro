@@ -8,6 +8,7 @@ public class FeedOcto : MonoBehaviour {
 	public GameObject targetnextSlice;
 	public Animator anim;
 	public GameObject dialog;
+	public GameObject frana;
 
 	public void OnTriggerEnter2D(Collider2D collided){
 		Debug.Log(collided.tag);
@@ -44,6 +45,11 @@ public class FeedOcto : MonoBehaviour {
 			part.layer = 12;
 			part.GetComponent<SpriteRenderer>().sortingLayerName = "Slice1";
 		}
+	}
+
+	public void end(){
+		frana.SetActive(false);
+		//Application.LoadLevel("end");
 	}
 }
 
