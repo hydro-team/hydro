@@ -8,6 +8,7 @@ public class WorriedFishQuestTrigger : MonoBehaviour {
 	public Animator animToSet;
 	public PointOfInterest pinterest;
 	public QuestsEnvironment environment;
+	public GameObject dialog;
 
 
 	void OnTriggerEnter2D ( Collider2D other ) {
@@ -23,6 +24,7 @@ public class WorriedFishQuestTrigger : MonoBehaviour {
 			animToSet.SetBool ("roam", true);
 			this.enabled = false;
 			Destroy(this);
+			dialog.SetActive(false);
 		}
 	}
 

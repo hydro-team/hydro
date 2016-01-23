@@ -7,6 +7,7 @@ public class WakeOcto : MonoBehaviour {
 	public QuestsEnvironment environment;
 	public Animator OctoAnimator;
 	public GameObject particle;
+	public GameObject dialog; 
 
 	void OnCollisionEnter2D (Collision2D other){
 
@@ -15,6 +16,7 @@ public class WakeOcto : MonoBehaviour {
 			environment.GetComponent<WorriedFishQuest.Context>().octoAwake = true;
 			OctoAnimator.SetBool("Awake", true);
 			particle.SetActive(false);
+			dialog.SetActive(true);
 		}
 	}
 	void OnTriggerEnter2D (Collider2D other){
@@ -24,6 +26,7 @@ public class WakeOcto : MonoBehaviour {
 			environment.GetComponent<WorriedFishQuest.Context>().octoAwake = true;
 			OctoAnimator.SetBool("Awake", true);
 			particle.SetActive(false);
+			dialog.SetActive(true);
 		}
 	}
 }

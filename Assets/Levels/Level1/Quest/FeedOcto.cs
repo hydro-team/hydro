@@ -7,6 +7,7 @@ public class FeedOcto : MonoBehaviour {
 	public QuestsEnvironment environment;
 	public GameObject targetnextSlice;
 	public Animator anim;
+	public GameObject dialog;
 
 	public void OnTriggerEnter2D(Collider2D collided){
 		Debug.Log(collided.tag);
@@ -18,6 +19,7 @@ public class FeedOcto : MonoBehaviour {
 				inv.freeInventory();
 				environment.GetComponent<WorriedFishQuest.Context>().fedOcto = true;
 				anim.SetBool("MoveTo", true);
+				dialog.SetActive(false);
 			}
 		}
 	}
