@@ -9,27 +9,26 @@ namespace Quests {
     /// </summary>
     public class QuestsEnvironment : MonoBehaviour {
 
-        public event Action<ActiveQuest, QuestObjective> OnNewObjective, OnObjectiveSucceeded, OnObjectiveFailed;
+        public event Action<ActiveQuest, ActiveQuest.Objective> OnNewObjective, OnObjectiveSucceeded, OnObjectiveFailed;
         public event Action<ActiveQuest> OnQuestStarted, OnQuestSucceeded, OnQuestFailed;
 
-        public void BeginQuest(Quest quest) {
+        public C BeginQuest<C>(Quest<C> quest) where C : QuestContext {
+            var context = GetComponent<C>();
+            if (context != null) { return context; }
+            context = gameObject.AddComponent<C>();
             gameObject.AddComponent<ActiveQuest>().Begin(quest);
+            return context;
         }
 
-        public T BeginQuest<T>(Quest quest) {
-            gameObject.AddComponent<ActiveQuest>().Begin(quest);
-            return GetComponent<T>();
-        }
-
-        public void NewObjective(ActiveQuest quest, QuestObjective objective) {
+        public void NewObjective(ActiveQuest quest, ActiveQuest.Objective objective) {
             Trigger(OnNewObjective, quest, objective);
         }
 
-        public void ObjectiveSucceeded(ActiveQuest quest, QuestObjective objective) {
+        public void ObjectiveSucceeded(ActiveQuest quest, ActiveQuest.Objective objective) {
             Trigger(OnObjectiveSucceeded, quest, objective);
         }
 
-        public void ObjectiveFailed(ActiveQuest quest, QuestObjective objective) {
+        public void ObjectiveFailed(ActiveQuest quest, ActiveQuest.Objective objective) {
             Trigger(OnObjectiveFailed, quest, objective);
         }
 
@@ -45,7 +44,7 @@ namespace Quests {
             Trigger(OnQuestFailed, quest);
         }
 
-        void Trigger(Action<ActiveQuest, QuestObjective> action, ActiveQuest quest, QuestObjective objective) {
+        void Trigger(Action<ActiveQuest, ActiveQuest.Objective> action, ActiveQuest quest, ActiveQuest.Objective objective) {
             if (action != null) { action.Invoke(quest, objective); }
         }
 

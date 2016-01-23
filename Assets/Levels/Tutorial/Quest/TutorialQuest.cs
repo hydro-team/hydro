@@ -3,117 +3,55 @@ using System.Collections;
 using System.Collections.Generic;
 using Quests;
 
-public class TutorialQuest : Quest {
+public class TutorialQuest : Quest<TutorialQuest.Context> {
 
-	// Use this for initialization
-	public override string Name()
-	{
-		return "Awakening";
-	}
-	
-	public override string Description()
-	{
-		return "Find a way out";
-	}
-	
-	public override IList<QuestObjective> FirstObjectives(){
-		return new List<QuestObjective> { new GoAhead() };
-	}
-	
-	public override void Initialize(QuestsEnvironment environment) {
-		environment.gameObject.AddComponent<Context>();
-	}
-	
-	public class Context:MonoBehaviour{
-		public bool moved;
-		public bool pinched;
-		public bool outMaze;
-		public bool spreaded;
-		public int lights;
-		public const int TOT_LIGHTS=3;
-	}
-	
-	class GoAhead : QuestObjective{
-		public override string Description()
-		{
-			return "Move toward the exit";
-		}
-		
-		public override bool IsOptional(){
-			return false;
-		}
-		
-		public override ProgressStatus StatusIn(QuestsEnvironment environment) {
-			return environment.GetComponent<Context>().moved ? ProgressStatus.SUCCEEDED : ProgressStatus.ONGOING;
-		}
-		public override IList<QuestObjective> NextObjectives() {
-			return new List<QuestObjective> { new UsePassage() };
-		}
-	}
+    public TutorialQuest() : base(
+        name: "Awakening",
+        description: "Find a way out",
+        startingWith: Objectives(new GoAhead())) { }
 
-	class UsePassage: QuestObjective{
-		public override string Description(){
-			return "Use the passage you foundt";
-		}
+    public class Context : QuestContext {
+        public bool moved;
+        public bool pinched;
+        public bool outMaze;
+        public bool spreaded;
+        public int lights;
+        public const int TOT_LIGHTS = 3;
+    }
 
-		public override bool IsOptional(){
-			return false;
-		}
-		public override ProgressStatus StatusIn(QuestsEnvironment environment) {
-			return environment.GetComponent<Context>().pinched ? ProgressStatus.SUCCEEDED : ProgressStatus.ONGOING;
-		}
-		public override IList<QuestObjective> NextObjectives() {
-			return new List<QuestObjective> { new ExitTheDarkMaze() };
-		}
-	}
+    class GoAhead : QuestObjective<Context> {
+        public GoAhead() : base(
+            description: "Move toward the exit",
+            status: context => SucceedsWhen(context.moved),
+            next: Objectives(new UsePassage())) { }
+    }
 
-	class ExitTheDarkMaze:QuestObjective{
-		public override string Description(){
-			return "The way ahead is dark: use the light to find the other end";
-		}
-		
-		public override bool IsOptional(){
-			return false;
-		}
-		public override ProgressStatus StatusIn(QuestsEnvironment environment) {
-			return environment.GetComponent<Context>().outMaze ? ProgressStatus.SUCCEEDED : ProgressStatus.ONGOING;
-		}
-		public override IList<QuestObjective> NextObjectives() {
-			return new List<QuestObjective> { new ExitTheDarkMaze() };
-		}
-	}
-	class SpreadOut :QuestObjective{
-		public override string Description(){
-			return "Find a way out of the cave";
-		}
-		
-		public override bool IsOptional(){
-			return false;
-		}
-		public override ProgressStatus StatusIn(QuestsEnvironment environment) {
-			return environment.GetComponent<Context>().spreaded? ProgressStatus.SUCCEEDED : ProgressStatus.ONGOING;
-		}
-		public override IList<QuestObjective> NextObjectives() {
-			return new List<QuestObjective> { new LightCrystals() };
-		}
-	}
+    class UsePassage : QuestObjective<Context> {
+        public UsePassage() : base(
+            description: "Use the passage you found",
+            status: context => SucceedsWhen(context.pinched),
+            next: Objectives(new ExitTheDarkMaze())) { }
+    }
 
-	class LightCrystals:QuestObjective{
+    class ExitTheDarkMaze : QuestObjective<Context> {
+        public ExitTheDarkMaze() : base(
+            description: "The way ahead is dark: use the light to find the other end",
+            status: context => SucceedsWhen(context.outMaze),
+            next: Objectives(new SpreadOut())) { }
+    }
 
+    class SpreadOut : QuestObjective<Context> {
+        public SpreadOut() : base(
+            description: "Find a way out of the cave",
+            status: context => SucceedsWhen(context.spreaded),
+            next: Objectives(new LightCrystals())) { }
+    }
 
-		public override string Description(){
-			return "Find an energy source to light up the three crystals";
-		}
-		
-		public override bool IsOptional(){
-			return false;
-		}
-		public override ProgressStatus StatusIn(QuestsEnvironment environment) {
-			Context context = environment.GetComponent<Context> ();
-			return context.lights == Context.TOT_LIGHTS ? ProgressStatus.SUCCEEDED : ProgressStatus.ONGOING;
-		}
-		public override IList<QuestObjective> NextObjectives() {
-			return new List<QuestObjective> {  };
-		}
-	}
+    class LightCrystals : QuestObjective<Context> {
+        public LightCrystals() : base(
+            description: context => {
+                if (context.lights == Context.TOT_LIGHTS) { return "Find an energy source to light up the three crystals"; }
+                return string.Format("Find an energy source to light up the three crystals ({0} left)", Context.TOT_LIGHTS - context.lights);
+            }, status: context => SucceedsWhen(context.lights == Context.TOT_LIGHTS)) { }
+    }
 }

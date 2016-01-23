@@ -63,31 +63,31 @@ public class QuestsNotifications : MonoBehaviour {
         showingNotification = false;
     }
 
-    void NotifyQuestStarted(ActiveQuest started) {
-        messages.Enqueue(FormatMessage("QUEST STARTED", started.quest.Name()));
+    void NotifyQuestStarted(ActiveQuest quest) {
+        messages.Enqueue(FormatMessage("QUEST STARTED", quest.Name));
     }
 
-    void NotifyQuestSucceeded(ActiveQuest succeeded) {
-        messages.Enqueue(FormatMessage("QUEST COMPLETED", succeeded.quest.Name()));
+    void NotifyQuestSucceeded(ActiveQuest quest) {
+        messages.Enqueue(FormatMessage("QUEST COMPLETED", quest.Name));
     }
 
-    void NotifyQuestFailed(ActiveQuest failed) {
-        messages.Enqueue(FormatMessage("QUEST FAILED", failed.quest.Name()));
+    void NotifyQuestFailed(ActiveQuest quest) {
+        messages.Enqueue(FormatMessage("QUEST FAILED", quest.Name));
     }
 
-    void NotifyObjectiveStarted(ActiveQuest active, QuestObjective objective) {
-        var optionalTag = objective.IsOptional() ? "(OPTIONAL) " : "";
-        messages.Enqueue(FormatMessage(active.quest.Name(), optionalTag + objective.Description()));
+    void NotifyObjectiveStarted(ActiveQuest quest, ActiveQuest.Objective objective) {
+        var optionalTag = objective.isOptional ? "(OPTIONAL) " : "";
+        messages.Enqueue(FormatMessage(quest.Name, optionalTag + objective.Description));
     }
 
-    void NotifyObjectiveSucceeded(ActiveQuest active, QuestObjective objective) {
-        var optionalTag = objective.IsOptional() ? "(OPTIONAL) " : "";
-        messages.Enqueue(FormatMessage(active.quest.Name(), "COMPLETED: " + optionalTag + objective.Description()));
+    void NotifyObjectiveSucceeded(ActiveQuest quest, ActiveQuest.Objective objective) {
+        var optionalTag = objective.isOptional ? "(OPTIONAL) " : "";
+        messages.Enqueue(FormatMessage(quest.Name, "COMPLETED" + Environment.NewLine + optionalTag + objective.Description));
     }
 
-    void NotifyObjectiveFailed(ActiveQuest active, QuestObjective objective) {
-        var optionalTag = objective.IsOptional() ? "(OPTIONAL) " : "";
-        messages.Enqueue(FormatMessage(active.quest.Name(), "FAILED: " + optionalTag + objective.Description()));
+    void NotifyObjectiveFailed(ActiveQuest quest, ActiveQuest.Objective objective) {
+        var optionalTag = objective.isOptional ? "(OPTIONAL) " : "";
+        messages.Enqueue(FormatMessage(quest.Name, "FAILED" + Environment.NewLine + optionalTag + objective.Description));
     }
 
     string FormatMessage(string title, string message) {

@@ -3,84 +3,36 @@ using Quests;
 using System;
 using System.Collections.Generic;
 
-public class FrogQuest : Quest {
+public class FrogQuest : Quest<FrogQuest.Context> {
 
-    public override string Name() {
-        return "Jump Over";
-    }
+    public FrogQuest() : base(
+        name: "Jump Over",
+        description: "Help the tadpole to become a frog",
+        startingWith: Objectives(new CollectSeaweed())) { }
 
-    public override string Description() {
-        return "Help the tadpole to become a frog.";
-    }
-
-    public override IList<QuestObjective> FirstObjectives() {
-        return new List<QuestObjective> { new CollectSeaweed() };
-    }
-
-    public override void Initialize(QuestsEnvironment environment) {
-        environment.gameObject.AddComponent<Context>();
-    }
-
-    public class Context : MonoBehaviour {
+    public class Context : QuestContext {
         public bool collectedSeaweed = false;
         public bool feedTadpole = false;
         public bool jumpedOver = false;
     }
 
-    class CollectSeaweed : QuestObjective {
-
-        public override string Description() {
-            return "Find and collect the seaweed";
-        }
-
-        public override bool IsOptional() {
-            return false;
-        }
-
-        public override IList<QuestObjective> NextObjectives() {
-            return new List<QuestObjective> { new FeedTadpole() };
-        }
-
-        public override ProgressStatus StatusIn(QuestsEnvironment environment) {
-            return environment.GetComponent<Context>().collectedSeaweed ? ProgressStatus.SUCCEEDED : ProgressStatus.ONGOING;
-        }
+    class CollectSeaweed : QuestObjective<Context> {
+        public CollectSeaweed() : base(
+            description: "Find and collect the seaweed",
+            status: context => SucceedsWhen(context.collectedSeaweed),
+            next: Objectives(new FeedTadpole())) { }
     }
 
-    class FeedTadpole : QuestObjective {
-
-        public override string Description() {
-            return "Feed the tadpole with the seaweed";
-        }
-
-        public override bool IsOptional() {
-            return false;
-        }
-
-        public override IList<QuestObjective> NextObjectives() {
-            return new List<QuestObjective> { new JumpOver() };
-        }
-
-        public override ProgressStatus StatusIn(QuestsEnvironment environment) {
-            return environment.GetComponent<Context>().feedTadpole ? ProgressStatus.SUCCEEDED : ProgressStatus.ONGOING;
-        }
+    class FeedTadpole : QuestObjective<Context> {
+        public FeedTadpole() : base(
+            description: "Feed the tadpole with the seaweed",
+            status: context => SucceedsWhen(context.feedTadpole),
+            next: Objectives(new JumpOver())) { }
     }
 
-    class JumpOver : QuestObjective {
-
-        public override string Description() {
-            return "Ask the grown frog for help";
-        }
-
-        public override bool IsOptional() {
-            return false;
-        }
-
-        public override IList<QuestObjective> NextObjectives() {
-            return new List<QuestObjective> { };
-        }
-
-        public override ProgressStatus StatusIn(QuestsEnvironment environment) {
-            return environment.GetComponent<Context>().jumpedOver ? ProgressStatus.SUCCEEDED : ProgressStatus.ONGOING;
-        }
+    class JumpOver : QuestObjective<Context> {
+        public JumpOver() : base(
+            description: "Ask the grown frog for help",
+            status: context => SucceedsWhen(context.jumpedOver)) { }
     }
 }

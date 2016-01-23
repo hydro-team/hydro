@@ -29,19 +29,19 @@ public class QuestsList : MonoBehaviour {
         var failedQuests = quests.Where(quest => quest.Status == ProgressStatus.FAILED);
         var builder = new StringBuilder().AppendLine("QUESTS").AppendLine();
         if (activeQuests.Count() > 0) {
-            foreach (var active in activeQuests) {
+            foreach (var quest in activeQuests) {
                 builder.AppendLine("--------").AppendLine()
-                       .Append(active.quest.Name()).AppendLine(":")
-                       .AppendLine(active.quest.Description());
-                foreach (var objective in active.CurrentObjectives()) {
+                       .Append(quest.Name).AppendLine(":")
+                       .AppendLine(quest.Description);
+                foreach (var objective in quest.CurrentObjectives()) {
                     builder.AppendLine();
-                    if (objective.IsOptional()) { builder.Append("(OPTIONAL) "); }
-                    builder.AppendLine(objective.Description());
+                    if (objective.isOptional) { builder.Append("(OPTIONAL) "); }
+                    builder.AppendLine(objective.description());
                 }
-                foreach (var objective in active.SucceededObjectives().Reverse()) {
+                foreach (var objective in quest.SucceededObjectives().Reverse()) {
                     builder.AppendLine().Append("COMPLETED: ");
-                    if (objective.IsOptional()) { builder.Append("(OPTIONAL) "); }
-                    builder.AppendLine(objective.Description());
+                    if (objective.isOptional) { builder.Append("(OPTIONAL) "); }
+                    builder.AppendLine(objective.description());
                 }
             }
         } else {
@@ -49,14 +49,14 @@ public class QuestsList : MonoBehaviour {
         }
         if (succeededQuests.Count() > 0) {
             builder.AppendLine().AppendLine("COMPLETED QUESTS").AppendLine();
-            foreach (var completed in succeededQuests) {
+            foreach (var quest in succeededQuests) {
                 builder.AppendLine("--------").AppendLine()
-                       .AppendLine(completed.quest.Name())
-                       .AppendLine(completed.quest.Description());
-                foreach (var objective in completed.SucceededObjectives()) {
+                       .AppendLine(quest.Name)
+                       .AppendLine(quest.Description);
+                foreach (var objective in quest.SucceededObjectives()) {
                     builder.AppendLine();
-                    if (objective.IsOptional()) { builder.Append("(OPTIONAL) "); }
-                    builder.AppendLine(objective.Description());
+                    if (objective.isOptional) { builder.Append("(OPTIONAL) "); }
+                    builder.AppendLine(objective.description());
                 }
             }
         }
@@ -64,7 +64,8 @@ public class QuestsList : MonoBehaviour {
     }
 
     void UpdateQuestsText(ActiveQuest quest) { UpdateQuestsText(); }
-    void UpdateQuestsText(ActiveQuest quest, QuestObjective objective) { UpdateQuestsText(); }
+
+    void UpdateQuestsText(ActiveQuest quest, ActiveQuest.Objective objective) { UpdateQuestsText(); }
 
     void AddNewQuest(ActiveQuest quest) {
         quests.Add(quest);

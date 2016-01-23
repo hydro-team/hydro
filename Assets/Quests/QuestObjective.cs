@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace Quests {
 
@@ -8,14 +10,33 @@ namespace Quests {
     /// An objective must be able to determine whether it is still uncomplete, it succeeded or failed by analyzing the context in the QuestsEnvironment.
     /// An objective may be optional: it does not make the whole quest fail if it fails.
     /// </summary>
-    public abstract class QuestObjective {
+    public abstract class QuestObjective<C> where C : QuestContext {
 
-        public abstract IList<QuestObjective> NextObjectives();
+        public readonly Func<C, string> descriptionIn;
+        public readonly Func<C, ProgressStatus> statusIn;
+        public readonly bool isOptional;
+        public readonly IEnumerable<QuestObjective<C>> nextObjectives;
 
-        public abstract string Description();
+        public QuestObjective(Func<C, string> description, Func<C, ProgressStatus> status, bool optional = false, IEnumerable<QuestObjective<C>> next = null) {
+            descriptionIn = description;
+            statusIn = status;
+            isOptional = optional;
+            nextObjectives = next != null ? next : Enumerable.Empty<QuestObjective<C>>();
+        }
 
-        public abstract ProgressStatus StatusIn(QuestsEnvironment environment);
+        public QuestObjective(string description, Func<C, ProgressStatus> status, bool optional = false, IEnumerable<QuestObjective<C>> next = null) {
+            descriptionIn = context => description;
+            statusIn = status;
+            isOptional = optional;
+            nextObjectives = next != null ? next : Enumerable.Empty<QuestObjective<C>>();
+        }
 
-        public abstract bool IsOptional();
+        public static ProgressStatus SucceedsWhen(bool condition) {
+            return condition ? ProgressStatus.SUCCEEDED : ProgressStatus.ONGOING;
+        }
+
+        public static ProgressStatus FailsWhen(bool condition) {
+            return condition ? ProgressStatus.FAILED : ProgressStatus.ONGOING;
+        }
     }
 }
