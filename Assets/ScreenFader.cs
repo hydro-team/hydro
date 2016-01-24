@@ -9,6 +9,7 @@ public class ScreenFader : MonoBehaviour {
 	bool direction;
 	bool blockhalf;
 	public static ScreenFader instance;
+	string nextlevel;
 	// Use this for initialization
 	void Start () {
 		fade = GetComponent<Image>();
@@ -16,6 +17,7 @@ public class ScreenFader : MonoBehaviour {
 		state = false;
 		direction = true;
 		blockhalf = false;
+
 		if(instance == null){
 			instance = this;
 		}else{
@@ -31,8 +33,10 @@ public class ScreenFader : MonoBehaviour {
 			}else{
 				fade.color = Color.Lerp(fade.color, Color.clear, Time.deltaTime*3.5f);
 			}
-			if(fade.color == Color.black && !blockhalf){
+			if(fade.color == Color.black && blockhalf){
+				Debug.Log("STOP AND GO TO NEXT LEVEL");
 				direction = false;
+				Application.LoadLevel(nextlevel);
 			}
 			if(fade.color == Color.clear){
 				state = false;
@@ -45,8 +49,9 @@ public class ScreenFader : MonoBehaviour {
 	public Color fadeColor(){
 		return fade.color;
 	}
-	public void halfShadetoBlack(){
+	public void halfShadetoBlack(string nextLevelname){
 		state = true;
 		blockhalf = true;
+		nextlevel = nextLevelname;
 	}
 }
