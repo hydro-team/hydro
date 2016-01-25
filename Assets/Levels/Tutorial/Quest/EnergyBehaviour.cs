@@ -8,7 +8,8 @@ public class EnergyBehaviour : MonoBehaviour {
 
 	public void OnTriggerEnter2D(Collider2D other){
 		if (inventory.item == Items.EMPTY) {
-			inventory.item = Items.ENERGY;
+			inventory.pickUp(Items.ENERGY, gameObject.GetComponent<SpriteRenderer> ().sprite, gameObject.GetComponent<SpriteRenderer> ().color);
+			//inventory.item = Items.ENERGY;
 			gameObject.GetComponent<Collider2D>().enabled = false;
 			StartCoroutine("fade");
 		}
