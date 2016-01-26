@@ -17,6 +17,10 @@ public class TutorialQuest : Quest<TutorialQuest.Context> {
         public bool spreaded;
         public int lights;
         public const int TOT_LIGHTS = 3;
+
+		public int getTotLights(){
+			return TOT_LIGHTS;
+		}
     }
 
     class GoAhead : QuestObjective<Context> {
