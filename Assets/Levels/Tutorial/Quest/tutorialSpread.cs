@@ -8,7 +8,8 @@ public class tutorialSpread : MonoBehaviour {
 	public WorldManager wm;
 	
 	void Update (){
-		if (wm.CurrentSliceIndex == 0 && environment.GetComponent<TutorialQuest.Context>().pinched) {
+        var context = environment.GetComponent<TutorialQuest.Context>();
+        if (wm.CurrentSliceIndex == 0 && context != null && context.pinched) {
 			environment.GetComponent<TutorialQuest.Context>().spreaded =true;
 			this.enabled = false;
 			Destroy(this);
