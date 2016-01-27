@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class MotionController : MonoBehaviour {
 
-    public float maxPushForce;
+    public float maxSpeed;
+    public float stopRadius;
 
     Vector2? targetPosition;
     float remainingmMoveTime;
@@ -22,8 +22,11 @@ public class MotionController : MonoBehaviour {
         if (targetPosition == null) { return; }
         if (remainingmMoveTime <= 0) { return; }
         var direction = targetPosition.Value - (Vector2)transform.position;
-        var force = direction.sqrMagnitude > maxPushForce * maxPushForce ? direction.normalized * maxPushForce : direction;
-        body.AddForce(force);
-        remainingmMoveTime -= Time.deltaTime;
+        if (direction.sqrMagnitude < stopRadius * stopRadius) {
+            targetPosition = null;
+        } else {
+            body.velocity = direction.normalized * maxSpeed;
+            remainingmMoveTime -= Time.deltaTime;
+        }
     }
 }
