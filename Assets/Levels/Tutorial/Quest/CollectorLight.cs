@@ -14,7 +14,7 @@ public class CollectorLight : MonoBehaviour {
 
 	void explodescreen(){
 		//TODO screen lights activation
-
-		Application.LoadLevel("Level1");
+		ScreenFader.instance.halfShadetoWhite("Level1");
+		//Application.LoadLevel("Level1");
 	}
 }
