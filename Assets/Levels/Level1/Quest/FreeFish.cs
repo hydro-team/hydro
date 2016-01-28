@@ -27,6 +27,7 @@ public class FreeFish : MonoBehaviour {
 
 	public void end(){
 		trappedF.SetBool ("Free", true);
+		this.gameObject.SetActive (false);
 		//frana.SetActive(false);
 		//Application.LoadLevel("end");
 	}
