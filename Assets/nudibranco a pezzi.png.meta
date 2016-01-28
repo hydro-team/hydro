@@ -1,0 +1,144 @@
+fileFormatVersion: 2
+guid: 8c121f1b25bf2cb47b649627a0ada323
+timeCreated: 1453974471
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: nudibranco a pezzi_0
+    21300002: nudibranco a pezzi_1
+    21300004: nudibranco a pezzi_2
+    21300006: nudibranco a pezzi_3
+    21300008: nudibranco a pezzi_4
+    21300010: nudibranco a pezzi_5
+    21300012: nudibranco a pezzi_6
+    21300014: nudibranco a pezzi_7
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: nudibranco a pezzi_0
+      rect:
+        serializedVersion: 2
+        x: 1023
+        y: 787
+        width: 99
+        height: 143
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: nudibranco a pezzi_1
+      rect:
+        serializedVersion: 2
+        x: 1184
+        y: 776
+        width: 82
+        height: 178
+      alignment: 7
+      pivot: {x: .5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: nudibranco a pezzi_2
+      rect:
+        serializedVersion: 2
+        x: 1369
+        y: 612
+        width: 137
+        height: 259
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: nudibranco a pezzi_3
+      rect:
+        serializedVersion: 2
+        x: 739
+        y: 574
+        width: 122
+        height: 102
+      alignment: 5
+      pivot: {x: 1, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: nudibranco a pezzi_4
+      rect:
+        serializedVersion: 2
+        x: 992
+        y: 503
+        width: 282
+        height: 211
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: nudibranco a pezzi_5
+      rect:
+        serializedVersion: 2
+        x: 1763
+        y: 401
+        width: 275
+        height: 241
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: nudibranco a pezzi_6
+      rect:
+        serializedVersion: 2
+        x: 1212
+        y: 188
+        width: 508
+        height: 279
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: nudibranco a pezzi_7
+      rect:
+        serializedVersion: 2
+        x: 1720
+        y: 209
+        width: 31
+        height: 72
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

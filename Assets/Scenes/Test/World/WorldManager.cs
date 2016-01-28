@@ -18,6 +18,7 @@ public class WorldManager : MonoBehaviour {
     public Vector2 initialPosition;
     public int initialSlice;
     public HydroAnimationScript anim;
+	public string BGMusic;
 
 	bool possiblepinch;
 	bool possiblespread;
@@ -67,7 +68,7 @@ public class WorldManager : MonoBehaviour {
 
         gestures.OnPinchEnd += MoveNear;
         gestures.OnSpreadEnd += MoveFar;
-        var music = sounds.Play("/ambientali/background");
+        var music = sounds.Play(BGMusic);
         var swipeSound = sounds["/ambientali/swype"];
         gestures.OnSwipeStart += swipe => swipeSound.Play();
         gestures.OnSwipeEnd += swipe => swipeSound.Stop();
