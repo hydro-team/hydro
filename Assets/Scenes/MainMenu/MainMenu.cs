@@ -5,6 +5,8 @@ using Sounds;
 public class MainMenu : MonoBehaviour {
 
     public String firstScene;
+	public ScreenFader fade;
+	public GameObject buttons;
 
     SoundFacade sounds;
     Sound music;
@@ -20,6 +22,8 @@ public class MainMenu : MonoBehaviour {
 
     public void LoadFirstScene() {
         music.Stop();
-        Application.LoadLevel(firstScene);
+		buttons.SetActive(false);
+		fade.halfShadetoBlack(firstScene);
+       // Application.LoadLevel(firstScene);
     }
 }
