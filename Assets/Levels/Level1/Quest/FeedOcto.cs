@@ -13,13 +13,14 @@ public class FeedOcto : MonoBehaviour {
 
 	public void OnTriggerEnter2D(Collider2D collided){
 		Debug.Log(collided.tag);
-		if(collided.gameObject.tag == "Player"){
+		WorriedFishQuest.Context context = environment.GetComponent<WorriedFishQuest.Context> ();
+		if(collided.gameObject.tag == "Player" && context.octoAwake){
 			Inventory inv = collided.gameObject.GetComponent<Inventory>();
 			Items seaweed = inv.getInventoy(); 
 			if(seaweed == Items.SEAWEED){
 				Debug.Log("ItemDelivered");
 				inv.freeInventory();
-				environment.GetComponent<WorriedFishQuest.Context>().fedOcto = true;
+				context.fedOcto = true;
 				anim.SetBool("MoveTo", true);
 				dialog.SetActive(false);
 			}
