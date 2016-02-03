@@ -8,6 +8,7 @@ public class CrystalTOLightScript : MonoBehaviour {
 	public QuestsEnvironment environment;
 	public CollectorLight coll;
 	public SpriteRenderer rend;
+	public SpriteRenderer crystalRend;
 
 	void OnTriggerEnter2D(Collider2D other){
 		if (other.tag == "Player") {
@@ -15,6 +16,7 @@ public class CrystalTOLightScript : MonoBehaviour {
 				inventory.item = Items.EMPTY;
 				environment.GetComponent<TutorialQuest.Context>().lights++;
 				coll.checkAwake();
+				crystalRend.color = Color.white;
 				rend.enabled = true;
 				Destroy (this);
 			}

@@ -70,8 +70,8 @@ public class WorldManager : MonoBehaviour {
         gestures.OnSpreadEnd += MoveFar;
         var music = sounds.Play(BGMusic);
         var swipeSound = sounds["/ambientali/swype"];
-        gestures.OnSwipeStart += swipe => swipeSound.Play();
-        gestures.OnSwipeEnd += swipe => swipeSound.Stop();
+        //gestures.OnSwipeStart += swipe => swipeSound.Play();
+        //gestures.OnSwipeEnd += swipe => swipeSound.Stop();
 
 		possiblepinch = false;
 		possiblespread = false;
