@@ -9,6 +9,7 @@ public class QuestsNotifications : MonoBehaviour {
 
     public Text notification;
     public QuestsEnvironment environment;
+    public float messageDuration = 4f;
 
     Queue<string> messages = new Queue<string>();
     bool showingNotification = false;
@@ -43,24 +44,25 @@ public class QuestsNotifications : MonoBehaviour {
         if (!hidden) { notification.gameObject.SetActive(true); }
         notification.text = message;
         var fadeTime = 0.5f;
-        var color = notification.color;
         for (float t = 0f; t < 1f; t += Time.deltaTime / fadeTime) {
-            color.a = t;
-            notification.color = color;
+            setTextAlpha(t);
             yield return null;
         }
-        color.a = 1f;
-        notification.color = color;
-        yield return new WaitForSeconds(2f);
+        setTextAlpha(1f);
+        yield return new WaitForSeconds(messageDuration);
         for (float t = 1f; t > 0f; t -= Time.deltaTime / fadeTime) {
-            color.a = t;
-            notification.color = color;
+            setTextAlpha(t);
             yield return null;
         }
-        color.a = 0f;
-        notification.color = color;
+        setTextAlpha(0f);
         notification.gameObject.SetActive(false);
         showingNotification = false;
+    }
+
+    void setTextAlpha(float alpha) {
+        var color = notification.color;
+        color.a = alpha;
+        notification.color = color;
     }
 
     void NotifyQuestStarted(ActiveQuest quest) {
