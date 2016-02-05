@@ -27,6 +27,7 @@ public class WorldManager : MonoBehaviour {
 
     SoundFacade sounds;
     MotionController hydroController;
+    Sound music;
 
     public int CurrentSliceIndex {
         get { return currentSliceIndex; }
@@ -68,13 +69,14 @@ public class WorldManager : MonoBehaviour {
 
         gestures.OnPinchEnd += MoveNear;
         gestures.OnSpreadEnd += MoveFar;
-        var music = sounds.Play(BGMusic);
-        var swipeSound = sounds["/ambientali/swype"];
-        //gestures.OnSwipeStart += swipe => swipeSound.Play();
-        //gestures.OnSwipeEnd += swipe => swipeSound.Stop();
+        music = sounds.Play(BGMusic);
 
 		possiblepinch = false;
 		possiblespread = false;
+    }
+
+    void OnDestroy() {
+        if (music != null) { music.Stop(); }
     }
 
     void AlignSlices() {
