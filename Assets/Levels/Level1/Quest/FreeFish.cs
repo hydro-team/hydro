@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using Quests;
-using System.Collections;
+using CameraBehaviour;
 
 public class FreeFish : MonoBehaviour {
 
@@ -27,8 +27,6 @@ public class FreeFish : MonoBehaviour {
 
 	public void end(){
 		trappedF.SetBool ("Free", true);
-		this.gameObject.SetActive (false);
-		//frana.SetActive(false);
-		//Application.LoadLevel("end");
+        Destroy(GetComponent<PointOfInterest>());
 	}
 }
