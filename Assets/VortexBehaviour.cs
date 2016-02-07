@@ -4,6 +4,7 @@ using System.Collections;
 public class VortexBehaviour : MonoBehaviour {
 	
 	public WorldManager wm;
+    public float rotationSpeed = -500f;
 	SpriteRenderer render;
 	int slice;
 
@@ -13,9 +14,10 @@ public class VortexBehaviour : MonoBehaviour {
 		render = GetComponent<SpriteRenderer>();
 	}
 	
-	// Update is called once per frame
 	void Update () {
-	
+        var rotation = transform.rotation.eulerAngles;
+        rotation.z += rotationSpeed * Time.deltaTime;
+        transform.rotation = Quaternion.Euler(rotation);
 	}
 
 	public void OnTriggerExit2D(Collider2D other) {
