@@ -1,25 +1,23 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Quests;
+using Sounds;
 
 public class WakeOcto : MonoBehaviour {
 
 	public QuestsEnvironment environment;
+    public GameObject soundFacade;
 	public Animator OctoAnimator;
 	public GameObject particle;
 	public GameObject dialog; 
 	public InterestingObject []glows;
 
-	void OnCollisionEnter2D (Collision2D other){
+    SoundFacade sounds;
 
-		if (other.gameObject.tag == "Flow") {
-			Debug.Log ("flowCol");
-			environment.GetComponent<WorriedFishQuest.Context>().octoAwake = true;
-			OctoAnimator.SetBool("Awake", true);
-			particle.SetActive(false);
-			dialog.SetActive(true);
-		}
-	}
+    void Awake() {
+        sounds = soundFacade.GetComponent<SoundFacade>();
+    }
+
 	void OnTriggerEnter2D (Collider2D other){
 
 		if (other.gameObject.tag == "Flow") {
@@ -31,6 +29,7 @@ public class WakeOcto : MonoBehaviour {
 			}
 			particle.SetActive(false);
 			dialog.SetActive(true);
+            sounds.Play("/oggetti/pipes");
 		}
 	}
 }
